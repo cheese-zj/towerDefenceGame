@@ -1,6 +1,6 @@
 package WizardTD.Tiles;
 
-public class Tiles{
+abstract class Tiles{
     private boolean buildOn;
 
 }
