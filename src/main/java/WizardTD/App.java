@@ -1,5 +1,8 @@
 package WizardTD;
 
+import WizardTD.*;
+import WizardTD.Tiles.*;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.data.JSONArray;
@@ -13,7 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 
-public class App extends PApplet {
+public class App extends PApplet{
 
     public static final int CELLSIZE = 32;
     public static final int SIDEBAR = 120;
@@ -26,13 +29,51 @@ public class App extends PApplet {
     public static final int FPS = 60;
 
     public String configPath;
+    public static JSONObject json;
 
     public Random random = new Random();
-	
-	// Feel free to add any additional methods or attributes you want. Please put classes in different files.
 
+    public Grid grid = new Grid();
+
+    PImage grasspng;
+    PImage shrubpng;
+
+    // Feel free to add any additional methods or attributes you want. Please put classes in different files.
     public App() {
         this.configPath = "config.json";
+    }
+
+    public void Map() {
+        String[][] levelArray = grid.LevelReader();
+        Grass[][] grasses = new Grass[20][20];
+        Shrub[][] shrubs = new Shrub[20][20];
+        //From Grid class method, reading the level txt file
+        //And detect all the spaces for grass tiles, appending them into a Grass 2D Array
+        for (int i=0; i<20; i++) {
+            for (int j=0; j<20; j++) {
+                if (levelArray[i][j] != null && levelArray[i][j].equals(" ")) {
+                    grasses[i][j] = new Grass(i*32,j*32+40, true);
+                    grasses[i][j].setSprite(grasspng);
+                }
+                if (levelArray[i][j] != null && levelArray[i][j].equals("S")) {
+                    shrubs[i][j] = new Shrub(i*32,j*32+40, false);
+                    shrubs[i][j].setSprite(shrubpng);
+
+                }
+            }
+        }
+        //Drawing out all the grasses from the Grass 2D-Array
+        for (int i=0; i<20; i++) {
+            for (int j=0; j<20; j++) {
+                //System.out.println(grasses[i][j]);
+                if (grasses[i][j] != null){
+                    grasses[i][j].draw(this);
+                }
+                if (shrubs[i][j] != null){
+                    shrubs[i][j].draw(this);
+                }
+            }
+        }
     }
 
     /**
@@ -48,13 +89,15 @@ public class App extends PApplet {
      */
 	@Override
     public void setup() {
+        json = loadJSONObject(configPath);
         frameRate(FPS);
-
         // Load images during setup
 		// Eg:
         // loadImage("src/main/resources/WizardTD/tower0.png");
         // loadImage("src/main/resources/WizardTD/tower1.png");
         // loadImage("src/main/resources/WizardTD/tower2.png");
+        grasspng = loadImage("src/main/resources/WizardTD/grass.png");
+        shrubpng = loadImage("src/main/resources/WizardTD/shrub.png");
 
     }
 
@@ -94,7 +137,9 @@ public class App extends PApplet {
      */
 	@Override
     public void draw() {
- 
+        noLoop();
+        Map();
+        //loop();
     }
 
     public static void main(String[] args) {
