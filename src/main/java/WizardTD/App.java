@@ -35,30 +35,41 @@ public class App extends PApplet{
 
     public Grid grid = new Grid();
 
-    PImage grasspng;
-    PImage shrubpng;
+
+    public static PImage
+            grasspng,
+            shrubpng,
+            path0png, path1png, path2png, path3png,
+            wizard_housepng
+            ;
+
 
     // Feel free to add any additional methods or attributes you want. Please put classes in different files.
     public App() {
         this.configPath = "config.json";
     }
 
-    public void Map() {
+    public void CreateMap() {
         String[][] levelArray = grid.LevelReader();
         Grass[][] grasses = new Grass[20][20];
         Shrub[][] shrubs = new Shrub[20][20];
+        Path[][] paths = new Path[20][20];
         //From Grid class method, reading the level txt file
         //And detect all the spaces for grass tiles, appending them into a Grass 2D Array
         for (int i=0; i<20; i++) {
             for (int j=0; j<20; j++) {
                 if (levelArray[i][j] != null && levelArray[i][j].equals(" ")) {
-                    grasses[i][j] = new Grass(i*32,j*32+40, true);
+                    grasses[i][j] = new Grass(i*32,j*32+40, true, false);
                     grasses[i][j].setSprite(grasspng);
                 }
                 if (levelArray[i][j] != null && levelArray[i][j].equals("S")) {
-                    shrubs[i][j] = new Shrub(i*32,j*32+40, false);
+                    shrubs[i][j] = new Shrub(i*32,j*32+40, false, false);
                     shrubs[i][j].setSprite(shrubpng);
 
+                }
+                if (levelArray[i][j] != null && levelArray[i][j].equals("X")) {
+                    paths[i][j] = new Path(i*32,j*32+40, false, true);
+                    paths[i][j].setSprite(path0png);
                 }
             }
         }
@@ -71,6 +82,9 @@ public class App extends PApplet{
                 }
                 if (shrubs[i][j] != null){
                     shrubs[i][j].draw(this);
+                }
+                if (paths[i][j] != null){
+                    paths[i][j].draw(this);
                 }
             }
         }
@@ -98,7 +112,11 @@ public class App extends PApplet{
         // loadImage("src/main/resources/WizardTD/tower2.png");
         grasspng = loadImage("src/main/resources/WizardTD/grass.png");
         shrubpng = loadImage("src/main/resources/WizardTD/shrub.png");
-
+        path0png = loadImage("src/main/resources/WizardTD/path0.png");
+        path1png = loadImage("src/main/resources/WizardTD/path1.png");
+        path2png = loadImage("src/main/resources/WizardTD/path2.png");
+        path3png = loadImage("src/main/resources/WizardTD/path3.png");
+        wizard_housepng = loadImage("src/main/resources/WizardTD/wizard_house.png");
     }
 
     /**
@@ -138,7 +156,7 @@ public class App extends PApplet{
 	@Override
     public void draw() {
         noLoop();
-        Map();
+        CreateMap();
         //loop();
     }
 

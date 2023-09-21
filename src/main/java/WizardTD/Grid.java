@@ -21,8 +21,12 @@ public class Grid {
         int i = 0;
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
-            for (int j = 0; j < line.length(); j++) {
-                LevelArray[j][i] = String.valueOf(line.charAt(j));
+            for (int j = 0; j < 20; j++) {
+                if (j >= line.length()) {
+                    LevelArray[j][i] = " ";
+                } else {
+                    LevelArray[j][i] = String.valueOf(line.charAt(j));
+                }
             }
             i++;
         }
