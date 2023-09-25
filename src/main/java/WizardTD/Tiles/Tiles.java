@@ -14,6 +14,7 @@ abstract class Tiles{
         this.x = x;
         this.y = y;
     }
+
     public void setSprite(PImage sprite) {
         this.sprite = sprite;
     }
@@ -25,5 +26,11 @@ abstract class Tiles{
     }
     public int getY() {
         return this.y;
+    }
+    public boolean canBuild() {
+        return this.buildOn;
+    }
+    public boolean canWalk() {
+        return this.walkOn;
     }
 }

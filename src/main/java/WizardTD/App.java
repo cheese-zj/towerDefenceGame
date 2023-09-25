@@ -33,8 +33,7 @@ public class App extends PApplet{
 
     public Random random = new Random();
 
-    public Grid grid = new Grid();
-
+    private final MapCreator mapCreator;
 
     public static PImage
             grasspng,
@@ -47,47 +46,28 @@ public class App extends PApplet{
     // Feel free to add any additional methods or attributes you want. Please put classes in different files.
     public App() {
         this.configPath = "config.json";
+        this.mapCreator = new MapCreator();
     }
 
-    public void CreateMap() {
-        String[][] levelArray = grid.LevelReader();
-        Grass[][] grasses = new Grass[20][20];
-        Shrub[][] shrubs = new Shrub[20][20];
-        Path[][] paths = new Path[20][20];
-        //From Grid class method, reading the level txt file
-        //And detect all the spaces for grass tiles, appending them into a Grass 2D Array
-        for (int i=0; i<20; i++) {
-            for (int j=0; j<20; j++) {
-                if (levelArray[i][j] != null && levelArray[i][j].equals(" ")) {
-                    grasses[i][j] = new Grass(i*32,j*32+40, true, false);
-                    grasses[i][j].setSprite(grasspng);
-                }
-                if (levelArray[i][j] != null && levelArray[i][j].equals("S")) {
-                    shrubs[i][j] = new Shrub(i*32,j*32+40, false, false);
-                    shrubs[i][j].setSprite(shrubpng);
+    public void DrawMap() {
+        mapCreator.CreateMap();
 
-                }
-                if (levelArray[i][j] != null && levelArray[i][j].equals("X")) {
-                    paths[i][j] = new Path(i*32,j*32+40, false, true);
-                    paths[i][j].setSprite(path0png);
-                }
-            }
-        }
-        //Drawing out all the grasses from the Grass 2D-Array
         for (int i=0; i<20; i++) {
             for (int j=0; j<20; j++) {
                 //System.out.println(grasses[i][j]);
-                if (grasses[i][j] != null){
-                    grasses[i][j].draw(this);
+                if (mapCreator.grasses[i][j] != null){
+                    mapCreator.grasses[i][j].draw(this);
                 }
-                if (shrubs[i][j] != null){
-                    shrubs[i][j].draw(this);
+                if (mapCreator.shrubs[i][j] != null){
+                    mapCreator.shrubs[i][j].draw(this);
                 }
-                if (paths[i][j] != null){
-                    paths[i][j].draw(this);
+                if (mapCreator.paths[i][j] != null){
+                    mapCreator.paths[i][j].draw(this);
                 }
             }
         }
+        mapCreator.grassUnderHouse.draw(this);
+        mapCreator.wizardHouse.draw(this);
     }
 
     /**
@@ -155,8 +135,9 @@ public class App extends PApplet{
      */
 	@Override
     public void draw() {
+
         noLoop();
-        CreateMap();
+        DrawMap();
         //loop();
     }
 
@@ -170,35 +151,5 @@ public class App extends PApplet{
      * @param angle between 0 and 360 degrees
      * @return the new rotated image
      */
-    public PImage rotateImageByDegrees(PImage pimg, double angle) {
-        BufferedImage img = (BufferedImage) pimg.getNative();
-        double rads = Math.toRadians(angle);
-        double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
-        int w = img.getWidth();
-        int h = img.getHeight();
-        int newWidth = (int) Math.floor(w * cos + h * sin);
-        int newHeight = (int) Math.floor(h * cos + w * sin);
 
-        PImage result = this.createImage(newWidth, newHeight, RGB);
-        //BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-        BufferedImage rotated = (BufferedImage) result.getNative();
-        Graphics2D g2d = rotated.createGraphics();
-        AffineTransform at = new AffineTransform();
-        at.translate((newWidth - w) / 2, (newHeight - h) / 2);
-
-        int x = w / 2;
-        int y = h / 2;
-
-        at.rotate(rads, x, y);
-        g2d.setTransform(at);
-        g2d.drawImage(img, 0, 0, null);
-        g2d.dispose();
-        for (int i = 0; i < newWidth; i++) {
-            for (int j = 0; j < newHeight; j++) {
-                result.set(i, j, rotated.getRGB(i, j));
-            }
-        }
-
-        return result;
-    }
 }

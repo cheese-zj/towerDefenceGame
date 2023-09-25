@@ -1,8 +1,8 @@
 package WizardTD.Tiles;
 
-public class Shrub extends Tiles{
+public class Shrub extends Grass{
     public Shrub(int x, int y, boolean buildOn, boolean walkOn) {
-        super(x, y, false, false);
+        super(x, y, false, walkOn);
     }
 
 

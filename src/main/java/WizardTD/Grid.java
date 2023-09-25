@@ -7,12 +7,14 @@ import java.util.logging.Level;
 
 public class Grid {
 
-    public String[][] LevelArray;
-    public String[][] LevelReader() {
+    public static String[][] LevelArray;
+    public static String[][] LevelReader() {
+
         String Level = App.json.getString("layout");
         File LevelFile = new File(Level);
         LevelArray = new String[20][20];  // Initialization
         Scanner sc;
+
         try {
             sc = new Scanner(LevelFile);
         } catch (FileNotFoundException e) {
