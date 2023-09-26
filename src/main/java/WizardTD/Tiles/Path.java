@@ -36,10 +36,4 @@ public class Path extends Tiles{
         West = west;
     }
 
-    public void setEdge(boolean edge) {
-        Edge = edge;
-    }
-    public boolean isEdge() {
-        return Edge;
-    }
 }

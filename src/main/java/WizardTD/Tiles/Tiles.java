@@ -30,7 +30,7 @@ abstract class Tiles{
     public boolean canBuild() {
         return this.buildOn;
     }
-    public boolean canWalk() {
+    public boolean isPath() {
         return this.walkOn;
     }
 }

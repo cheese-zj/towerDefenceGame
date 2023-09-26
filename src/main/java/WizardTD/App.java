@@ -1,6 +1,7 @@
 package WizardTD;
 
 import WizardTD.*;
+import WizardTD.Monsters.Monster;
 import WizardTD.Tiles.*;
 
 import processing.core.PApplet;
@@ -34,12 +35,19 @@ public class App extends PApplet{
     public Random random = new Random();
 
     private final MapCreator mapCreator;
+    private final MonsterCreator monsterCreator;
+
+    public static Path[][] paths;
+
+    public Monster[] monsters1;
 
     public static PImage
             grasspng,
             shrubpng,
             path0png, path1png, path2png, path3png,
-            wizard_housepng
+            wizard_housepng,
+            gremlinpng,
+            gremlin1png, gremlin2png, gremlin3png, gremlin4png, gremlin5png
             ;
 
 
@@ -47,10 +55,11 @@ public class App extends PApplet{
     public App() {
         this.configPath = "config.json";
         this.mapCreator = new MapCreator();
+        this.monsterCreator = new MonsterCreator();
     }
 
     public void DrawMap() {
-        mapCreator.CreateMap();
+
 
         for (int i=0; i<20; i++) {
             for (int j=0; j<20; j++) {
@@ -68,6 +77,15 @@ public class App extends PApplet{
         }
         mapCreator.grassUnderHouse.draw(this);
         mapCreator.wizardHouse.draw(this);
+    }
+
+    public void DrawMonsters() {
+        //System.out.println(timer);
+        for (int i=0; i<monsters1.length; i++) {
+            monsters1[i].tick();
+            monsters1[i].draw(this);
+        }
+
     }
 
     /**
@@ -96,7 +114,12 @@ public class App extends PApplet{
         path1png = loadImage("src/main/resources/WizardTD/path1.png");
         path2png = loadImage("src/main/resources/WizardTD/path2.png");
         path3png = loadImage("src/main/resources/WizardTD/path3.png");
+        gremlinpng = loadImage("src/main/resources/WizardTD/gremlin.png");
         wizard_housepng = loadImage("src/main/resources/WizardTD/wizard_house.png");
+        mapCreator.CreateMap();
+        paths = mapCreator.paths;
+        this.monsters1 = monsterCreator.CreateMonsters();
+
     }
 
     /**
@@ -135,10 +158,9 @@ public class App extends PApplet{
      */
 	@Override
     public void draw() {
-        noLoop();
         background(152,140,100);
         DrawMap();
-        //loop();
+        DrawMonsters();
     }
 
     public static void main(String[] args) {

@@ -7,16 +7,21 @@ public abstract class Monsters {
     protected int y;
     protected int speed;
     protected String type;
-    private int hp;
-    private int armour;
-    private int mana_gained_on_kill;
+    protected int hp;
+    protected int armour;
+    protected int mana_gained_on_kill;
+    protected int spawnTick;
     private PImage sprite;
 
-    public Monsters(int x, int y, int speed, String type){
+    public Monsters(int x, int y, int speed, String type, int hp, int armour, int mana_gained_on_kill, int spawnTick){
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.type = type;
+        this.hp = hp;
+        this.armour = armour;
+        this.mana_gained_on_kill = mana_gained_on_kill;
+        this.spawnTick = spawnTick;
 
     }
     public abstract void tick();
@@ -35,5 +40,7 @@ public abstract class Monsters {
     public int getMana_gained_on_kill() {
         return this.mana_gained_on_kill;
     }
-
+    public void getHit(int dmgTaken){
+        hp -= dmgTaken / armour;
+    }
 }

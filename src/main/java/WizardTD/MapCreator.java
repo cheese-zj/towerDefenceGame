@@ -1,9 +1,6 @@
 package WizardTD;
 
-import WizardTD.Tiles.Grass;
-import WizardTD.Tiles.Path;
-import WizardTD.Tiles.Shrub;
-import WizardTD.Tiles.WizardHouse;
+import WizardTD.Tiles.*;
 
 public class MapCreator {
 
@@ -14,7 +11,6 @@ public class MapCreator {
     public Path[][] paths;
     public WizardHouse wizardHouse;
     public Grass grassUnderHouse;
-    public int[][] spawnPoint;
 
     public void CreateMap() {
 
@@ -36,7 +32,7 @@ public class MapCreator {
                     shrubs[i][j].setSprite(App.shrubpng);
                 }
                 if (levelArray[i][j] != null && levelArray[i][j].equals("W")) {
-                    this.wizardHouse = new WizardHouse(i * 32 - 2, j * 32 + 40 - 10);
+                    this.wizardHouse = new WizardHouse(i * 32 - 4, j * 32 + 40 - 10);
                     wizardHouse.setSprite(App.wizard_housepng);
                     this.grassUnderHouse = new Grass(i * 32, j * 32 + 40);
                     grassUnderHouse.setSprite(App.grasspng);
@@ -56,7 +52,9 @@ public class MapCreator {
                         paths[i][j].setNorth(true);
                     }
                     paths[i][j].setSprite(App.path0png);
-
+                    if (paths[i][j].isEast() || paths[i][j].isWest()) {
+                        paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path0png, 0));
+                    }
                     if (paths[i][j].isNorth() || paths[i][j].isSouth()) {
                         paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path0png, 90));
                     }

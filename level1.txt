@@ -3,8 +3,8 @@ SS             SS  S
         S   S  SS S 
 XXXXX         S     
   S X   S  S      S 
-  SXXXXXXXXXXXXXX   
-  S X X         X  S
+  SSXXXXXXXXXXXXX
+  S S S         X  S
     S S        XX S 
          WXXXXXXX S
    S   S          SS
