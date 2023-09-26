@@ -6,7 +6,8 @@ public class Path extends Tiles{
     private boolean South;
     private boolean East;
     private boolean West;
-    public Path(int x, int y, boolean buildOn, boolean walkOn) {
+    private boolean Edge;
+    public Path(int x, int y) {
         super(x, y, false, true);
     }
 
@@ -35,4 +36,10 @@ public class Path extends Tiles{
         West = west;
     }
 
+    public void setEdge(boolean edge) {
+        Edge = edge;
+    }
+    public boolean isEdge() {
+        return Edge;
+    }
 }

@@ -6,9 +6,9 @@ XXXXX         S
   SXXXXXXXXXXXXXX   
   S X X         X  S
     S S        XX S 
-         WXXXXXXX S 
+         WXXXXXXX S
    S   S          SS
-     S S        S S 
+     S S        S S
  S   S    SS    S S 
   SSS    S   S      
  S   S          SS  

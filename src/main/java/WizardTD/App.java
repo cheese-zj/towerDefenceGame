@@ -135,8 +135,8 @@ public class App extends PApplet{
      */
 	@Override
     public void draw() {
-
         noLoop();
+        background(152,140,100);
         DrawMap();
         //loop();
     }

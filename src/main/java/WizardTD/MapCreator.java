@@ -14,6 +14,7 @@ public class MapCreator {
     public Path[][] paths;
     public WizardHouse wizardHouse;
     public Grass grassUnderHouse;
+    public int[][] spawnPoint;
 
     public void CreateMap() {
 
@@ -27,21 +28,21 @@ public class MapCreator {
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 20; j++) {
                 if (levelArray[i][j] != null && levelArray[i][j].equals(" ")) {
-                    grasses[i][j] = new Grass(i * 32, j * 32 + 40, true, false);
+                    grasses[i][j] = new Grass(i * 32, j * 32 + 40);
                     grasses[i][j].setSprite(App.grasspng);
                 }
                 if (levelArray[i][j] != null && levelArray[i][j].equals("S")) {
-                    shrubs[i][j] = new Shrub(i * 32, j * 32 + 40, false, false);
+                    shrubs[i][j] = new Shrub(i * 32, j * 32 + 40);
                     shrubs[i][j].setSprite(App.shrubpng);
                 }
                 if (levelArray[i][j] != null && levelArray[i][j].equals("W")) {
-                    this.wizardHouse = new WizardHouse(i * 32, j * 32 + 40, false, false);
+                    this.wizardHouse = new WizardHouse(i * 32 - 2, j * 32 + 40 - 10);
                     wizardHouse.setSprite(App.wizard_housepng);
-                    this.grassUnderHouse = new Grass(i * 32, j * 32 + 40, false, false);
+                    this.grassUnderHouse = new Grass(i * 32, j * 32 + 40);
                     grassUnderHouse.setSprite(App.grasspng);
                 }
                 if (levelArray[i][j] != null && levelArray[i][j].equals("X")) {
-                    paths[i][j] = new Path(i * 32, j * 32 + 40, false, true);
+                    paths[i][j] = new Path(i * 32, j * 32 + 40);
                     if (i < 19 && levelArray[i + 1][j].equals("X")) {
                         paths[i][j].setEast(true);
                     }

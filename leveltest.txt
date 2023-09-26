@@ -4,16 +4,17 @@ XXXXX
              XXX
   X           X
  XXX
-             XX XX
+     X       XX XX
  X   X        X X
- XX XX        X X
+ XX XXXXW     X X
  X   X       XX XX
-
-
-
-
-
-
-
-
-
+     X
+S
+S
+S
+S
+S
+S
+S
+S
+S
