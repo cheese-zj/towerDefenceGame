@@ -39,6 +39,9 @@ public class App extends PApplet{
 
     public static Path[][] paths;
 
+    public static int wizardX;
+    public static int wizardY;
+
     public Monster[] monsters1;
 
     public static PImage
@@ -103,11 +106,8 @@ public class App extends PApplet{
     public void setup() {
         json = loadJSONObject(configPath);
         frameRate(FPS);
-        // Load images during setup
-		// Eg:
-        // loadImage("src/main/resources/WizardTD/tower0.png");
-        // loadImage("src/main/resources/WizardTD/tower1.png");
-        // loadImage("src/main/resources/WizardTD/tower2.png");
+
+        //images loading
         grasspng = loadImage("src/main/resources/WizardTD/grass.png");
         shrubpng = loadImage("src/main/resources/WizardTD/shrub.png");
         path0png = loadImage("src/main/resources/WizardTD/path0.png");
@@ -116,8 +116,11 @@ public class App extends PApplet{
         path3png = loadImage("src/main/resources/WizardTD/path3.png");
         gremlinpng = loadImage("src/main/resources/WizardTD/gremlin.png");
         wizard_housepng = loadImage("src/main/resources/WizardTD/wizard_house.png");
+
+        //Map related
         mapCreator.CreateMap();
         paths = mapCreator.paths;
+
         this.monsters1 = monsterCreator.CreateMonsters();
 
     }
@@ -161,6 +164,7 @@ public class App extends PApplet{
         background(152,140,100);
         DrawMap();
         DrawMonsters();
+        //noLoop();
     }
 
     public static void main(String[] args) {

@@ -33,22 +33,24 @@ public class MapCreator {
                 }
                 if (levelArray[i][j] != null && levelArray[i][j].equals("W")) {
                     this.wizardHouse = new WizardHouse(i * 32 - 4, j * 32 + 40 - 10);
+                    App.wizardX = i * 32;
+                    App.wizardY = j * 32 + 40;
                     wizardHouse.setSprite(App.wizard_housepng);
                     this.grassUnderHouse = new Grass(i * 32, j * 32 + 40);
                     grassUnderHouse.setSprite(App.grasspng);
                 }
-                if (levelArray[i][j] != null && levelArray[i][j].equals("X")) {
+                if (levelArray[i][j] != null && (levelArray[i][j].equals("X")||levelArray[i][j].equals("W"))) {
                     paths[i][j] = new Path(i * 32, j * 32 + 40);
-                    if (i < 19 && levelArray[i + 1][j].equals("X")) {
+                    if (i < 19 && (levelArray[i + 1][j].equals("X")||levelArray[i+1][j].equals("W"))) {
                         paths[i][j].setEast(true);
                     }
-                    if (i > 0 && levelArray[i - 1][j].equals("X")) {
+                    if (i > 0 && (levelArray[i - 1][j].equals("X")||levelArray[i-1][j].equals("W"))) {
                         paths[i][j].setWest(true);
                     }
-                    if (j < 19 && levelArray[i][j + 1].equals("X")) {
+                    if (j < 19 && (levelArray[i][j + 1].equals("X")||levelArray[i][j+1].equals("W"))) {
                         paths[i][j].setSouth(true);
                     }
-                    if (j > 0 && levelArray[i][j - 1].equals("X")) {
+                    if (j > 0 && (levelArray[i][j - 1].equals("X")||levelArray[i][j-1].equals("W"))) {
                         paths[i][j].setNorth(true);
                     }
                     paths[i][j].setSprite(App.path0png);

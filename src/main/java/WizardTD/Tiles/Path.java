@@ -6,7 +6,7 @@ public class Path extends Tiles{
     private boolean South;
     private boolean East;
     private boolean West;
-    private boolean Edge;
+
     public Path(int x, int y) {
         super(x, y, false, true);
     }

@@ -4,76 +4,97 @@ import WizardTD.Tiles.*;
 
 import WizardTD.App;
 
+import WizardTD.MapCreator;
+
+import java.util.Map;
+
 public class Monster extends Monsters{
 
-    private int hold =0;
-    private int timeStack =0;
+
     private boolean goVertical = true;
     private int verticalInv = 1;
     private int horizontalInv = 1;
 
-    MonsterPathReader monsterPathReader = new MonsterPathReader();
-
-    public String currentDirection() {
-        if (speed != 0) {
-            if (goVertical && verticalInv == 1) {
-                return "East";
-            }
-            if (goVertical && verticalInv == -1) {
-                return "West";
-            }
-            if (!goVertical && horizontalInv == 1) {
-                return "South";
-            }
-            if (!goVertical && horizontalInv == -1) {
-                return "North";
-            }
+    private Path[][] deepCopyPaths(Path[][] original) {
+        if (original == null) {
+            return null;
         }
-        return "";
+
+        final Path[][] result = new Path[original.length][];
+        for (int i = 0; i < original.length; i++) {
+            result[i] = original[i].clone();
+        }
+        return result;
     }
 
 
-    private int desX = 9*32;
-    private int desY = 8*32 + 40;
-    public Monster(int x, int y, int speed, String type, int hp, int armour, int mana_gained_on_kill, int spawnTick) {
+    protected Path[][] pathsMem = deepCopyPaths(App.paths);
+
+    MonsterPathReader monsterPathReader = new MonsterPathReader();
+
+    public MonsterDirection getCurrentDirection() {
+        if (speed != 0) {
+            if (goVertical && verticalInv == 1) {return MonsterDirection.EAST;}
+            if (goVertical && verticalInv == -1) {return MonsterDirection.WEST;}
+            if (!goVertical && horizontalInv == 1) {return MonsterDirection.SOUTH;}
+            if (!goVertical && horizontalInv == -1) {return MonsterDirection.NORTH;}
+        }
+        return null;
+    }
+
+    private final int desX = App.wizardX;
+    private final int desY = App.wizardY;
+    public Monster(double x, double y, double speed, String type, int hp, int armour, int mana_gained_on_kill, int spawnTick) {
         super(x, y, speed, type, hp, armour, mana_gained_on_kill, spawnTick);
     }
 
-    //Test, write Setter later:
-    //this.desX = ;
-    //this.desY = ;
+    public void goNorth() {
+        this.goVertical = false;
+        this.horizontalInv = -1;
+    }
+    public void goSouth() {
+        this.goVertical = false;
+        this.horizontalInv = 1;
+    }
+    public void goWest() {
+        this.goVertical = true;
+        this.verticalInv = -1;
+    }
+    public void goEast() {
+        this.goVertical = true;
+        this.verticalInv = 1;
+    }
 
+    private double hold =0;
+    private double timeStack =0;
+    private boolean ticking = true;
     public void tick() {
-        hold++;
-        if (hold >= spawnTick) {
-            this.timeStack += speed;
-            if (goVertical) {
-                this.x += speed * verticalInv;
-            } else {
-                this.y += speed * horizontalInv;
-            }
+        if (ticking) {
+            this.hold++;
+            if (this.hold >= this.spawnTick) {
 
-            if (timeStack % 32 == 0) {
-                int xDis = this.x - this.desX;
-                int yDis = this.y - this.desY;
-                System.out.println(xDis);
-                if (Math.abs(xDis) < Math.abs(yDis)) {
-                    goVertical = false;
+                if (this.timeStack % 32 == 0) {
+
+                    this.timeStack = 0;
+
+                    this.monsterPathReader.Read(this);
+
+                    if (this.x - this.desX == 6 && this.y - this.desY == 6) {
+                        speed=0;
+                        ticking = false;
+                    }
+                }
+
+                this.timeStack += this.speed;
+
+                if (goVertical) {
+                    this.x += this.speed * this.verticalInv;
                 } else {
-                    goVertical = true;
+                    this.y += this.speed * this.horizontalInv;
+
                 }
-                if (xDis > 0) {
-                    verticalInv = -1;
-                }
-                if (yDis > 0) {
-                    horizontalInv = -1;
-                }
-                if (xDis == 6 && yDis == 6) {
-                    speed=0;
-                }
-                monsterPathReader.Read(this);
+
             }
-            //System.out.println(x);
         }
     }
 }

@@ -3,9 +3,9 @@ package WizardTD.Monsters;
 import WizardTD.App;
 import processing.core.PImage;
 public abstract class Monsters {
-    protected int x;
-    protected int y;
-    protected int speed;
+    protected double x;
+    protected double y;
+    protected double speed;
     protected String type;
     protected int hp;
     protected int armour;
@@ -13,7 +13,7 @@ public abstract class Monsters {
     protected int spawnTick;
     private PImage sprite;
 
-    public Monsters(int x, int y, int speed, String type, int hp, int armour, int mana_gained_on_kill, int spawnTick){
+    public Monsters(double x, double y, double speed, String type, int hp, int armour, int mana_gained_on_kill, int spawnTick){
         this.x = x;
         this.y = y;
         this.speed = speed;
@@ -29,12 +29,12 @@ public abstract class Monsters {
         this.sprite = sprite;
     }
     public void draw(App app) {
-        app.image(this.sprite, this.x, this.y);
+        app.image(this.sprite, (float) this.x, (float) this.y);
     }
-    public int getX() {
+    public double getX() {
         return this.x;
     }
-    public int getY() {
+    public double getY() {
         return this.y;
     }
     public int getMana_gained_on_kill() {
