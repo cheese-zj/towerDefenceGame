@@ -23,63 +23,74 @@ public class MapCreator {
         //And detect all the spaces for grass tiles, appending them into a Grass 2D Array
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 20; j++) {
-                if (levelArray[i][j] != null && levelArray[i][j].equals(" ")) {
-                    grasses[i][j] = new Grass(i * 32, j * 32 + 40);
-                    grasses[i][j].setSprite(App.grasspng);
+                if (levelArray[i][j] != null) {
+                    switch (levelArray[i][j]) {
+                        case " ":
+                            grasses[i][j] = new Grass(i * App.CELLSIZE, j * App.CELLSIZE + App.TOPBAR);
+                            grasses[i][j].setSprite(App.grasspng);
+                            break;
+                        case "S":
+                            shrubs[i][j] = new Shrub(i * App.CELLSIZE, j * App.CELLSIZE + App.TOPBAR);
+                            shrubs[i][j].setSprite(App.shrubpng);
+                            break;
+                        case "W":
+                            this.wizardHouse =
+                                    new WizardHouse(i * App.CELLSIZE - 4, j * App.CELLSIZE + App.TOPBAR - 10);
+                            App.wizardX = i * App.CELLSIZE;
+                            App.wizardY = j * App.CELLSIZE + App.TOPBAR;
+                            wizardHouse.setSprite(App.wizard_housepng);
+
+                            this.grassUnderHouse = new Grass(i * App.CELLSIZE, j * App.CELLSIZE + App.TOPBAR);
+                            grassUnderHouse.setSprite(App.grasspng);
+                            break;
+                    }
                 }
-                if (levelArray[i][j] != null && levelArray[i][j].equals("S")) {
-                    shrubs[i][j] = new Shrub(i * 32, j * 32 + 40);
-                    shrubs[i][j].setSprite(App.shrubpng);
-                }
-                if (levelArray[i][j] != null && levelArray[i][j].equals("W")) {
-                    this.wizardHouse = new WizardHouse(i * 32 - 4, j * 32 + 40 - 10);
-                    App.wizardX = i * 32;
-                    App.wizardY = j * 32 + 40;
-                    wizardHouse.setSprite(App.wizard_housepng);
-                    this.grassUnderHouse = new Grass(i * 32, j * 32 + 40);
-                    grassUnderHouse.setSprite(App.grasspng);
-                }
-                if (levelArray[i][j] != null && (levelArray[i][j].equals("X")||levelArray[i][j].equals("W"))) {
-                    paths[i][j] = new Path(i * 32, j * 32 + 40);
-                    if (i < 19 && (levelArray[i + 1][j].equals("X")||levelArray[i+1][j].equals("W"))) {
-                        paths[i][j].setEast(true);
+                if (levelArray[i][j] != null && (levelArray[i][j].equals("X") || levelArray[i][j].equals("W"))) {
+                    paths[i][j] = new Path(i * App.CELLSIZE, j * App.CELLSIZE + App.TOPBAR);
+
+                    // Check surrounding tiles
+                    boolean east  = i < 19 && (levelArray[i + 1][j].equals("X") || levelArray[i + 1][j].equals("W"));
+                    boolean west  = i > 0  && (levelArray[i - 1][j].equals("X") || levelArray[i - 1][j].equals("W"));
+                    boolean south = j < 19 && (levelArray[i][j + 1].equals("X") || levelArray[i][j + 1].equals("W"));
+                    boolean north = j > 0  && (levelArray[i][j - 1].equals("X") || levelArray[i][j - 1].equals("W"));
+
+                    paths[i][j].setEast(east);
+                    paths[i][j].setWest(west);
+                    paths[i][j].setSouth(south);
+                    paths[i][j].setNorth(north);
+
+                    {
+                        // Determine image based on surrounding tiles
+                        if (east || west)
+                            paths[i][j].setSprite(App.path0png);
+                        if (north || south)
+                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path0png, 90));
                     }
-                    if (i > 0 && (levelArray[i - 1][j].equals("X")||levelArray[i-1][j].equals("W"))) {
-                        paths[i][j].setWest(true);
-                    }
-                    if (j < 19 && (levelArray[i][j + 1].equals("X")||levelArray[i][j+1].equals("W"))) {
-                        paths[i][j].setSouth(true);
-                    }
-                    if (j > 0 && (levelArray[i][j - 1].equals("X")||levelArray[i][j-1].equals("W"))) {
-                        paths[i][j].setNorth(true);
-                    }
-                    paths[i][j].setSprite(App.path0png);
-                    if (paths[i][j].isEast() || paths[i][j].isWest()) {
-                        paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path0png, 0));
-                    }
-                    if (paths[i][j].isNorth() || paths[i][j].isSouth()) {
-                        paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path0png, 90));
-                    }
-                    if (paths[i][j].isSouth() && paths[i][j].isWest()) {
-                        paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path1png, 0));
-                    } else if (paths[i][j].isSouth() && paths[i][j].isEast()) {
-                        paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path1png, 270));
-                    } else if (paths[i][j].isNorth() && paths[i][j].isEast()) {
-                        paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path1png, 180));
-                    } else if (paths[i][j].isNorth() && paths[i][j].isWest()) {
-                        paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path1png, 90));
-                    }
-                    if (paths[i][j].isEast() && paths[i][j].isWest() && paths[i][j].isSouth()) {
-                        paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path2png, 0));
-                    } else if (paths[i][j].isEast() && paths[i][j].isWest() && paths[i][j].isNorth()) {
-                        paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path2png, 180));
-                    } else if (paths[i][j].isNorth() && paths[i][j].isSouth() && paths[i][j].isWest()) {
-                        paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path2png, 90));
-                    } else if (paths[i][j].isNorth() && paths[i][j].isSouth() && paths[i][j].isEast()) {
-                        paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path2png, 270));
+                    {
+                        // L-shaped paths
+                        if (south && west)
+                            paths[i][j].setSprite(App.path1png);
+                        else if (north && west)
+                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path1png, 90));
+                        else if (north && east)
+                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path1png, 180));
+                        else if (south && east)
+                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path1png, 270));
                     }
 
-                    if (paths[i][j].isNorth() && paths[i][j].isSouth() && paths[i][j].isWest() && paths[i][j].isEast()) {
+                    {
+                        // T-shaped paths
+                        if (east && west && south)
+                            paths[i][j].setSprite(App.path2png);
+                        else if (north && south && west)
+                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path2png, 90));
+                        else if (east && west && north)
+                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path2png, 180));
+                        else if (north && south && east)
+                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path2png, 270));
+                    }
+                    // Cross-shaped paths
+                    if (north && south && west && east) {
                         paths[i][j].setSprite(App.path3png);
                     }
                 }

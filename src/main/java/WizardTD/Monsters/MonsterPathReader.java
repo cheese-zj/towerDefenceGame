@@ -10,8 +10,8 @@ public class MonsterPathReader {
 
     HashMap<MonsterDirection, Integer> determine = new HashMap<>();
     private void ReadSurround(Path path, Path[][] paths, Monster monster) {
-        int X = path.getX()/32;
-        int Y = (path.getY()-40)/32;
+        int X = path.getX()/App.CELLSIZE;
+        int Y = (path.getY()-App.TOPBAR)/App.CELLSIZE;
         determine.put(MonsterDirection.SOUTH,0);
         determine.put(MonsterDirection.NORTH,0);
         determine.put(MonsterDirection.EAST,0);
@@ -63,8 +63,8 @@ public class MonsterPathReader {
     }
     private int ReadExpand(Path path, Path[][] paths, Set<String> visitedPaths, int count) {
 
-        int X = path.getX() / 32;
-        int Y = (path.getY() - 40) / 32;
+        int X = path.getX() / App.CELLSIZE;
+        int Y = (path.getY() - App.TOPBAR) / App.CELLSIZE;
 
 //        if (visitedPaths.contains(getKey(X, Y))) {
 //            return 0;
@@ -91,7 +91,7 @@ public class MonsterPathReader {
         }
 
 
-        if (X == App.wizardX/32 && Y == (App.wizardY-40)/32) {
+        if (X == App.wizardX/App.CELLSIZE && Y == (App.wizardY-App.TOPBAR)/App.CELLSIZE) {
             System.out.println("Connected to WizardHouse");
             return count;
         }
@@ -124,8 +124,8 @@ public class MonsterPathReader {
     public void Read(Monster monster) {
 
 
-        int monsterX = ((int) monster.getX())/32;  // Monsters' X and Y co in index num system instead of the actual ones
-        int monsterY = ((int) monster.getY()-40)/32;
+        int monsterX = ((int) monster.getX())/App.CELLSIZE;  // Monsters' X and Y co in index num system instead of the actual ones
+        int monsterY = ((int) monster.getY()-App.TOPBAR)/App.CELLSIZE;
         //MonsterDirection currentDirection = monster.getCurrentDirection();
         System.out.println(monsterX);
         System.out.println(monsterY);

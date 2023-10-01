@@ -1,9 +1,9 @@
 SS             SS  S
-  S S S  S S  S     
-     XXXXX  S  SS S
-XXXXXX X X        S
-  S X  XXXXS      S
-  SXXX   X  XXXXX
+  S S SXXX S  S
+     X XSX  S  SS S
+XXXXXXXX X        S
+  S XSSXXXXS      S
+  SXXX X X  XXXXX
   S X  X XXX   X  S
     S SX X  X  XX S
        X W  XXXXXXXS

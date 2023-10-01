@@ -5,12 +5,11 @@ import processing.core.PImage;
 
 abstract class Tiles{
     private boolean buildOn;
-    private boolean walkOn;
     protected int x;
     protected int y;
     private PImage sprite;
 
-    public Tiles(int x, int y, boolean buildOn, boolean walkOn){
+    public Tiles(int x, int y, boolean buildOn){
         this.x = x;
         this.y = y;
     }
@@ -30,7 +29,5 @@ abstract class Tiles{
     public boolean canBuild() {
         return this.buildOn;
     }
-    public boolean isPath() {
-        return this.walkOn;
-    }
+
 }

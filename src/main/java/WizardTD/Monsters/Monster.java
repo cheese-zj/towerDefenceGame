@@ -67,13 +67,12 @@ public class Monster extends Monsters{
 
     private double hold =0;
     private double timeStack =0;
-    private boolean ticking = true;
     public void tick() {
         if (ticking) {
             this.hold++;
             if (this.hold >= this.spawnTick) {
 
-                if (this.timeStack % 32 == 0) {
+                if (this.timeStack % App.CELLSIZE == 0) {
 
                     this.timeStack = 0;
 

@@ -79,7 +79,6 @@ public class App extends PApplet{
             }
         }
         mapCreator.grassUnderHouse.draw(this);
-        mapCreator.wizardHouse.draw(this);
     }
 
     public void DrawMonsters() {
@@ -88,6 +87,10 @@ public class App extends PApplet{
             monsters1[i].tick();
             monsters1[i].draw(this);
         }
+
+    }
+
+    public void DrawGUI() {
 
     }
 
@@ -164,6 +167,7 @@ public class App extends PApplet{
         background(152,140,100);
         DrawMap();
         DrawMonsters();
+        mapCreator.wizardHouse.draw(this);
         //noLoop();
     }
 

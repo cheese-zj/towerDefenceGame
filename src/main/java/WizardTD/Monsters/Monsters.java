@@ -12,6 +12,7 @@ public abstract class Monsters {
     protected int mana_gained_on_kill;
     protected int spawnTick;
     private PImage sprite;
+    protected boolean ticking = true;
 
     public Monsters(double x, double y, double speed, String type, int hp, int armour, int mana_gained_on_kill, int spawnTick){
         this.x = x;
@@ -29,7 +30,9 @@ public abstract class Monsters {
         this.sprite = sprite;
     }
     public void draw(App app) {
-        app.image(this.sprite, (float) this.x, (float) this.y);
+        if (ticking) {
+            app.image(this.sprite, (float) this.x, (float) this.y);
+        }
     }
     public double getX() {
         return this.x;
