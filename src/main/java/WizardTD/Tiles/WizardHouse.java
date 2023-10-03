@@ -9,7 +9,6 @@ public class WizardHouse extends Tiles{
         super(x, y, false);
     }
 
-
     public void setUnderAttack(boolean underAttack) {
         UnderAttack = underAttack;
     }

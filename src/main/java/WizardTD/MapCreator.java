@@ -26,27 +26,27 @@ public class MapCreator {
                 if (levelArray[i][j] != null) {
                     switch (levelArray[i][j]) {
                         case " ":
-                            grasses[i][j] = new Grass(i * App.CELLSIZE, j * App.CELLSIZE + App.TOPBAR);
+                            grasses[i][j] = new Grass(i * App.CELLSIZE, j * App.CELLSIZE );
                             grasses[i][j].setSprite(App.grasspng);
                             break;
                         case "S":
-                            shrubs[i][j] = new Shrub(i * App.CELLSIZE, j * App.CELLSIZE + App.TOPBAR);
+                            shrubs[i][j] = new Shrub(i * App.CELLSIZE, j * App.CELLSIZE );
                             shrubs[i][j].setSprite(App.shrubpng);
                             break;
                         case "W":
                             this.wizardHouse =
-                                    new WizardHouse(i * App.CELLSIZE - 4, j * App.CELLSIZE + App.TOPBAR - 10);
+                                    new WizardHouse(i * App.CELLSIZE - 5, j * App.CELLSIZE  - 10);
                             App.wizardX = i * App.CELLSIZE;
-                            App.wizardY = j * App.CELLSIZE + App.TOPBAR;
+                            App.wizardY = j * App.CELLSIZE;
                             wizardHouse.setSprite(App.wizard_housepng);
 
-                            this.grassUnderHouse = new Grass(i * App.CELLSIZE, j * App.CELLSIZE + App.TOPBAR);
+                            this.grassUnderHouse = new Grass(i * App.CELLSIZE, j * App.CELLSIZE );
                             grassUnderHouse.setSprite(App.grasspng);
                             break;
                     }
                 }
                 if (levelArray[i][j] != null && (levelArray[i][j].equals("X") || levelArray[i][j].equals("W"))) {
-                    paths[i][j] = new Path(i * App.CELLSIZE, j * App.CELLSIZE + App.TOPBAR);
+                    paths[i][j] = new Path(i * App.CELLSIZE, j * App.CELLSIZE );
 
                     // Check surrounding tiles
                     boolean east  = i < 19 && (levelArray[i + 1][j].equals("X") || levelArray[i + 1][j].equals("W"));
@@ -58,6 +58,7 @@ public class MapCreator {
                     paths[i][j].setWest(west);
                     paths[i][j].setSouth(south);
                     paths[i][j].setNorth(north);
+                    paths[i][j].setSprite(App.path0png);
 
                     {
                         // Determine image based on surrounding tiles

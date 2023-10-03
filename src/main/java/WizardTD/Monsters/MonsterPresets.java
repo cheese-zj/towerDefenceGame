@@ -2,7 +2,7 @@ package WizardTD.Monsters;
 
 import WizardTD.App;
 import processing.core.PImage;
-public abstract class Monsters {
+public abstract class MonsterPresets {
     protected double x;
     protected double y;
     protected double speed;
@@ -14,7 +14,7 @@ public abstract class Monsters {
     private PImage sprite;
     protected boolean ticking = true;
 
-    public Monsters(double x, double y, double speed, String type, int hp, int armour, int mana_gained_on_kill, int spawnTick){
+    public MonsterPresets(double x, double y, double speed, String type, int hp, int armour, int mana_gained_on_kill, int spawnTick){
         this.x = x;
         this.y = y;
         this.speed = speed;
@@ -31,7 +31,7 @@ public abstract class Monsters {
     }
     public void draw(App app) {
         if (ticking) {
-            app.image(this.sprite, (float) this.x, (float) this.y);
+            app.image(this.sprite, (float) this.x+6, (float) this.y+46);
         }
     }
     public double getX() {

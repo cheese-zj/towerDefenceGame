@@ -4,11 +4,7 @@ import WizardTD.Tiles.*;
 
 import WizardTD.App;
 
-import WizardTD.MapCreator;
-
-import java.util.Map;
-
-public class Monster extends Monsters{
+public class Monster extends MonsterPresets {
 
 
     private boolean goVertical = true;
@@ -65,33 +61,93 @@ public class Monster extends Monsters{
         this.verticalInv = 1;
     }
 
-    private double hold =0;
-    private double timeStack =0;
+    private double adjustPosition(double currentPosition, double speed, int inv) {
+        if (((int)currentPosition)%32!=0) {
+            if (inv == 1) {
+                if ((int) (speed + currentPosition) / 32 > (int) currentPosition / 32) {
+                    return (float) ((speed + currentPosition) % 32);
+                }
+            } else if (inv == -1) {
+                if ((int) (-speed + currentPosition) / 32 < (int) currentPosition / 32) {
+                    return (float) (-speed + ((currentPosition) % 32));
+                }
+            }
+        }
+        return 0;
+    }
+    public void updatePosition() {
+        if (goVertical) {
+            this.x += this.speed * this.verticalInv - adjustPosition(this.x, this.speed, this.verticalInv);
+            if ((int)this.x %32 == 0){
+                this.x = (int) this.x;
+            }
+        } else {
+            this.y += this.speed * this.horizontalInv - adjustPosition(this.y, this.speed, this.horizontalInv);
+            if ((int)this.y %32 == 0){
+                this.y = (int) this.y;
+            }
+        }
+    }
+
+    double hold = 0;
     public void tick() {
         if (ticking) {
             this.hold++;
             if (this.hold >= this.spawnTick) {
 
-                if (this.timeStack % App.CELLSIZE == 0) {
-
-                    this.timeStack = 0;
-
-                    this.monsterPathReader.Read(this);
-
-                    if (this.x - this.desX == 6 && this.y - this.desY == 6) {
-                        speed=0;
-                        ticking = false;
+                if (this.x - this.desX <= 6 && this.x - this.desX >= 0.0 &&
+                        this.y - this.desY <= 6 && this.y - this.desY >= 0.0
+                ) {
+                    speed=0;
+                    ticking = false;
+                }
+                if (goVertical) {
+                    if (this.x % 32 ==0) {
+                        //updatePosition();
+                        this.monsterPathReader.Read(this);
+                    }
+                } else {
+                    if ((this.y) % 32 ==0) {
+                        //updatePosition();
+                        this.monsterPathReader.Read(this);
                     }
                 }
 
-                this.timeStack += this.speed;
+                updatePosition();
 
-                if (goVertical) {
-                    this.x += this.speed * this.verticalInv;
-                } else {
-                    this.y += this.speed * this.horizontalInv;
+                //this.timeStack += this.speed;
 
-                }
+//                int fixPos = 0;
+
+//                if (goVertical) {
+//                    if (this.verticalInv == 1) {
+//                        if ((int)(this.speed + this.x)/32 > (int)this.x/32){
+//                            System.out.println(this.x);
+//                            fixPos = (int)((this.speed + this.x)%32 * this.verticalInv);
+//                        }
+//                    } else {
+//                        if ((int)(-this.speed + this.x)/32 < (int)this.x/32){
+//                            System.out.println(this.x);
+//                            System.out.println("update");
+//                            fixPos = (int) -((this.speed + this.x)%32 * this.verticalInv);
+//                        }
+//                    }
+//                    this.x += (int) this.speed * this.verticalInv - fixPos;
+//                    System.out.println(this.x);
+//                } else {
+//                    if (this.horizontalInv == 1) {
+//                        if ((int)(this.speed + this.y)/32 > (int)this.y/32) {
+//                            System.out.println(this.y);
+//                            fixPos = (int)((this.speed + this.y)%32 * this.horizontalInv);
+//                        }
+//                    } else {
+//                        if ((int)(-this.speed + this.y)/32 < (int)this.y/32){
+//                            System.out.println(this.y);
+//                            fixPos = (int) -((this.speed + this.y)%32 * this.horizontalInv);
+//                        }
+//                    }
+//                    this.y += (int) this.speed * this.horizontalInv - fixPos;
+//                }
 
             }
         }

@@ -18,7 +18,7 @@ abstract class Tiles{
         this.sprite = sprite;
     }
     public void draw(App app) {
-        app.image(this.sprite, this.x, this.y);
+        app.image(this.sprite, this.x, this.y + 40);
     }
     public int getX() {
         return this.x;

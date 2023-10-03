@@ -1,20 +1,13 @@
 package WizardTD;
 
-import WizardTD.*;
 import WizardTD.Monsters.Monster;
 import WizardTD.Tiles.*;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-import processing.data.JSONArray;
 import processing.data.JSONObject;
 import processing.event.MouseEvent;
 
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-
-import java.io.*;
 import java.util.*;
 
 public class App extends PApplet{
@@ -50,7 +43,8 @@ public class App extends PApplet{
             path0png, path1png, path2png, path3png,
             wizard_housepng,
             gremlinpng,
-            gremlin1png, gremlin2png, gremlin3png, gremlin4png, gremlin5png
+            gremlin1png, gremlin2png, gremlin3png, gremlin4png, gremlin5png,
+            tower0png, tower1png, tower2png
             ;
 
 
@@ -73,8 +67,8 @@ public class App extends PApplet{
                 if (mapCreator.shrubs[i][j] != null){
                     mapCreator.shrubs[i][j].draw(this);
                 }
-                if (mapCreator.paths[i][j] != null){
-                    mapCreator.paths[i][j].draw(this);
+                if (paths[i][j] != null){
+                    paths[i][j].draw(this);
                 }
             }
         }
@@ -119,6 +113,9 @@ public class App extends PApplet{
         path3png = loadImage("src/main/resources/WizardTD/path3.png");
         gremlinpng = loadImage("src/main/resources/WizardTD/gremlin.png");
         wizard_housepng = loadImage("src/main/resources/WizardTD/wizard_house.png");
+        tower0png = loadImage("src/main/resources/WizardTD/tower0.png");
+        tower1png = loadImage("src/main/resources/WizardTD/tower1.png");
+        tower2png = loadImage("src/main/resources/WizardTD/tower2.png");
 
         //Map related
         mapCreator.CreateMap();
@@ -146,7 +143,14 @@ public class App extends PApplet{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        
+        System.out.println("Mouse Pressed");
+        System.out.println(mouseX/32 + " " + (mouseY-40)/32);
+        if (mouseX/32 < 20 && (mouseY-40)/32 < 20) {
+            if (mapCreator.grasses[mouseX / 32][(mouseY - 40) / 32] != null) {
+                System.out.println("is Grass");
+            }
+        }
+        line(mouseX, 20, mouseX, 80);
     }
 
     @Override
