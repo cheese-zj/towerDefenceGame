@@ -1,7 +1,12 @@
 package WizardTD;
 
-import WizardTD.Monsters.Monster;
+import WizardTD.Managers.InputManager;
+import WizardTD.Managers.MapCreator;
+import WizardTD.Managers.MonsterCreator;
+import WizardTD.Managers.WaveManager;
+import WizardTD.Monsters.*;
 import WizardTD.Tiles.*;
+import WizardTD.Towers.*;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -28,14 +33,21 @@ public class App extends PApplet{
     public Random random = new Random();
 
     private final MapCreator mapCreator;
-    private final MonsterCreator monsterCreator;
+    private final WaveManager waveManager;
+
+    private final InputManager inputManager;
 
     public static Path[][] paths;
+    public static Grass[][] grasses;
 
     public static int wizardX;
     public static int wizardY;
 
-    public Monster[] monsters1;
+    public static boolean isMousePressed;
+
+    public static Monster[] runningMonsterList;
+
+    public static HashSet<Tower> towers;
 
     public static PImage
             grasspng,
@@ -50,12 +62,14 @@ public class App extends PApplet{
 
     // Feel free to add any additional methods or attributes you want. Please put classes in different files.
     public App() {
-        this.configPath = "config.json";
-        this.mapCreator = new MapCreator();
-        this.monsterCreator = new MonsterCreator();
+        configPath = "config.json";
+        mapCreator = new MapCreator();
+        waveManager = new WaveManager();
+        inputManager = new InputManager();
+        towers = new HashSet<>();
     }
 
-    public void DrawMap() {
+    private void DrawMap() {
 
 
         for (int i=0; i<20; i++) {
@@ -75,13 +89,21 @@ public class App extends PApplet{
         mapCreator.grassUnderHouse.draw(this);
     }
 
-    public void DrawMonsters() {
+    private void DrawMonsters() {
         //System.out.println(timer);
-        for (int i=0; i<monsters1.length; i++) {
-            monsters1[i].tick();
-            monsters1[i].draw(this);
+        for (int i=0; i< runningMonsterList.length; i++) {
+            runningMonsterList[i].tick();
+            runningMonsterList[i].draw(this);
         }
 
+    }
+
+
+    private void DrarTowers() {
+        for (Tower tower : towers) {
+            tower.tick();
+            tower.draw(this);
+        }
     }
 
     public void DrawGUI() {
@@ -107,21 +129,33 @@ public class App extends PApplet{
         //images loading
         grasspng = loadImage("src/main/resources/WizardTD/grass.png");
         shrubpng = loadImage("src/main/resources/WizardTD/shrub.png");
-        path0png = loadImage("src/main/resources/WizardTD/path0.png");
-        path1png = loadImage("src/main/resources/WizardTD/path1.png");
-        path2png = loadImage("src/main/resources/WizardTD/path2.png");
-        path3png = loadImage("src/main/resources/WizardTD/path3.png");
-        gremlinpng = loadImage("src/main/resources/WizardTD/gremlin.png");
         wizard_housepng = loadImage("src/main/resources/WizardTD/wizard_house.png");
         tower0png = loadImage("src/main/resources/WizardTD/tower0.png");
         tower1png = loadImage("src/main/resources/WizardTD/tower1.png");
         tower2png = loadImage("src/main/resources/WizardTD/tower2.png");
+        { // paths
+            path0png = loadImage("src/main/resources/WizardTD/path0.png");
+            path1png = loadImage("src/main/resources/WizardTD/path1.png");
+            path2png = loadImage("src/main/resources/WizardTD/path2.png");
+            path3png = loadImage("src/main/resources/WizardTD/path3.png");
+        }
+        gremlinpng = loadImage("src/main/resources/WizardTD/gremlin.png");
+        { // gremlin killed
+            gremlin1png = loadImage("src/main/resources/WizardTD/gremlin1.png");
+            gremlin2png = loadImage("src/main/resources/WizardTD/gremlin2.png");
+            gremlin3png = loadImage("src/main/resources/WizardTD/gremlin3.png");
+            gremlin4png = loadImage("src/main/resources/WizardTD/gremlin4.png");
+            gremlin5png = loadImage("src/main/resources/WizardTD/gremlin5.png");
+        }
+
 
         //Map related
         mapCreator.CreateMap();
         paths = mapCreator.paths;
+        grasses = mapCreator.grasses;
+        waveManager.WaveSetup(1);
+        this.runningMonsterList = waveManager.WaveRunControl(0);
 
-        this.monsters1 = monsterCreator.CreateMonsters();
 
     }
 
@@ -143,14 +177,11 @@ public class App extends PApplet{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println("Mouse Pressed");
+
+        isMousePressed = true;
+        System.out.println("Mouse Pressed (from App)");
         System.out.println(mouseX/32 + " " + (mouseY-40)/32);
-        if (mouseX/32 < 20 && (mouseY-40)/32 < 20) {
-            if (mapCreator.grasses[mouseX / 32][(mouseY - 40) / 32] != null) {
-                System.out.println("is Grass");
-            }
-        }
-        line(mouseX, 20, mouseX, 80);
+
     }
 
     @Override
@@ -171,8 +202,12 @@ public class App extends PApplet{
         background(152,140,100);
         DrawMap();
         DrawMonsters();
-        mapCreator.wizardHouse.draw(this);
+
+        inputManager.Monitoring(mouseX, mouseY);
+        DrarTowers();
         //noLoop();
+
+        mapCreator.wizardHouse.draw(this);
     }
 
     public static void main(String[] args) {

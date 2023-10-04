@@ -17,4 +17,4 @@ S S       X     X S
   S       X S     S 
       XXXXXXXXX     
       X       X S   
-      X S  S  X     
+      X S  S  X

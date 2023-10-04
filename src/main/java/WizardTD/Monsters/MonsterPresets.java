@@ -12,7 +12,7 @@ public abstract class MonsterPresets {
     protected int mana_gained_on_kill;
     protected int spawnTick;
     private PImage sprite;
-    protected boolean ticking = true;
+    public boolean ticking = true;
 
     public MonsterPresets(double x, double y, double speed, String type, int hp, int armour, int mana_gained_on_kill, int spawnTick){
         this.x = x;

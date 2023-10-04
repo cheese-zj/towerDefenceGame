@@ -27,12 +27,13 @@ public abstract class TowerPresets {
 //        this.upgradeLevels.put()
     }
 
+    public abstract void tick();
     public void setSprite(PImage sprite) {
         this.sprite = sprite;
     }
     public void draw(App app) {
         if (ticking) {
-            app.image(this.sprite, (float) this.x, (float) this.y);
+            app.image(this.sprite, (int) this.x * 32, (int) this.y * 32 + 40);
         }
     }
     public double getX() {

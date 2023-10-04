@@ -11,20 +11,20 @@ public class Monster extends MonsterPresets {
     private int verticalInv = 1;
     private int horizontalInv = 1;
 
-    private Path[][] deepCopyPaths(Path[][] original) {
-        if (original == null) {
-            return null;
-        }
+//    private Path[][] deepCopyPaths(Path[][] original) {
+//        if (original == null) {
+//            return null;
+//        }
+//
+//        final Path[][] result = new Path[original.length][];
+//        for (int i = 0; i < original.length; i++) {
+//            result[i] = original[i].clone();
+//        }
+//        return result;
+//    }
 
-        final Path[][] result = new Path[original.length][];
-        for (int i = 0; i < original.length; i++) {
-            result[i] = original[i].clone();
-        }
-        return result;
-    }
 
-
-    protected Path[][] pathsMem = deepCopyPaths(App.paths);
+    protected Path[][] pathsMem = App.paths;
 
     MonsterPathReader monsterPathReader = new MonsterPathReader();
 
@@ -81,6 +81,7 @@ public class Monster extends MonsterPresets {
             if ((int)this.x %32 == 0){
                 this.x = (int) this.x;
             }
+
         } else {
             this.y += this.speed * this.horizontalInv - adjustPosition(this.y, this.speed, this.horizontalInv);
             if ((int)this.y %32 == 0){

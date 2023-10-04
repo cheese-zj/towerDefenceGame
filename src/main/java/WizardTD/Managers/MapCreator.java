@@ -1,5 +1,6 @@
-package WizardTD;
+package WizardTD.Managers;
 
+import WizardTD.App;
 import WizardTD.Tiles.*;
 
 public class MapCreator {
@@ -14,7 +15,7 @@ public class MapCreator {
 
     public void CreateMap() {
 
-        String[][] levelArray = Grid.LevelReader();
+        String[][] levelArray = GridCreator.LevelReader();
         this.grasses = new Grass[20][20];
         this.shrubs = new Shrub[20][20];
         this.paths = new Path[20][20];

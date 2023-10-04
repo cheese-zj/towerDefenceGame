@@ -4,10 +4,10 @@ SS             SS  S
 XXXXXXXXXXXXX     S
   S XSS X  X XXXXX  S
   SXXX  X  X
-  S X   X  X  S
-    S S X XWXXX XX S
-  X      XX XXXXXS
-   S    X     X   SS
+  S X   X  X  SXX
+    S S X  WX  S
+  X      XX XXXXS
+   S    X     XX  SS
      S SX XX  X    S S
  S   S XX SS  X    S S
   SSS  X     XX S

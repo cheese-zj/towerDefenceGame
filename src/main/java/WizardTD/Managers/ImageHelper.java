@@ -1,4 +1,4 @@
-package WizardTD;
+package WizardTD.Managers;
 
 
 import processing.core.PApplet;

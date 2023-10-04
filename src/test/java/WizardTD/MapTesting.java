@@ -1,19 +1,17 @@
 package WizardTD;
 
 
+import WizardTD.Managers.GridCreator;
+import WizardTD.Managers.MapCreator;
 import WizardTD.Tiles.*;
 import org.junit.jupiter.api.Test;
-
-import processing.data.JSONObject;
-
-import java.util.Map;
 
 public class MapTesting {
 
     MapCreator mapCreator;
     @Test
     public void GridTest() {
-        String[][] levelResult = Grid.LevelReader();
+        String[][] levelResult = GridCreator.LevelReader();
     }
 
     @Test
