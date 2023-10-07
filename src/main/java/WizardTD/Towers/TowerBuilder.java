@@ -18,9 +18,9 @@ public class TowerBuilder {
         }
     }
     public void BuildTower(int gridX, int gridY) {
-        System.out.println(gridX + " " + gridY);
-        System.out.println("Test TowerBuilder method Build Tower");
-        Tower newTower = new Tower(gridX, gridY, 2,0,0);
+        //System.out.println(gridX + " " + gridY);
+        //System.out.println("Test TowerBuilder method Build Tower");
+        Tower newTower = new Tower(gridX, gridY, 100,0.1,5);
         newTower.setSprite(TowerImageIdentifier(2,2,2));
         App.towers.add(newTower);
     }

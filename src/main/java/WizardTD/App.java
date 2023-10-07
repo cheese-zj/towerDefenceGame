@@ -1,5 +1,6 @@
 package WizardTD;
 
+import WizardTD.GUI.*;
 import WizardTD.Managers.InputManager;
 import WizardTD.Managers.MapCreator;
 import WizardTD.Managers.MonsterCreator;
@@ -10,6 +11,7 @@ import WizardTD.Towers.*;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PShape;
 import processing.data.JSONObject;
 import processing.event.MouseEvent;
 
@@ -46,8 +48,10 @@ public class App extends PApplet{
     public static boolean isMousePressed;
 
     public static Monster[] runningMonsterList;
+    public static ArrayList<FireBall> fireBalls;
 
     public static HashSet<Tower> towers;
+    public ManaBar manaBar;
 
     public static PImage
             grasspng,
@@ -56,7 +60,8 @@ public class App extends PApplet{
             wizard_housepng,
             gremlinpng,
             gremlin1png, gremlin2png, gremlin3png, gremlin4png, gremlin5png,
-            tower0png, tower1png, tower2png
+            tower0png, tower1png, tower2png,
+            fireballpng
             ;
 
 
@@ -67,6 +72,8 @@ public class App extends PApplet{
         waveManager = new WaveManager();
         inputManager = new InputManager();
         towers = new HashSet<>();
+        fireBalls = new ArrayList<>();
+        manaBar = new ManaBar(200,1000,10);
     }
 
     private void DrawMap() {
@@ -99,15 +106,35 @@ public class App extends PApplet{
     }
 
 
-    private void DrarTowers() {
+    private void DrawTowerRange() {
+        for (Tower tower : towers) {
+            tower.rangeDisplay(this, mouseX, mouseY);
+        }
+    }
+    private void DrawTowers() {
         for (Tower tower : towers) {
             tower.tick();
-            tower.draw(this);
+            tower.draw(this, mouseX, mouseY);
+        }
+    }
+
+    private void DrawFireballs() {
+        for (int i = 0; i < fireBalls.size(); i++){
+            fireBalls.get(i).tick();
+            fireBalls.get(i).draw(this);
         }
     }
 
     public void DrawGUI() {
-
+        PShape topBar = createShape(RECT, 0,0,760,40);
+        topBar.setFill(color(150,140,115));
+        topBar.setStroke(false);
+        PShape sideBar = createShape(RECT, 640,40,120,640);
+        sideBar.setFill(color(150,140,115));
+        sideBar.setStroke(false);
+        shape(topBar);
+        shape(sideBar);
+        manaBar.drawManaBar(this);
     }
 
     /**
@@ -147,16 +174,21 @@ public class App extends PApplet{
             gremlin4png = loadImage("src/main/resources/WizardTD/gremlin4.png");
             gremlin5png = loadImage("src/main/resources/WizardTD/gremlin5.png");
         }
+        fireballpng = loadImage("src/main/resources/WizardTD/fireball.png");
 
 
-        //Map related
-        mapCreator.CreateMap();
-        paths = mapCreator.paths;
-        grasses = mapCreator.grasses;
+        {//Map related
+            mapCreator.CreateMap();
+            paths = mapCreator.paths;
+            grasses = mapCreator.grasses;
+        }
+
         waveManager.WaveSetup(1);
-        this.runningMonsterList = waveManager.WaveRunControl(0);
+        runningMonsterList = waveManager.WaveRunControl(0);
 
+        {//GUI Setup
 
+        }
     }
 
     /**
@@ -204,10 +236,13 @@ public class App extends PApplet{
         DrawMonsters();
 
         inputManager.Monitoring(mouseX, mouseY);
-        DrarTowers();
+        DrawTowers();
+        DrawFireballs();
         //noLoop();
 
         mapCreator.wizardHouse.draw(this);
+        DrawTowerRange();
+        DrawGUI();
     }
 
     public static void main(String[] args) {

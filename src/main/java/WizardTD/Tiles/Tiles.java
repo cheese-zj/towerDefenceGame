@@ -9,7 +9,7 @@ abstract class Tiles{
     protected int y;
     private PImage sprite;
 
-    public Tiles(int x, int y, boolean buildOn){
+    public Tiles(int x, int y){
         this.x = x;
         this.y = y;
     }
@@ -25,9 +25,6 @@ abstract class Tiles{
     }
     public int getY() {
         return this.y;
-    }
-    public boolean canBuild() {
-        return this.buildOn;
     }
 
 }

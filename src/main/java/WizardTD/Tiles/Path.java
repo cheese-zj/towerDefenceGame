@@ -8,7 +8,7 @@ public class Path extends Tiles{
     private boolean West;
 
     public Path(int x, int y) {
-        super(x, y, false);
+        super(x, y);
     }
 
     public boolean isNorth() {

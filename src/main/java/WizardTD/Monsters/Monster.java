@@ -1,5 +1,6 @@
 package WizardTD.Monsters;
 
+import WizardTD.GUI.ManaBar;
 import WizardTD.Tiles.*;
 
 import WizardTD.App;
@@ -40,7 +41,7 @@ public class Monster extends MonsterPresets {
 
     private final int desX = App.wizardX;
     private final int desY = App.wizardY;
-    public Monster(double x, double y, double speed, String type, int hp, int armour, int mana_gained_on_kill, int spawnTick) {
+    public Monster(double x, double y, double speed, String type, float hp, float armour, int mana_gained_on_kill, int spawnTick) {
         super(x, y, speed, type, hp, armour, mana_gained_on_kill, spawnTick);
     }
 
@@ -62,7 +63,7 @@ public class Monster extends MonsterPresets {
     }
 
     private double adjustPosition(double currentPosition, double speed, int inv) {
-        if (((int)currentPosition)%32!=0) {
+        if ((currentPosition)%32!=0) {
             if (inv == 1) {
                 if ((int) (speed + currentPosition) / 32 > (int) currentPosition / 32) {
                     return (float) ((speed + currentPosition) % 32);
@@ -78,37 +79,38 @@ public class Monster extends MonsterPresets {
     public void updatePosition() {
         if (goVertical) {
             this.x += this.speed * this.verticalInv - adjustPosition(this.x, this.speed, this.verticalInv);
-            if ((int)this.x %32 == 0){
+            if (this.x %32 == 0){
                 this.x = (int) this.x;
+
             }
 
         } else {
             this.y += this.speed * this.horizontalInv - adjustPosition(this.y, this.speed, this.horizontalInv);
-            if ((int)this.y %32 == 0){
+            if (this.y %32 == 0){
                 this.y = (int) this.y;
             }
         }
     }
 
-    double hold = 0;
+    float hold = 0;
     public void tick() {
         if (ticking) {
             this.hold++;
             if (this.hold >= this.spawnTick) {
-
                 if (this.x - this.desX <= 6 && this.x - this.desX >= 0.0 &&
                         this.y - this.desY <= 6 && this.y - this.desY >= 0.0
                 ) {
                     speed=0;
                     ticking = false;
+                    hitWizard();
                 }
                 if (goVertical) {
-                    if (this.x % 32 ==0) {
+                    if ((int)this.x % 32 ==0) {
                         //updatePosition();
                         this.monsterPathReader.Read(this);
                     }
                 } else {
-                    if ((this.y) % 32 ==0) {
+                    if ((int)(this.y) % 32 ==0) {
                         //updatePosition();
                         this.monsterPathReader.Read(this);
                     }

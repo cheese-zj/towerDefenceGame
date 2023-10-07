@@ -17,7 +17,7 @@ public class WaveManager {
     }
     public void WaveSetup(int wavesNum){
         for (int i=0; i < wavesNum+1; i++) {
-            Monster[] wave = monsterCreator.CreateMonsters(1, "Gremlin");
+            Monster[] wave = monsterCreator.CreateMonsters(100, "Gremlin");
             waves.add(wave);
         }
     }

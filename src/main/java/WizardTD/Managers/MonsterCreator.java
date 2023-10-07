@@ -15,7 +15,8 @@ public class MonsterCreator {
 
         for (int i=0; i<monsters.length; i++) {
             //Monster Co 6(center monster pic) + (gridnum)*App.CELLSIZE + App.TOPBAR
-            monsters[i] = new Monster( (6)*(App.CELLSIZE), (19)*App.CELLSIZE, 4, type, 100, 50, 5, i*12);
+            monsters[i] = new Monster( (0)*(App.CELLSIZE), (3)*App.CELLSIZE, 2, type, 100, 1, 5, i*30);
+            monsters[i] = new Monster( (0)*(App.CELLSIZE), (3)*App.CELLSIZE, 2, type, 100, 1, 5, i*30);
             monsters[i].setSprite(App.gremlinpng);
             if (Objects.equals(type, "Gremlin")){
                 monsters[i].setSprite(App.gremlinpng);
