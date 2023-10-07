@@ -4,7 +4,7 @@ import WizardTD.App;
 import processing.core.PImage;
 
 abstract class Tiles{
-    private boolean buildOn;
+
     protected int x;
     protected int y;
     private PImage sprite;

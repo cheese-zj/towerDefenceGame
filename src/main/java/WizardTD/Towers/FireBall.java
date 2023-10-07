@@ -26,20 +26,22 @@ public class FireBall {
     }
 
     private void move() {
-        double xDis = target.getX()+12 - this.x;
-        double yDis = target.getY()+40+12 - this.y;
-        double distance = Math.sqrt(Math.pow(xDis,2) + Math.pow(yDis,2));
-        if ((int) distance <= 10 && ticking) {
-            ticking = false;
-            target.getHit(damage);
-        }
-        // Normalize the direction vector
-        double xDir = xDis / distance;
-        double yDir = yDis / distance;
+        if (App.GAME_TICKING) {
+            double xDis = target.getX() + 12 - this.x;
+            double yDis = target.getY() + 40 + 12 - this.y;
+            double distance = Math.sqrt(Math.pow(xDis, 2) + Math.pow(yDis, 2));
+            if ((int) distance <= 10 && ticking) {
+                ticking = false;
+                target.getHit(damage);
+            }
+            // Normalize the direction vector
+            double xDir = xDis / distance;
+            double yDir = yDis / distance;
 
-        // Update the position
-        this.x += xDir * speed;
-        this.y += yDir * speed;
+            // Update the position
+            this.x += xDir * speed *App.TICK_Multiplier;
+            this.y += yDir * speed *App.TICK_Multiplier;
+        }
     }
     public void draw(App app) {
         if (ticking) {

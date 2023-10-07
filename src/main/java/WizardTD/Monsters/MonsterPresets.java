@@ -1,7 +1,7 @@
 package WizardTD.Monsters;
 
 import WizardTD.App;
-import WizardTD.GUI.ManaBar;
+import WizardTD.GameSys.ManaBar;
 import processing.core.PImage;
 import processing.core.PShape;
 
@@ -39,6 +39,7 @@ public abstract class MonsterPresets {
     }
 
     private void drawDeathAnimation(App app) {
+
         if (deathAnimationCounter<4) {
             app.image(App.gremlin1png, (float) this.x + 6, (float) this.y + 40 + 6);
         } else if (deathAnimationCounter<8) {
@@ -50,8 +51,7 @@ public abstract class MonsterPresets {
         } else if (deathAnimationCounter<24) {
             app.image(App.gremlin5png, (float) this.x + 6, (float) this.y + 40 + 6);
         }
-
-        deathAnimationCounter++;
+        if (App.GAME_TICKING) deathAnimationCounter++;
     }
 
 

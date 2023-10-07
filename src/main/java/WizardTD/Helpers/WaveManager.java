@@ -1,8 +1,6 @@
-package WizardTD.Managers;
+package WizardTD.Helpers;
 
-import WizardTD.App;
 import WizardTD.Monsters.Monster;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 
@@ -17,7 +15,8 @@ public class WaveManager {
     }
     public void WaveSetup(int wavesNum){
         for (int i=0; i < wavesNum+1; i++) {
-            Monster[] wave = monsterCreator.CreateMonsters(100, "Gremlin");
+            Monster[] wave = monsterCreator.CreateMonsters(
+                    100, 0,3,2,100,1,30,30,"Gremlin");
             waves.add(wave);
         }
     }

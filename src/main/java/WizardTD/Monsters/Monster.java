@@ -1,6 +1,5 @@
 package WizardTD.Monsters;
 
-import WizardTD.GUI.ManaBar;
 import WizardTD.Tiles.*;
 
 import WizardTD.App;
@@ -41,7 +40,8 @@ public class Monster extends MonsterPresets {
 
     private final int desX = App.wizardX;
     private final int desY = App.wizardY;
-    public Monster(double x, double y, double speed, String type, float hp, float armour, int mana_gained_on_kill, int spawnTick) {
+    public Monster(double x, double y, double speed, String type, float hp,
+                   float armour, int mana_gained_on_kill, int spawnTick) {
         super(x, y, speed, type, hp, armour, mana_gained_on_kill, spawnTick);
     }
 
@@ -78,14 +78,16 @@ public class Monster extends MonsterPresets {
     }
     public void updatePosition() {
         if (goVertical) {
-            this.x += this.speed * this.verticalInv - adjustPosition(this.x, this.speed, this.verticalInv);
+            this.x += (this.speed*App.TICK_Multiplier) * this.verticalInv -
+                    adjustPosition(this.x, (this.speed*App.TICK_Multiplier), this.verticalInv);
             if (this.x %32 == 0){
                 this.x = (int) this.x;
 
             }
 
         } else {
-            this.y += this.speed * this.horizontalInv - adjustPosition(this.y, this.speed, this.horizontalInv);
+            this.y += (this.speed*App.TICK_Multiplier) * this.horizontalInv -
+                    adjustPosition(this.y, (this.speed*App.TICK_Multiplier), this.horizontalInv);
             if (this.y %32 == 0){
                 this.y = (int) this.y;
             }
@@ -94,8 +96,8 @@ public class Monster extends MonsterPresets {
 
     float hold = 0;
     public void tick() {
-        if (ticking) {
-            this.hold++;
+        if (ticking && App.GAME_TICKING) {
+            this.hold+= (float) App.TICK_Multiplier;
             if (this.hold >= this.spawnTick) {
                 if (this.x - this.desX <= 6 && this.x - this.desX >= 0.0 &&
                         this.y - this.desY <= 6 && this.y - this.desY >= 0.0

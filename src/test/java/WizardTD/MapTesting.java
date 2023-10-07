@@ -1,8 +1,8 @@
 package WizardTD;
 
 
-import WizardTD.Managers.GridCreator;
-import WizardTD.Managers.MapCreator;
+import WizardTD.Helpers.GridCreator;
+import WizardTD.Helpers.MapCreator;
 import WizardTD.Tiles.*;
 import org.junit.jupiter.api.Test;
 

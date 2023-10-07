@@ -1,4 +1,4 @@
-package WizardTD.Managers;
+package WizardTD.Helpers;
 import WizardTD.App;
 import WizardTD.Towers.*;
 
@@ -18,16 +18,12 @@ public class InputManager{
                 towerBuilder.BuildTower(mouseX/32, (mouseY-40)/32);
             }
         }
-
     }
-
 
     public void Monitoring(int mouseX, int mouseY) {
 
         if (App.isMousePressed){
-
             MouseBuildTower(mouseX, mouseY);
-
             App.isMousePressed = false;
         }
     }

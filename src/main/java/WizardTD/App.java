@@ -1,10 +1,9 @@
 package WizardTD;
 
-import WizardTD.GUI.*;
-import WizardTD.Managers.InputManager;
-import WizardTD.Managers.MapCreator;
-import WizardTD.Managers.MonsterCreator;
-import WizardTD.Managers.WaveManager;
+import WizardTD.GameSys.*;
+import WizardTD.Helpers.InputManager;
+import WizardTD.Helpers.MapCreator;
+import WizardTD.Helpers.WaveManager;
 import WizardTD.Monsters.*;
 import WizardTD.Tiles.*;
 import WizardTD.Towers.*;
@@ -29,6 +28,9 @@ public class App extends PApplet{
 
     public static final int FPS = 60;
 
+    public static double TICK_Multiplier = 1;
+    public static boolean GAME_TICKING = true;
+
     public String configPath;
     public static JSONObject json;
 
@@ -38,6 +40,7 @@ public class App extends PApplet{
     private final WaveManager waveManager;
 
     private final InputManager inputManager;
+    private final ButtonsCollection buttonsCollection;
 
     public static Path[][] paths;
     public static Grass[][] grasses;
@@ -64,6 +67,8 @@ public class App extends PApplet{
             fireballpng
             ;
 
+    public static PShape topBar, sideBar;
+
 
     // Feel free to add any additional methods or attributes you want. Please put classes in different files.
     public App() {
@@ -71,6 +76,7 @@ public class App extends PApplet{
         mapCreator = new MapCreator();
         waveManager = new WaveManager();
         inputManager = new InputManager();
+        buttonsCollection = new ButtonsCollection();
         towers = new HashSet<>();
         fireBalls = new ArrayList<>();
         manaBar = new ManaBar(200,1000,10);
@@ -82,8 +88,8 @@ public class App extends PApplet{
         for (int i=0; i<20; i++) {
             for (int j=0; j<20; j++) {
                 //System.out.println(grasses[i][j]);
-                if (mapCreator.grasses[i][j] != null){
-                    mapCreator.grasses[i][j].draw(this);
+                if (grasses[i][j] != null){
+                    grasses[i][j].draw(this);
                 }
                 if (mapCreator.shrubs[i][j] != null){
                     mapCreator.shrubs[i][j].draw(this);
@@ -117,7 +123,6 @@ public class App extends PApplet{
             tower.draw(this, mouseX, mouseY);
         }
     }
-
     private void DrawFireballs() {
         for (int i = 0; i < fireBalls.size(); i++){
             fireBalls.get(i).tick();
@@ -126,15 +131,16 @@ public class App extends PApplet{
     }
 
     public void DrawGUI() {
-        PShape topBar = createShape(RECT, 0,0,760,40);
-        topBar.setFill(color(150,140,115));
-        topBar.setStroke(false);
-        PShape sideBar = createShape(RECT, 640,40,120,640);
-        sideBar.setFill(color(150,140,115));
-        sideBar.setStroke(false);
+
         shape(topBar);
         shape(sideBar);
         manaBar.drawManaBar(this);
+        for (int i = 0; i<buttonsCollection.ButtonsArray.size(); i++) {
+
+            buttonsCollection.ButtonsArray.get(i).draw(this);
+            buttonsCollection.ButtonsArray.get(i).functionality(this);
+        }
+
     }
 
     /**
@@ -176,6 +182,15 @@ public class App extends PApplet{
         }
         fireballpng = loadImage("src/main/resources/WizardTD/fireball.png");
 
+        {//GUI related
+            topBar = createShape(RECT, 0,0,760,40);
+            sideBar = createShape(RECT, 640,40,120,640);
+            topBar.setFill(color(150,140,115));
+            topBar.setStroke(false);
+            sideBar.setFill(color(150,140,115));
+            sideBar.setStroke(false);
+            buttonsCollection.generate(this);
+        }
 
         {//Map related
             mapCreator.CreateMap();
@@ -186,9 +201,6 @@ public class App extends PApplet{
         waveManager.WaveSetup(1);
         runningMonsterList = waveManager.WaveRunControl(0);
 
-        {//GUI Setup
-
-        }
     }
 
     /**
@@ -235,7 +247,6 @@ public class App extends PApplet{
         DrawMap();
         DrawMonsters();
 
-        inputManager.Monitoring(mouseX, mouseY);
         DrawTowers();
         DrawFireballs();
         //noLoop();
@@ -243,6 +254,7 @@ public class App extends PApplet{
         mapCreator.wizardHouse.draw(this);
         DrawTowerRange();
         DrawGUI();
+        //inputManager.Monitoring(mouseX, mouseY);
     }
 
     public static void main(String[] args) {

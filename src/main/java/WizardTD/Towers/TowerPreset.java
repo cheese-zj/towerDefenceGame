@@ -51,10 +51,7 @@ public abstract class TowerPreset {
         this.sprite = sprite;
     }
     public void draw(App app, int mouseX, int mouseY) {
-
-        if (ticking) {
-            app.image(this.sprite, (int) this.x * 32, (int) this.y * 32 + 40);
-        }
+        app.image(this.sprite, (int) this.x * 32, (int) this.y * 32 + 40);
     }
     public double getX() {
         return this.x;

@@ -1,4 +1,4 @@
-package WizardTD.Managers;
+package WizardTD.Helpers;
 
 import WizardTD.App;
 

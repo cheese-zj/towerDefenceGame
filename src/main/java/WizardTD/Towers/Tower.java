@@ -12,8 +12,8 @@ public class Tower extends TowerPreset {
     }
 
     private boolean inRange(Monster monster) {
-        double xDis = monster.getX() - this.x*App.CELLSIZE;
-        double yDis = monster.getY() - (this.y*App.CELLSIZE);
+        double xDis = monster.getX()+6 - this.x*App.CELLSIZE;
+        double yDis = monster.getY()+6 - (this.y*App.CELLSIZE);
         //System.out.println(Math.pow(xDis,2)+" "+Math.pow(yDis,2)+" "+Math.pow((towerRange*32),2));
         return (int)(Math.pow(xDis,2) + Math.pow(yDis,2)) <= Math.pow(towerRange, 2)+52;
 
@@ -25,7 +25,7 @@ public class Tower extends TowerPreset {
             for (Monster monster : App.runningMonsterList) {
             //System.out.println("Detecting");
                 if (inRange(monster)) {
-                    if (monster.ticking) {
+                    if (monster.ticking && App.GAME_TICKING) {
                         trackedMonster = monster;
                         //System.out.println("Track!");
                     }
@@ -48,10 +48,10 @@ public class Tower extends TowerPreset {
     @Override
     public void tick() {
         detectMonster();
-        if (fireCounter==0) {
+        if (fireCounter==0 && App.GAME_TICKING) {
             generateFireBall();
         }
         fireCounter++;
-        fireCounter= (int) (fireCounter%(firingSpeed*60));
+        fireCounter= (int) (fireCounter%(firingSpeed*60/App.TICK_Multiplier));
     }
 }
