@@ -18,6 +18,7 @@ public abstract class MonsterPresets {
     protected int spawnTick;
     private PImage sprite;
     public boolean ticking = true;
+    public boolean canTrack = false;
     private boolean dead = false;
     private int deathAnimationCounter = 0;
     float initialHp = hp;
@@ -86,8 +87,10 @@ public abstract class MonsterPresets {
     public void getHit(float dmgTaken){
         hp -= dmgTaken * armour;
         if (hp<=0) {
+            if (ManaBar.mana < ManaBar.manaCap) {
+                ManaBar.mana += mana_gained_on_kill;
+            }
             dead = true;
-            if (ManaBar.mana < ManaBar.manaCap) ManaBar.mana += mana_gained_on_kill;
             ticking = false;
         }
     }

@@ -9,28 +9,33 @@ public class ManaBar {
     public static int mana;
     public static int manaCap;
     public static int manaGain;
-    public static int manaPoolCost = 100;
+    public static int manaPoolCost;
     boolean ticking = true;
     int manaTick = 60;
-    public ManaBar(int initialMana, int initialManaCap, int initialManaGain){
-        mana = initialMana;
-        manaCap = initialManaCap;
-        manaGain = initialManaGain;
+    public ManaBar(){
+        mana = App.json.getInt("initial_mana");
+        manaCap = App.json.getInt("initial_mana_cap");
+        manaGain = App.json.getInt("initial_mana_gained_per_second");
+        manaPoolCost = App.json.getInt("mana_pool_spell_initial_cost");
     }
 
     private void manaUpdate(){
         if (App.GAME_TICKING) {
-            if (manaTick == 60 && mana <= manaCap) {
+            if (manaTick >= 60 && manaTick <= 61 &&mana <= manaCap) {
                 mana += manaGain;
                 manaTick %= 60;
             }
-            manaTick+= (int) App.TICK_Multiplier;
+            manaTick += App.TICK_Multiplier;
             if (mana > manaCap) mana = manaCap;
         }
+
     }
 
     public static void getAttacked(int dmgTaken) {
         mana -= dmgTaken;
+        if (mana<0){
+            mana = 0;
+        }
     }
     public void drawManaBar(App app) {
         PShape manaBar =
@@ -49,5 +54,6 @@ public class ManaBar {
         if (ticking) {
             manaUpdate();
         }
+
     }
 }

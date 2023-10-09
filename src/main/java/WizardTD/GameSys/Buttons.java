@@ -14,14 +14,15 @@ public abstract class Buttons {
     protected PShape hoverBase;
     protected PShape selectBase;
     protected PFont titleFont;
-    public boolean checked = false;
+    protected boolean checked = false;
+    public char triggerCode;
 
-
-    public Buttons(float x, float y, App app, String buttonText, String title){
+    public Buttons(float x, float y, App app, String buttonText, String title, char triggerCode){
         this.x = x;
         this.y = y;
         this.buttonText = buttonText;
         this.title = title;
+        this.triggerCode = triggerCode;
         titleFont = app.createFont("Arial",16,true);
         shapeRec = app.createShape(PConstants.RECT, x, y, 48,48);
         shapeRec.setFill(false);
@@ -33,25 +34,29 @@ public abstract class Buttons {
         selectBase.setFill(app.color(240,247,0));
     }
 
-    public boolean checkHover(int mouseX, int mouseY) {
+    protected boolean checkHover(int mouseX, int mouseY) {
         if (mouseX <= this.x+48 && mouseX >= this.x && mouseY <= this.y+48 && mouseY >= this.y){
             return true;
         }
         return false;
     }
 
-    public void Monitoring() {
+    private void monitoring() {
         if (App.isMousePressed){
             checked = !checked;
             App.isMousePressed = false;
         }
     }
 
+    public void monitorKey() {
+        checked = !checked;
+    }
+
     public void draw(App app) {
         if (checkHover(app.mouseX,app.mouseY)) {
-            System.out.println("A");
-            System.out.println(App.isMousePressed);
-            Monitoring();
+            //System.out.println("A");
+            //System.out.println(App.isMousePressed);
+            monitoring();
             app.shape(hoverBase);
         }
         if (checked) {

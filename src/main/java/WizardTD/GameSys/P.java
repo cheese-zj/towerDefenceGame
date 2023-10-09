@@ -5,7 +5,7 @@ import WizardTD.App;
 public class P extends Buttons{
 
     public P(float x, float y, App app) {
-        super(x, y, app,"P", "PAUSE");
+        super(x, y, app,"P", "PAUSE",'p');
     }
     @Override
     public void functionality(App app) {

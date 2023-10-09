@@ -3,6 +3,9 @@ package WizardTD.Helpers;
 import WizardTD.Monsters.Monster;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import static WizardTD.Helpers.MapCreator.spawnPoints;
 
 public class WaveManager {
     MonsterCreator monsterCreator;
@@ -13,10 +16,13 @@ public class WaveManager {
         this.monsterCreator = new MonsterCreator();
         waves = new ArrayList<>();
     }
+
     public void WaveSetup(int wavesNum){
+
+
         for (int i=0; i < wavesNum+1; i++) {
             Monster[] wave = monsterCreator.CreateMonsters(
-                    100, 0,3,2,100,1,30,30,"Gremlin");
+                    100,2,100,1,30,30,"Gremlin");
             waves.add(wave);
         }
     }

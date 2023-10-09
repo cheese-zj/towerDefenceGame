@@ -1,7 +1,7 @@
 package WizardTD;
 
 import WizardTD.GameSys.*;
-import WizardTD.Helpers.InputManager;
+//import WizardTD.Helpers.InputManager;
 import WizardTD.Helpers.MapCreator;
 import WizardTD.Helpers.WaveManager;
 import WizardTD.Monsters.*;
@@ -9,6 +9,7 @@ import WizardTD.Tiles.*;
 import WizardTD.Towers.*;
 
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.data.JSONObject;
@@ -28,7 +29,7 @@ public class App extends PApplet{
 
     public static final int FPS = 60;
 
-    public static double TICK_Multiplier = 1;
+    public static int TICK_Multiplier = 1;
     public static boolean GAME_TICKING = true;
 
     public String configPath;
@@ -39,7 +40,7 @@ public class App extends PApplet{
     private final MapCreator mapCreator;
     private final WaveManager waveManager;
 
-    private final InputManager inputManager;
+    //private final InputManager inputManager;
     private final ButtonsCollection buttonsCollection;
 
     public static Path[][] paths;
@@ -68,6 +69,7 @@ public class App extends PApplet{
             ;
 
     public static PShape topBar, sideBar;
+    public static PFont gameFont;
 
 
     // Feel free to add any additional methods or attributes you want. Please put classes in different files.
@@ -75,16 +77,12 @@ public class App extends PApplet{
         configPath = "config.json";
         mapCreator = new MapCreator();
         waveManager = new WaveManager();
-        inputManager = new InputManager();
         buttonsCollection = new ButtonsCollection();
         towers = new HashSet<>();
         fireBalls = new ArrayList<>();
-        manaBar = new ManaBar(200,1000,10);
     }
 
     private void DrawMap() {
-
-
         for (int i=0; i<20; i++) {
             for (int j=0; j<20; j++) {
                 //System.out.println(grasses[i][j]);
@@ -111,14 +109,14 @@ public class App extends PApplet{
 
     }
 
-
     private void DrawTowerRange() {
         for (Tower tower : towers) {
-            tower.rangeDisplay(this, mouseX, mouseY);
+            tower.rangeDisplay(this,mouseX,mouseY);
         }
     }
     private void DrawTowers() {
         for (Tower tower : towers) {
+            tower.monitoring(mouseX,mouseY);
             tower.tick();
             tower.draw(this, mouseX, mouseY);
         }
@@ -190,6 +188,7 @@ public class App extends PApplet{
             sideBar.setFill(color(150,140,115));
             sideBar.setStroke(false);
             buttonsCollection.generate(this);
+            gameFont = createFont("Arial",16,true);
         }
 
         {//Map related
@@ -198,6 +197,7 @@ public class App extends PApplet{
             grasses = mapCreator.grasses;
         }
 
+        manaBar = new ManaBar();
         waveManager.WaveSetup(1);
         runningMonsterList = waveManager.WaveRunControl(0);
 
@@ -208,7 +208,11 @@ public class App extends PApplet{
      */
 	@Override
     public void keyPressed(){
-        
+        for (Buttons button : buttonsCollection.ButtonsArray) {
+            if (this.key == button.triggerCode){
+                button.monitorKey();
+            }
+        }
     }
 
     /**
@@ -221,11 +225,9 @@ public class App extends PApplet{
 
     @Override
     public void mousePressed(MouseEvent e) {
-
         isMousePressed = true;
         System.out.println("Mouse Pressed (from App)");
         System.out.println(mouseX/32 + " " + (mouseY-40)/32);
-
     }
 
     @Override
@@ -243,7 +245,8 @@ public class App extends PApplet{
      */
 	@Override
     public void draw() {
-        background(152,140,100);
+
+        //background(152,140,100);
         DrawMap();
         DrawMonsters();
 
@@ -255,6 +258,10 @@ public class App extends PApplet{
         DrawTowerRange();
         DrawGUI();
         //inputManager.Monitoring(mouseX, mouseY);
+        if (ManaBar.mana <= 0) {
+            ManaBar.mana = 0;
+            App.GAME_TICKING = false;
+        }
     }
 
     public static void main(String[] args) {

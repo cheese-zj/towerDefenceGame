@@ -3,6 +3,9 @@ package WizardTD.Helpers;
 import WizardTD.App;
 import WizardTD.Tiles.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public class MapCreator {
 
     private ImageHelper imageHelper;
@@ -12,7 +15,7 @@ public class MapCreator {
     public Path[][] paths;
     public WizardHouse wizardHouse;
     public Grass grassUnderHouse;
-
+    public static ArrayList<String> spawnPoints = new ArrayList<>();
     public void CreateMap() {
 
         String[][] levelArray = GridCreator.LevelReader();
@@ -49,6 +52,11 @@ public class MapCreator {
                 if (levelArray[i][j] != null && (levelArray[i][j].equals("X") || levelArray[i][j].equals("W"))) {
                     paths[i][j] = new Path(i * App.CELLSIZE, j * App.CELLSIZE );
 
+                    // Check if path is on the boundary and make it a spawn point
+                    if (i == 0 || j == 0 || i == 19 || j == 19) {
+                        spawnPoints.add(i + " " + j);
+                    }
+
                     // Check surrounding tiles
                     boolean east  = i < 19 && (levelArray[i + 1][j].equals("X") || levelArray[i + 1][j].equals("W"));
                     boolean west  = i > 0  && (levelArray[i - 1][j].equals("X") || levelArray[i - 1][j].equals("W"));
@@ -59,6 +67,7 @@ public class MapCreator {
                     paths[i][j].setWest(west);
                     paths[i][j].setSouth(south);
                     paths[i][j].setNorth(north);
+
                     paths[i][j].setSprite(App.path0png);
 
                     {

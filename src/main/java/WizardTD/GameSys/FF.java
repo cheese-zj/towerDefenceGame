@@ -5,7 +5,7 @@ import WizardTD.App;
 public class FF extends Buttons{
 
     public FF(float x, float y, App app) {
-        super(x, y, app,"FF", "2x\nSpeed");
+        super(x, y, app,"FF", "2x\nSpeed",'f');
     }
     @Override
     public void functionality(App app) {

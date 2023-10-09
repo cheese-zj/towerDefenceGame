@@ -1,28 +1,45 @@
 package WizardTD.Towers;
 
 import WizardTD.App;
-import org.checkerframework.checker.units.qual.A;
-import processing.core.PImage;
+import WizardTD.GameSys.*;
 
 public class TowerBuilder {
 
-
+    public static int towerRangeLv;
+    public static int towerFireLv;
+    public static int towerDmgLv;
+    public static int buildCost = 100;
+    //read the config file
     public TowerBuilder(){
     }
 
-    private PImage TowerImageIdentifier(int rangeLv, int fireSpeedLv, int dmgLv) {
-        if (rangeLv == 2 && fireSpeedLv == 2 && dmgLv == 2){
-            return App.tower2png;
-        } else {
-            return App.tower0png;
-        }
-    }
     public void BuildTower(int gridX, int gridY) {
         //System.out.println(gridX + " " + gridY);
         //System.out.println("Test TowerBuilder method Build Tower");
-        Tower newTower = new Tower(gridX, gridY, 100,0.1,5);
-        newTower.setSprite(TowerImageIdentifier(2,2,2));
-        App.towers.add(newTower);
+        towerRangeLv =0;
+        towerFireLv =0;
+        towerDmgLv =0;
+
+        if (ManaBar.mana > buildCost) {
+            int rangeCost = 0;
+            int fireCost = 0;
+            int dmgCost = 0;
+            if (U1.U1checked) rangeCost = (towerRangeLv+2)*10;
+            if (U2.U2checked) fireCost = (towerFireLv+2)*10;
+            if (U3.U3checked) dmgCost = (towerDmgLv+2)*10;
+            ManaBar.mana-=(buildCost);
+            if (ManaBar.mana > rangeCost && U1.U1checked) {
+                towerRangeLv++; ManaBar.mana -= rangeCost;}
+            if (ManaBar.mana > rangeCost && U2.U2checked) {
+                towerFireLv++; ManaBar.mana -= fireCost;}
+            if (ManaBar.mana > dmgCost && U3.U3checked) {
+                towerDmgLv++; ManaBar.mana -= dmgCost;}
+            Tower newTower = new Tower(gridX, gridY, towerRangeLv, towerFireLv, towerDmgLv);
+            App.towers.add(newTower);
+            App.grasses[gridX][gridY].setOccupied();
+        }
     }
+
+
 
 }

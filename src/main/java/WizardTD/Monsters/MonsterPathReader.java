@@ -29,38 +29,12 @@ public class MonsterPathReader {
                 {{0, -1}, {0, 1}, {1, 0}, {-1, 0}};
 
         for (int i = 0; i < 4; i++) {
-            if (canMoveConditions[i] && direction != oppositeDirections[i]) {
+            if (canMoveConditions[i] && (direction != oppositeDirections[i])) {
                 int distancePow =
-                        ReadExpand(paths[X + offsets[i][0]][Y + offsets[i][1]], paths, new HashSet<>(visitedPaths), 2);
+                        ReadExpand(paths[X + offsets[i][0]][Y + offsets[i][1]], paths, new HashSet<>(visitedPaths), 0);
                 determine.put(directions[i], distancePow);
             }
         }
-
-//        if (path.isNorth() && direction!=MonsterDirection.SOUTH) {
-//            //System.out.println("North != null");
-//
-//            int distancePow = -ReadExpand(paths[X][Y-1],paths,(Set<String>) visitedPaths.clone(),0);
-//            determine.put(MonsterDirection.NORTH, distancePow);
-//        }
-//        if (path.isSouth() && direction!=MonsterDirection.NORTH) {
-//            //System.out.println("South != null");
-//
-//            int distancePow = -ReadExpand(paths[X][Y+1],paths,(Set<String>) visitedPaths.clone(),0);
-//            determine.put(MonsterDirection.SOUTH, distancePow);
-//        }
-//        if (path.isEast() && direction!=MonsterDirection.WEST) {
-//            //System.out.println("East != null");
-//
-//
-//            int distancePow = -ReadExpand(paths[X+1][Y],paths,(Set<String>) visitedPaths.clone(),0);
-//            determine.put(MonsterDirection.EAST, distancePow);
-//        }
-//        if (path.isWest() && direction!=MonsterDirection.EAST) {
-//            //System.out.println("West != null");
-//
-//            int distancePow = -ReadExpand(paths[X-1][Y],paths,(Set<String>) visitedPaths.clone(),0);
-//            determine.put(MonsterDirection.WEST, distancePow);
-//        }
 
     }
 
@@ -69,72 +43,45 @@ public class MonsterPathReader {
         return X + "," + Y; // Returns a string like "5,7"
     }
     private int ReadExpand(Path path, Path[][] paths, Set<String> visitedPaths, int count) {
+        if (path == null) return Integer.MAX_VALUE - count;
 
         int X = path.getX() / App.CELLSIZE;
-        int Y = (path.getY() ) / App.CELLSIZE;
+        int Y = path.getY() / App.CELLSIZE;
 
-        // Mark the path as visited
-        visitedPaths.add(getKey(X, Y));
-        //System.out.println(count);
-        List<MonsterDirection> validDirections = new ArrayList<>();
-
-        if (path.isNorth() && !visitedPaths.contains(getKey(X, Y-1))) {
-            validDirections.add(MonsterDirection.NORTH);
-        }
-        if (path.isSouth() && !visitedPaths.contains(getKey(X, Y+1))) {
-            validDirections.add(MonsterDirection.SOUTH);
-        }
-        if (path.isEast() && !visitedPaths.contains(getKey(X+1, Y))) {
-            validDirections.add(MonsterDirection.EAST);
-        }
-        if (path.isWest() && !visitedPaths.contains(getKey(X-1, Y))) {
-            validDirections.add(MonsterDirection.WEST);
-        }
-
-
-        if (X == App.wizardX/App.CELLSIZE && Y == (App.wizardY)/App.CELLSIZE) {
+        // If this path leads to the WizardHouse, return immediately
+        if (X == App.wizardX / App.CELLSIZE && Y == App.wizardY / App.CELLSIZE) {
             //System.out.println("Connected to WizardHouse");
             return count;
         }
-        else
-        if (!validDirections.isEmpty()) {
 
-            count+=2;
-            for (MonsterDirection dir : validDirections) {
-                int branchResult = 1;
-                HashSet<Integer> results = new HashSet<>();
-                switch (dir) {
-                    case NORTH:
-                        branchResult += ReadExpand(paths[X][Y-1], paths, visitedPaths, count);
-                        results.add(branchResult);
-                        break;
-                    case EAST:
-                        branchResult += ReadExpand(paths[X+1][Y], paths, visitedPaths, count);
-                        results.add(branchResult);
-                        break;
-                    case SOUTH:
-                        branchResult += ReadExpand(paths[X][Y+1], paths, visitedPaths, count);
-                        results.add(branchResult);
-                        break;
-                    case WEST:
-                        branchResult += ReadExpand(paths[X-1][Y], paths, visitedPaths, count);
-                        results.add(branchResult);
-                        break;
-                }
+        visitedPaths.add(getKey(X, Y));
 
-                int min = Integer.MAX_VALUE;
-                if (!results.isEmpty()) {
-                    for (int i : results) {
-                        if (i < min) {
-                            min = i;
-                        }
-                    }
-                    return min;
-                }
-            }
+        int min = Integer.MAX_VALUE;
+
+        if (path.isNorth() && Y-1 >= 0 && !visitedPaths.contains(getKey(X, Y-1))) {
+            int northResult = ReadExpand(paths[X][Y - 1], paths, visitedPaths, count + 2);
+            min = Math.min(min, northResult);
+            visitedPaths.remove(getKey(X, Y - 1));
         }
-        return Integer.MAX_VALUE-count;
+        if (path.isEast() && X+1 < 20 && !visitedPaths.contains(getKey(X+1, Y))) {
+            int eastResult = ReadExpand(paths[X + 1][Y], paths, visitedPaths, count + 2);
+            min = Math.min(min, eastResult);
+            visitedPaths.remove(getKey(X + 1, Y));
+        }
+        if (path.isSouth() && Y+1 < 20 && !visitedPaths.contains(getKey(X, Y+1))) {
+            int southResult = ReadExpand(paths[X][Y + 1], paths, visitedPaths, count + 2);
+            min = Math.min(min, southResult);
+            visitedPaths.remove(getKey(X, Y + 1));
+        }
+        if (path.isWest() && X-1 >= 0 && !visitedPaths.contains(getKey(X-1, Y))) {
+            int westResult = ReadExpand(paths[X - 1][Y], paths, visitedPaths, count + 2);
+            min = Math.min(min, westResult);
+            visitedPaths.remove(getKey(X - 1, Y));
+        }
+
+        return min;
     }
+
 
     public void Read(Monster monster) {
 
@@ -147,11 +94,10 @@ public class MonsterPathReader {
 //        System.out.println(monsterX);
 //        System.out.println(monsterY);
         //if (monsterX < 20 && monsterX > 0 && monsterY < 20 && monsterY > 0) {
-            if (monster.pathsMem[monsterX][monsterY] != null) {
-                ReadSurround(monster.pathsMem[monsterX][monsterY], monster.pathsMem, monster);
-            }
+        if (monster.pathsMem[monsterX][monsterY] != null) {
+            ReadSurround(monster.pathsMem[monsterX][monsterY], monster.pathsMem, monster);
+        }
         //}
-
 
         int min = Integer.MAX_VALUE;
         for (MonsterDirection direction : MonsterDirection.values()) {
@@ -160,11 +106,12 @@ public class MonsterPathReader {
                 min = i;
             }
         }
+
         List<MonsterDirection> directionsMatchingMin = new ArrayList<>();
 
         for (MonsterDirection direction : MonsterDirection.values()) {
             if (determine.get(direction) == min) {
-                //System.out.println(determine.get(direction));
+                System.out.println(determine.get(direction));
                 directionsMatchingMin.add(direction);
             }
         }

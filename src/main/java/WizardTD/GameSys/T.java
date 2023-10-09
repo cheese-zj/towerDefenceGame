@@ -8,7 +8,7 @@ public class T extends Buttons{
 
     TowerBuilder towerBuilder;
     public T(float x, float y, App app) {
-        super(x, y, app,"T", "Build\ntower");
+        super(x, y, app,"T", "Build\ntower",'t');
         this.towerBuilder = new TowerBuilder();
     }
     private void MouseBuildTower(int mouseX, int mouseY) {
@@ -19,7 +19,6 @@ public class T extends Buttons{
                     !App.grasses[mouseX/32][(mouseY-40) / 32].isOccupied()
             ) {
                 towerBuilder.BuildTower(mouseX/32, (mouseY-40)/32);
-                App.grasses[mouseX/32][(mouseY-40) / 32].setOccupied();
             }
         }
     }
