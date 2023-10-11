@@ -2,6 +2,7 @@ package WizardTD.Helpers;
 
 import WizardTD.App;
 import WizardTD.Monsters.Monster;
+import WizardTD.Monsters.MonsterCreator;
 import processing.data.JSONObject;
 
 import java.util.ArrayList;

@@ -66,6 +66,7 @@ public class App extends PApplet{
             wizard_housepng,
             gremlinpng,
             gremlin1png, gremlin2png, gremlin3png, gremlin4png, gremlin5png,
+            wormpng, beetlepng,
             tower0png, tower1png, tower2png,
             fireballpng
             ;
@@ -148,7 +149,7 @@ public class App extends PApplet{
     private int timeCounter = 0;
     public void DrawGUI() {
 
-        timeCounter++;
+        if (GAME_TICKING) timeCounter+=TICK_Multiplier;
         float startsIn = -1;
         if (waveManager.waveCount < waveManager.wavePauseInfoMap.size()) {
             startsIn = waveManager.wavePauseInfoMap.get(waveManager.waveCount) - (int) (timeCounter / 60);
@@ -256,6 +257,8 @@ public class App extends PApplet{
             gremlin4png = loadImage("src/main/resources/WizardTD/gremlin4.png");
             gremlin5png = loadImage("src/main/resources/WizardTD/gremlin5.png");
         }
+        wormpng = loadImage("src/main/resources/WizardTD/worm.png");
+        beetlepng = loadImage("src/main/resources/WizardTD/beetle.png");
         fireballpng = loadImage("src/main/resources/WizardTD/fireball.png");
 
         {//GUI related

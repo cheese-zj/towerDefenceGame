@@ -1,4 +1,4 @@
-package WizardTD.Helpers;
+package WizardTD.Monsters;
 
 import WizardTD.App;
 import WizardTD.Monsters.*;
@@ -11,7 +11,7 @@ import static WizardTD.Helpers.MapCreator.spawnPoints;
 
 public class MonsterCreator {
 
-    public int[] getRandomCoordinates(ArrayList<String> spawnPoints) {
+    public static int[] getRandomCoordinates(ArrayList<String> spawnPoints) {
         // Get a random element from the list
         Random rand = new Random();
         String randomCoord = spawnPoints.get(rand.nextInt(spawnPoints.size()));
@@ -38,9 +38,9 @@ public class MonsterCreator {
             int gridY = coordinates[1];
             {
                 if (gridX == 0) posFixSpawnX = -31;
-                if (gridX == 19) posFixSpawnX = 31;
-                if (gridY == 0) posFixSpawnY = -31;
-                if (gridY == 19) posFixSpawnY = 31;
+                else if (gridX == 19) posFixSpawnX = 31;
+                else if (gridY == 0) posFixSpawnY = -31;
+                else if (gridY == 19) posFixSpawnY = 31;
             }
 
             monsters[i] = new Monster(
@@ -48,14 +48,14 @@ public class MonsterCreator {
                     (gridY)*(App.CELLSIZE) + posFixSpawnY,
                     speed, type, hp, armour, mana_gained_on_kill, (i*spawnTick)+preWavePause*60);
             monsters[i].setSprite(App.gremlinpng);
-            if (Objects.equals(type, "Gremlin")){
-                monsters[i].setSprite(App.gremlinpng);
-            }
+            if (Objects.equals(type, "gremlin"))monsters[i].setSprite(App.gremlinpng);
+            else if (Objects.equals(type, "worm"))monsters[i].setSprite(App.wormpng);
+            else if (Objects.equals(type, "beetle"))monsters[i].setSprite(App.beetlepng);
             {
                 if (gridX == 0) monsters[i].goEast();
-                if (gridX == 19) monsters[i].goWest();
-                if (gridY == 0) monsters[i].goSouth();
-                if (gridY == 19) monsters[i].goNorth();
+                else if (gridX == 19) monsters[i].goWest();
+                else if (gridY == 0) monsters[i].goSouth();
+                else if (gridY == 19) monsters[i].goNorth();
             }
         }
         return monsters;

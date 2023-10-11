@@ -4,6 +4,11 @@ import WizardTD.Tiles.*;
 
 import WizardTD.App;
 
+import java.util.Objects;
+
+import static WizardTD.Helpers.MapCreator.spawnPoints;
+import static WizardTD.Monsters.MonsterCreator.getRandomCoordinates;
+
 public class Monster extends MonsterPresets {
 
 
@@ -95,6 +100,30 @@ public class Monster extends MonsterPresets {
     }
 
     float hold = 0;
+
+    private void respawnAfterHit() {
+        int posFixSpawnX = 0, posFixSpawnY = 0;
+        int[] coordinates = getRandomCoordinates(spawnPoints);
+        int gridX = coordinates[0];
+        int gridY = coordinates[1];
+        {
+            if (gridX == 0) posFixSpawnX = -31;
+            else if (gridX == 19) posFixSpawnX = 31;
+            else if (gridY == 0) posFixSpawnY = -31;
+            else if (gridY == 19) posFixSpawnY = 31;
+        }
+        {
+            if (gridX == 0) this.goEast();
+            else if (gridX == 19) this.goWest();
+            else if (gridY == 0) this.goSouth();
+            else if (gridY == 19) this.goNorth();
+        }
+        System.out.println((gridX)*(App.CELLSIZE) + posFixSpawnX);
+        System.out.println((gridY)*(App.CELLSIZE) + posFixSpawnY);
+        x = (gridX)*(App.CELLSIZE) + posFixSpawnX;
+        y = (gridY)*(App.CELLSIZE) + posFixSpawnY;
+    }
+
     public void tick() {
         if (App.GAME_TICKING && ticking) {
             this.hold+= (float) App.TICK_Multiplier;
@@ -102,27 +131,24 @@ public class Monster extends MonsterPresets {
                 canTrack = true;
 
                 if (this.x - this.desX <= 6 && this.x - this.desX >= 0.0 &&
-                        this.y - this.desY <= 6 && this.y - this.desY >= 0.0
-                ) {
-                    speed=0;
-                    ticking = false;
+                        this.y - this.desY <= 6 && this.y - this.desY >= 0.0) {
+                    this.ticking = false;
+                    canTrack = false;
                     hitWizard();
-                    dead = true;
+                    respawnAfterHit();
+                    this.ticking = true;
+                    canTrack = true;
                 }
                 if (goVertical) {
                     if ((int)this.x % 32 ==0) {
-                        //updatePosition();
                         this.monsterPathReader.Read(this);
                     }
                 } else {
                     if ((int)(this.y) % 32 ==0) {
-                        //updatePosition();
                         this.monsterPathReader.Read(this);
                     }
                 }
                 updatePosition();
-
-
             }
         }
     }

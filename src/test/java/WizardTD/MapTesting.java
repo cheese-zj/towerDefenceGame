@@ -4,11 +4,25 @@ package WizardTD;
 import WizardTD.Helpers.GridCreator;
 import WizardTD.Helpers.MapCreator;
 import WizardTD.Tiles.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import processing.core.PApplet;
 
 public class MapTesting {
 
     MapCreator mapCreator;
+
+    @BeforeEach
+    public void Setup() {
+        App app = new App();
+        app.loop();
+        PApplet.runSketch(new String[] { "App" }, app);
+        app.setup();
+        app.delay(1000); // to give time to initialise stuff before drawing begins
+        //assertEquals(expected, app.powerUp(500));
+    }
+
     @Test
     public void GridTest() {
         String[][] levelResult = GridCreator.LevelReader();
