@@ -15,15 +15,15 @@ public abstract class MonsterPresets {
     protected float hp;
     protected float armour;
     protected int mana_gained_on_kill;
-    protected int spawnTick;
+    protected float spawnTick;
     private PImage sprite;
     public boolean ticking = true;
     public boolean canTrack = false;
-    private boolean dead = false;
+    public boolean dead = false;
     private int deathAnimationCounter = 0;
     float initialHp = hp;
 
-    public MonsterPresets(double x, double y, double speed, String type, float hp, float armour, int mana_gained_on_kill, int spawnTick){
+    public MonsterPresets(double x, double y, double speed, String type, float hp, float armour, int mana_gained_on_kill, float spawnTick){
         this.x = x;
         this.y = y;
         this.speed = speed;
@@ -72,7 +72,7 @@ public abstract class MonsterPresets {
             app.image(this.sprite, (float) this.x+6, (float) this.y+40+6);
             drawHpBar(app);
         }
-        if (!ticking && dead && Objects.equals(type, "Gremlin")) {
+        if (!ticking && dead && Objects.equals(type, "gremlin")) {
             //death animation
             drawDeathAnimation(app);
         }

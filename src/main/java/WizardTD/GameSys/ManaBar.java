@@ -56,4 +56,10 @@ public class ManaBar {
         }
 
     }
+    public void manaBarReset() {
+        mana = App.json.getInt("initial_mana");
+        manaCap = App.json.getInt("initial_mana_cap");
+        manaGain = App.json.getInt("initial_mana_gained_per_second");
+        manaPoolCost = App.json.getInt("mana_pool_spell_initial_cost");
+    }
 }

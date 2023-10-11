@@ -41,7 +41,7 @@ public class Monster extends MonsterPresets {
     private final int desX = App.wizardX;
     private final int desY = App.wizardY;
     public Monster(double x, double y, double speed, String type, float hp,
-                   float armour, int mana_gained_on_kill, int spawnTick) {
+                   float armour, int mana_gained_on_kill, float spawnTick) {
         super(x, y, speed, type, hp, armour, mana_gained_on_kill, spawnTick);
     }
 
@@ -100,12 +100,14 @@ public class Monster extends MonsterPresets {
             this.hold+= (float) App.TICK_Multiplier;
             if (this.hold >= this.spawnTick) {
                 canTrack = true;
+
                 if (this.x - this.desX <= 6 && this.x - this.desX >= 0.0 &&
                         this.y - this.desY <= 6 && this.y - this.desY >= 0.0
                 ) {
                     speed=0;
                     ticking = false;
                     hitWizard();
+                    dead = true;
                 }
                 if (goVertical) {
                     if ((int)this.x % 32 ==0) {

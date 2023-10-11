@@ -1,6 +1,9 @@
 package WizardTD.Towers;
 
 import WizardTD.App;
+import WizardTD.GameSys.U1;
+import WizardTD.GameSys.U2;
+import WizardTD.GameSys.U3;
 import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PShape;
@@ -41,6 +44,51 @@ public abstract class TowerPreset {
         if (mouseX-(1+this.x)*32<=0 && mouseX-(1+this.x)*32>=-32
                 && mouseY-((1+this.y)*32+40)<=0 && mouseY-((1+this.y)*32+40) >=-32){
             app.shape(createRangeDisplay(app));
+        }
+    }
+
+    public void drawUpgrade(App app, int mouseX, int mouseY, int rCost, int fCost, int dCost) {
+        if (mouseX - (1 + this.x) * 32 <= 0 && mouseX - (1 + this.x) * 32 >= -32
+                && mouseY - ((1 + this.y) * 32 + 40) <= 0 && mouseY - ((1 + this.y) * 32 + 40) >= -32) {
+            PShape topBlock = app.createShape(PConstants.RECT, 650,550,90,24);
+            topBlock.setStrokeWeight(1);
+            topBlock.setFill(app.color(255,255,255));
+
+            int midBlockHeight = 0;
+            if (U1.U1checked) midBlockHeight += 22;
+            if (U2.U2checked) midBlockHeight += 22;
+            if (U3.U3checked) midBlockHeight += 22;
+            PShape midBlock = app.createShape(PConstants.RECT, 650,574,90,midBlockHeight);
+            midBlock.setFill(app.color(255,255,255));
+
+            PShape finalBlock = app.createShape(PConstants.RECT, 650,574+midBlockHeight,90,24);
+            finalBlock.setFill(app.color(255,255,255));
+
+            app.textFont(App.gameFont, 13);
+
+            app.shape(topBlock);
+            app.text("Upgrade Cost",653,569);
+            app.shape(midBlock);
+            app.shape(finalBlock);
+            int totalCost = 0;
+            int U2posFix = 0;
+            int U3posFix = 0;
+            app.textFont(App.gameFont, 12);
+            if (U1.U1checked) {
+                app.text("Range:       " + (rCost), 653, 590);
+                totalCost += rCost; U2posFix+=22; U3posFix+=22;
+            }
+            if (U2.U2checked) {
+                app.text("FireSpeed:  " + (fCost), 653, 590+U2posFix);
+                totalCost += fCost; U3posFix+=22;
+            }
+            if (U3.U3checked) {
+                app.text("Damage:    " + (dCost), 653, 590+U3posFix);
+                totalCost += dCost;
+            }
+
+            app.textFont(App.gameFont, 13);
+            app.text("Total:       "+totalCost,653,592+midBlockHeight);
         }
     }
     public abstract void tick();

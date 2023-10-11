@@ -30,7 +30,7 @@ public class TowerBuilder {
             ManaBar.mana-=(buildCost);
             if (ManaBar.mana > rangeCost && U1.U1checked) {
                 towerRangeLv++; ManaBar.mana -= rangeCost;}
-            if (ManaBar.mana > rangeCost && U2.U2checked) {
+            if (ManaBar.mana > fireCost && U2.U2checked) {
                 towerFireLv++; ManaBar.mana -= fireCost;}
             if (ManaBar.mana > dmgCost && U3.U3checked) {
                 towerDmgLv++; ManaBar.mana -= dmgCost;}

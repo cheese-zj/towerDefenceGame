@@ -111,7 +111,7 @@ public class MonsterPathReader {
 
         for (MonsterDirection direction : MonsterDirection.values()) {
             if (determine.get(direction) == min) {
-                System.out.println(determine.get(direction));
+                //System.out.println(determine.get(direction));
                 directionsMatchingMin.add(direction);
             }
         }

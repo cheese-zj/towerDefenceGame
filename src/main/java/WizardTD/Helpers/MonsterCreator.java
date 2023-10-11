@@ -26,7 +26,7 @@ public class MonsterCreator {
 
     public Monster[] CreateMonsters(int monsterAmount,
                                     float speed, int hp, float armour,int mana_gained_on_kill,
-                                    int spawnTick, String type) {
+                                    int spawnTick, float preWavePause, String type) {
 
         Monster[] monsters = new Monster[monsterAmount];
 
@@ -46,7 +46,7 @@ public class MonsterCreator {
             monsters[i] = new Monster(
                     (gridX)*(App.CELLSIZE) + posFixSpawnX,
                     (gridY)*(App.CELLSIZE) + posFixSpawnY,
-                    speed, type, hp, armour, mana_gained_on_kill, (i*spawnTick));
+                    speed, type, hp, armour, mana_gained_on_kill, (i*spawnTick)+preWavePause*60);
             monsters[i].setSprite(App.gremlinpng);
             if (Objects.equals(type, "Gremlin")){
                 monsters[i].setSprite(App.gremlinpng);

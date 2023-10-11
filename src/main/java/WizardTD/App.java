@@ -12,6 +12,7 @@ import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
 import processing.core.PShape;
+import processing.data.JSONArray;
 import processing.data.JSONObject;
 import processing.event.MouseEvent;
 
@@ -34,11 +35,12 @@ public class App extends PApplet{
 
     public String configPath;
     public static JSONObject json;
+    public static JSONArray wavesInfo;
 
     public Random random = new Random();
 
     private final MapCreator mapCreator;
-    private final WaveManager waveManager;
+    public WaveManager waveManager;
 
     //private final InputManager inputManager;
     private final ButtonsCollection buttonsCollection;
@@ -71,6 +73,9 @@ public class App extends PApplet{
     public static PShape topBar, sideBar;
     public static PFont gameFont;
 
+    public static boolean WIN = false;
+    public static boolean LOSE = false;
+
 
     // Feel free to add any additional methods or attributes you want. Please put classes in different files.
     public App() {
@@ -101,14 +106,26 @@ public class App extends PApplet{
     }
 
     private void DrawMonsters() {
-        //System.out.println(timer);
+
+        boolean nextWave = true;
         for (int i=0; i< runningMonsterList.length; i++) {
             runningMonsterList[i].tick();
             runningMonsterList[i].draw(this);
+            nextWave = nextWave && runningMonsterList[i].dead;
+        }
+        if (nextWave && !WIN) {
+            waveManager.waveCount++;
+            waveManager.WaveRunControl();
+            timeCounter = 0;
         }
 
     }
 
+    private void DrawTowerUpgradeInfo() {
+        for (Tower tower : towers) {
+            tower.drawUpgrade(this,mouseX,mouseY,tower.rangeCost,tower.fireCost,tower.dmgCost);
+        }
+    }
     private void DrawTowerRange() {
         for (Tower tower : towers) {
             tower.rangeDisplay(this,mouseX,mouseY);
@@ -128,17 +145,77 @@ public class App extends PApplet{
         }
     }
 
+    private int timeCounter = 0;
     public void DrawGUI() {
+
+        timeCounter++;
+        float startsIn = -1;
+        if (waveManager.waveCount < waveManager.wavePauseInfoMap.size()) {
+            startsIn = waveManager.wavePauseInfoMap.get(waveManager.waveCount) - (int) (timeCounter / 60);
+        }
 
         shape(topBar);
         shape(sideBar);
         manaBar.drawManaBar(this);
         for (int i = 0; i<buttonsCollection.ButtonsArray.size(); i++) {
-
             buttonsCollection.ButtonsArray.get(i).draw(this);
             buttonsCollection.ButtonsArray.get(i).functionality(this);
         }
 
+        textFont(gameFont,25);
+        if (!WIN) text("Wave "+(1+waveManager.waveCount),10,30);
+        if (startsIn >= 0) text("starts: "+(int)(startsIn),110,30);
+        if (WIN) {
+            fill(50,100,50);
+            strokeWeight(4);
+            rect(125,285,400,80);
+            strokeWeight(1);
+            fill(color(100, 255, 100));
+            textFont(gameFont,40);
+            text("SUCH A TOTAL WIN!", 130,340);
+            fill(0);
+        }
+        else if (LOSE) {
+            fill(100,50,50);
+            strokeWeight(4);
+            rect(125,285,400,80);
+            strokeWeight(1);
+            fill(color(255, 100, 100));
+            textFont(gameFont,40);
+            text("TAKE THAT L", 195,340);
+            textFont(gameFont,12);
+            text("Press R to restart", 280,355);
+            fill(0);
+        }
+    }
+
+    public void gameReset() {
+
+        manaBar.manaBarReset();
+        towers.clear();
+        fireBalls.clear();
+        for (Monster monster : runningMonsterList){
+            monster.ticking = false;
+            monster.dead = true;
+            monster.canTrack = false;
+        }
+
+        for (int i=0; i<20; i++) {
+            for (int j=0; j<20; j++) {
+                if (grasses[i][j] != null){
+                    grasses[i][j].occupied = false;
+                }
+            }
+        }
+        waveManager = new WaveManager();
+        waveManager.WaveSetup();
+        waveManager.waveCount=0;
+        waveManager.WaveRunControl();
+        timeCounter = 0;
+
+        GAME_TICKING = true;
+        LOSE = false;
+        WIN = false;
     }
 
     /**
@@ -155,6 +232,7 @@ public class App extends PApplet{
 	@Override
     public void setup() {
         json = loadJSONObject(configPath);
+        wavesInfo = json.getJSONArray("waves");
         frameRate(FPS);
 
         //images loading
@@ -188,7 +266,7 @@ public class App extends PApplet{
             sideBar.setFill(color(150,140,115));
             sideBar.setStroke(false);
             buttonsCollection.generate(this);
-            gameFont = createFont("Arial",16,true);
+            gameFont = createFont("Cambridge",16,true);
         }
 
         {//Map related
@@ -198,8 +276,10 @@ public class App extends PApplet{
         }
 
         manaBar = new ManaBar();
-        waveManager.WaveSetup(1);
-        runningMonsterList = waveManager.WaveRunControl(0);
+        waveManager = new WaveManager();
+
+        waveManager.WaveSetup();
+        waveManager.WaveRunControl();
 
     }
 
@@ -209,8 +289,13 @@ public class App extends PApplet{
 	@Override
     public void keyPressed(){
         for (Buttons button : buttonsCollection.ButtonsArray) {
-            if (this.key == button.triggerCode){
+            if (this.key == button.triggerCode || this.key == Character.toUpperCase(button.triggerCode)){
                 button.monitorKey();
+            }
+        }
+        if (LOSE) {
+            if (this.key == 'r' || this.key == 'R'){
+                gameReset();
             }
         }
     }
@@ -257,11 +342,15 @@ public class App extends PApplet{
         mapCreator.wizardHouse.draw(this);
         DrawTowerRange();
         DrawGUI();
+        DrawTowerUpgradeInfo();
         //inputManager.Monitoring(mouseX, mouseY);
+
         if (ManaBar.mana <= 0) {
             ManaBar.mana = 0;
-            App.GAME_TICKING = false;
+            GAME_TICKING = false;
+            LOSE = true;
         }
+
     }
 
     public static void main(String[] args) {
