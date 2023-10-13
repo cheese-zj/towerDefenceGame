@@ -24,6 +24,7 @@ public class AppDrawTesting extends App {
     public void Setup() {
         app = new App();
         App app = new App();
+        app.configPath = "configtest.json";
         this.waveManager = new WaveManager();
         this.mapCreator = new MapCreator();
         this.imageHelper = new ImageHelper();

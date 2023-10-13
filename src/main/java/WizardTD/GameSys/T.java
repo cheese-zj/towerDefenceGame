@@ -16,9 +16,10 @@ public class T extends Buttons{
         if (mouseX/32 < 20 && (mouseY-40)/32 < 20) {
             if (
                     App.grasses[mouseX/32][(mouseY-40) / 32] != null &&
-                    !App.grasses[mouseX/32][(mouseY-40) / 32].occupied
+                    !App.grasses[mouseX/32][(mouseY-40) / 32].isOccupied()
             ) {
                 towerBuilder.BuildTower(mouseX/32, (mouseY-40)/32);
+                App.grasses[mouseX/32][(mouseY-40) / 32].setOccupied(true);
             }
         }
     }

@@ -327,8 +327,8 @@ public class App extends PApplet{
     @Override
     public void mousePressed(MouseEvent e) {
         isMousePressed = true;
-        System.out.println("Mouse Pressed (from App)");
-        System.out.println(mouseX/32 + " " + (mouseY-40)/32);
+//        System.out.println("Mouse Pressed (from App)");
+//        System.out.println(mouseX/32 + " " + (mouseY-40)/32);
     }
 
 //    @Override

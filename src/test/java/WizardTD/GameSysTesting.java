@@ -20,6 +20,7 @@ public class GameSysTesting extends App{
     public void Setup() {
         app = new App();
         App app = new App();
+        app.configPath = "configtest.json";
         this.waveManager = new WaveManager();
         app.loop();
         PApplet.runSketch(new String[] { "App" }, app);

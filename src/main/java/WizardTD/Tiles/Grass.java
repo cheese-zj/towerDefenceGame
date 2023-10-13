@@ -6,6 +6,15 @@ import WizardTD.*;
 public class Grass extends Tiles{
 
     public boolean occupied;
+
+    public boolean isOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(boolean occupied) {
+        this.occupied = occupied;
+    }
+
     public Grass(int x, int y) {
         super(x, y);
         this.occupied = false;

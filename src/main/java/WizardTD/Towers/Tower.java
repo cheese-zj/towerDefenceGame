@@ -56,7 +56,7 @@ public class Tower extends TowerPreset {
 
     public void monitoring(int mouseX, int mouseY) {
         if (mouseX-(1+this.x)*32<=0 && mouseX-(1+this.x)*32>=-32
-                && mouseY-((1+this.y)*32+40)<=0 && mouseY-((1+this.y)*32+40) >=-32){
+                && mouseY-((1+this.y)*32+40)<=0 && mouseY-((1+this.y)*32+40) >=-32) {
 // Increment counter based on towers' levels
             if (U1.U1checked) rangeCost = (towerRangeLv+2)*10;
             if (U2.U2checked) fireCost = (towerFireLv+2)*10;

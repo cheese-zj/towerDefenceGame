@@ -34,6 +34,7 @@ public class MapTesting {
     @BeforeEach
     public void Setup() {
         App app = new App();
+        app.configPath = "configtest.json";
         app.loop();
         PApplet.runSketch(new String[] { "App" }, app);
         //app.setup();

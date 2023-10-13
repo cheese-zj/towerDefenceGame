@@ -37,14 +37,13 @@ public class FireBall {
             // Normalize the direction vector
             double xDir = xDis / distance;
             double yDir = yDis / distance;
-
             // Update the position
             this.x += xDir * speed *App.TICK_Multiplier;
             this.y += yDir * speed *App.TICK_Multiplier;
         }
     }
     public void draw(App app) {
-        if (ticking) {
+        if (ticking && target.ticking) {
             app.image(App.fireballpng, (float) this.x, (float) this.y);
         }
     }

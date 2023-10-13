@@ -40,6 +40,7 @@ public class TowerTesting {
         App app = new App();
         this.app = new App();
         this.towerBuilder = new TowerBuilder();
+        app.configPath = "configtest.json";
         app.loop();
         PApplet.runSketch(new String[] { "App" }, app);
         //app.setup();

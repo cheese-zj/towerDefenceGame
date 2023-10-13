@@ -26,6 +26,7 @@ public class MonsterEdgeTesting {
         App app;
         app = new App();
         this.app = new App();
+        app.configPath = "configtest.json";
         this.waveManager = new WaveManager();
         this.mapCreator = new MapCreator();
         this.imageHelper = new ImageHelper();
