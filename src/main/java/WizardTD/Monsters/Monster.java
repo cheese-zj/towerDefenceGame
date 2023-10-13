@@ -101,7 +101,7 @@ public class Monster extends MonsterPresets {
 
     float hold = 0;
 
-    private void respawnAfterHit() {
+    protected void respawnAfterHit() {
         int posFixSpawnX = 0, posFixSpawnY = 0;
         int[] coordinates = getRandomCoordinates(spawnPoints);
         int gridX = coordinates[0];

@@ -12,7 +12,7 @@ public class FireBall {
     protected double y;
     protected double speed;
     protected float damage;
-    private boolean ticking;
+    public boolean ticking;
     private final Monster target;
     private PImage sprite;
     public FireBall (double x, double y, double speed, float damage, Monster target) {
@@ -25,7 +25,7 @@ public class FireBall {
         ticking = true;
     }
 
-    private void move() {
+    protected void move() {
         if (App.GAME_TICKING) {
             double xDis = target.getX() + 12 - this.x;
             double yDis = target.getY() + 40 + 12 - this.y;

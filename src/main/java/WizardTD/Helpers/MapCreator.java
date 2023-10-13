@@ -8,8 +8,6 @@ import java.util.HashSet;
 
 public class MapCreator {
 
-    private ImageHelper imageHelper;
-
     public Grass[][] grasses;
     public Shrub[][] shrubs;
     public Path[][] paths;
@@ -22,7 +20,7 @@ public class MapCreator {
         this.grasses = new Grass[20][20];
         this.shrubs = new Shrub[20][20];
         this.paths = new Path[20][20];
-        this.imageHelper = new ImageHelper();
+        ImageHelper imageHelper = new ImageHelper();
         //From Grid class method, reading the level txt file
         //And detect all the spaces for grass tiles, appending them into a Grass 2D Array
         for (int i = 0; i < 20; i++) {

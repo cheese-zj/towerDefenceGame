@@ -41,7 +41,15 @@ public abstract class Buttons {
         return false;
     }
 
-    private void monitoring() {
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void monitoring() {
         if (App.isMousePressed){
             checked = !checked;
             App.isMousePressed = false;

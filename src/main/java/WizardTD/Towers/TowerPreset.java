@@ -19,7 +19,7 @@ public abstract class TowerPreset {
     protected int towerRangeLv;
     protected int towerFireLv;
     protected int towerDmgLv;
-    private PImage sprite;
+    protected PImage sprite;
     protected int displayFix = 0;
 
     public TowerPreset(double x, double y, int towerRangeLv, int towerFireLv, int towerDmgLv) {
@@ -30,7 +30,7 @@ public abstract class TowerPreset {
         this.towerDmgLv = towerDmgLv;
     }
 
-    private PShape createRangeDisplay(App app){
+    public PShape createRangeDisplay(App app){
         PShape range = app.createShape(app.ELLIPSE,
                 (float) ((0.5+x)*32), (float) ((0.5+y)*32+40),
                 (float) (towerRange+(towerRangeLv)*32)*2, (float) (towerRange+(towerRangeLv)*32)*2);
@@ -47,56 +47,53 @@ public abstract class TowerPreset {
         }
     }
 
-    public void drawUpgrade(App app, int mouseX, int mouseY, int rCost, int fCost, int dCost) {
-        if (mouseX - (1 + this.x) * 32 <= 0 && mouseX - (1 + this.x) * 32 >= -32
-                && mouseY - ((1 + this.y) * 32 + 40) <= 0 && mouseY - ((1 + this.y) * 32 + 40) >= -32) {
-            PShape topBlock = app.createShape(PConstants.RECT, 650,550,90,24);
-            topBlock.setStrokeWeight(1);
-            topBlock.setFill(app.color(255,255,255));
+    public void drawUpgrade(App app, int rCost, int fCost, int dCost) {
+        PShape topBlock = app.createShape(PConstants.RECT, 650,550,90,24);
+        topBlock.setStrokeWeight(1);
+        topBlock.setFill(app.color(255,255,255));
 
-            int midBlockHeight = 0;
-            if (U1.U1checked) midBlockHeight += 22;
-            if (U2.U2checked) midBlockHeight += 22;
-            if (U3.U3checked) midBlockHeight += 22;
-            PShape midBlock = app.createShape(PConstants.RECT, 650,574,90,midBlockHeight);
-            midBlock.setFill(app.color(255,255,255));
+        int midBlockHeight = 0;
+        if (U1.U1checked) midBlockHeight += 22;
+        if (U2.U2checked) midBlockHeight += 22;
+        if (U3.U3checked) midBlockHeight += 22;
+        PShape midBlock = app.createShape(PConstants.RECT, 650,574,90,midBlockHeight);
+        midBlock.setFill(app.color(255,255,255));
 
-            PShape finalBlock = app.createShape(PConstants.RECT, 650,574+midBlockHeight,90,24);
-            finalBlock.setFill(app.color(255,255,255));
+        PShape finalBlock = app.createShape(PConstants.RECT, 650,574+midBlockHeight,90,24);
+        finalBlock.setFill(app.color(255,255,255));
 
-            app.textFont(App.gameFont, 13);
+        app.textFont(App.gameFont, 13);
 
-            app.shape(topBlock);
-            app.text("Upgrade Cost",653,569);
-            app.shape(midBlock);
-            app.shape(finalBlock);
-            int totalCost = 0;
-            int U2posFix = 0;
-            int U3posFix = 0;
-            app.textFont(App.gameFont, 12);
-            if (U1.U1checked) {
-                app.text("Range:       " + (rCost), 653, 590);
-                totalCost += rCost; U2posFix+=22; U3posFix+=22;
-            }
-            if (U2.U2checked) {
-                app.text("FireSpeed:  " + (fCost), 653, 590+U2posFix);
-                totalCost += fCost; U3posFix+=22;
-            }
-            if (U3.U3checked) {
-                app.text("Damage:    " + (dCost), 653, 590+U3posFix);
-                totalCost += dCost;
-            }
-
-            app.textFont(App.gameFont, 13);
-            app.text("Total:       "+totalCost,653,592+midBlockHeight);
+        app.shape(topBlock);
+        app.text("Upgrade Cost",653,569);
+        app.shape(midBlock);
+        app.shape(finalBlock);
+        int totalCost = 0;
+        int U2posFix = 0;
+        int U3posFix = 0;
+        app.textFont(App.gameFont, 12);
+        if (U1.U1checked) {
+            app.text("Range:       " + (rCost), 653, 590);
+            totalCost += rCost; U2posFix+=22; U3posFix+=22;
         }
+        if (U2.U2checked) {
+            app.text("FireSpeed:  " + (fCost), 653, 590+U2posFix);
+            totalCost += fCost; U3posFix+=22;
+        }
+        if (U3.U3checked) {
+            app.text("Damage:    " + (dCost), 653, 590+U3posFix);
+            totalCost += dCost;
+        }
+
+        app.textFont(App.gameFont, 13);
+        app.text("Total:       "+totalCost,653,592+midBlockHeight);
     }
     public abstract void tick();
-    public void setSprite(PImage sprite) {
+    protected void setSprite(PImage sprite) {
         this.sprite = sprite;
     }
 
-    private PImage TowerImageIdentifier(int rangeLv, int fireSpeedLv, int dmgLv) {
+    protected PImage TowerImageIdentifier(int rangeLv, int fireSpeedLv, int dmgLv) {
         PImage output;
         output = App.tower0png;
         if (rangeLv >= 1 && fireSpeedLv >= 1 && dmgLv >= 1){
@@ -110,7 +107,7 @@ public abstract class TowerPreset {
         return output;
     }
 
-    public static String repeatString(String text, int n) {
+    protected String repeatString(String text, int n) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < n; i++) {
             result.append(text);

@@ -8,10 +8,7 @@ import WizardTD.Monsters.*;
 import WizardTD.Tiles.*;
 import WizardTD.Towers.*;
 
-import processing.core.PApplet;
-import processing.core.PFont;
-import processing.core.PImage;
-import processing.core.PShape;
+import processing.core.*;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
 import processing.event.MouseEvent;
@@ -42,7 +39,6 @@ public class App extends PApplet{
     private final MapCreator mapCreator;
     public WaveManager waveManager;
 
-    //private final InputManager inputManager;
     private final ButtonsCollection buttonsCollection;
 
     public static Path[][] paths;
@@ -52,10 +48,10 @@ public class App extends PApplet{
     public static int wizardY;
 
     public static boolean isMousePressed;
+    protected int timeCounter = 0;
 
     public static Monster[] runningMonsterList;
     public static ArrayList<FireBall> fireBalls;
-
     public static HashSet<Tower> towers;
     public ManaBar manaBar;
 
@@ -74,8 +70,24 @@ public class App extends PApplet{
     public static PShape topBar, sideBar;
     public static PFont gameFont;
 
-    public static boolean WIN = false;
-    public static boolean LOSE = false;
+    public static boolean isWIN() {
+        return WIN;
+    }
+
+    public static void setWIN(boolean WIN) {
+        App.WIN = WIN;
+    }
+
+    public static boolean isLOSE() {
+        return LOSE;
+    }
+
+    public static void setLOSE(boolean LOSE) {
+        App.LOSE = LOSE;
+    }
+
+    protected static boolean WIN = false;
+    protected static boolean LOSE = false;
 
 
     // Feel free to add any additional methods or attributes you want. Please put classes in different files.
@@ -88,7 +100,7 @@ public class App extends PApplet{
         fireBalls = new ArrayList<>();
     }
 
-    private void DrawMap() {
+    protected void DrawMap() {
         for (int i=0; i<20; i++) {
             for (int j=0; j<20; j++) {
                 //System.out.println(grasses[i][j]);
@@ -106,7 +118,7 @@ public class App extends PApplet{
         mapCreator.grassUnderHouse.draw(this);
     }
 
-    private void DrawMonsters() {
+    protected void DrawMonsters() {
 
         boolean nextWave = true;
         for (int i=0; i< runningMonsterList.length; i++) {
@@ -122,45 +134,46 @@ public class App extends PApplet{
 
     }
 
-    private void DrawTowerUpgradeInfo() {
+    protected void DrawTowerUpgradeInfo() {
         for (Tower tower : towers) {
-            tower.drawUpgrade(this,mouseX,mouseY,tower.rangeCost,tower.fireCost,tower.dmgCost);
+            if (mouseX - (1 + tower.getX()) * 32 <= 0 && mouseX - (1 + tower.getY()) * 32 >= -32
+                    && mouseY - ((1 + tower.getY()) * 32 + 40) <= 0 && mouseY - ((1 + tower.getY()) * 32 + 40) >= -32) {
+                tower.drawUpgrade(this,tower.rangeCost,tower.fireCost,tower.dmgCost);
+            }
         }
     }
-    private void DrawTowerRange() {
+    protected void DrawTowerRange() {
         for (Tower tower : towers) {
             tower.rangeDisplay(this,mouseX,mouseY);
         }
     }
-    private void DrawTowers() {
+    protected void DrawTowers() {
         for (Tower tower : towers) {
             tower.monitoring(mouseX,mouseY);
             tower.tick();
             tower.draw(this, mouseX, mouseY);
         }
     }
-    private void DrawFireballs() {
+    protected void DrawFireballs() {
         for (int i = 0; i < fireBalls.size(); i++){
             fireBalls.get(i).tick();
             fireBalls.get(i).draw(this);
         }
     }
-
-    private int timeCounter = 0;
-    public void DrawGUI() {
+    protected void DrawGUI() {
 
         if (GAME_TICKING) timeCounter+=TICK_Multiplier;
         float startsIn = -1;
         if (waveManager.waveCount < waveManager.wavePauseInfoMap.size()) {
-            startsIn = waveManager.wavePauseInfoMap.get(waveManager.waveCount) - (int) (timeCounter / 60);
+            startsIn = waveManager.wavePauseInfoMap.get(waveManager.waveCount) - (timeCounter / 60);
         }
 
         shape(topBar);
         shape(sideBar);
         manaBar.drawManaBar(this);
-        for (int i = 0; i<buttonsCollection.ButtonsArray.size(); i++) {
-            buttonsCollection.ButtonsArray.get(i).draw(this);
-            buttonsCollection.ButtonsArray.get(i).functionality(this);
+        for (int i = 0; i<buttonsCollection.buttonsArray.size(); i++) {
+            buttonsCollection.buttonsArray.get(i).draw(this);
+            buttonsCollection.buttonsArray.get(i).functionality(this);
         }
 
         textFont(gameFont,25);
@@ -173,17 +186,17 @@ public class App extends PApplet{
             strokeWeight(1);
             fill(color(100, 255, 100));
             textFont(gameFont,40);
-            text("SUCH A TOTAL WIN!", 130,340);
+            text("YOU WIN!!!", 220,340);
             fill(0);
         }
-        else if (LOSE) {
+        if (LOSE) {
             fill(100,50,50);
             strokeWeight(4);
             rect(125,285,400,80);
             strokeWeight(1);
             fill(color(255, 100, 100));
             textFont(gameFont,40);
-            text("TAKE THAT L", 195,340);
+            text("YOU LOSE!", 227,337);
             textFont(gameFont,12);
             text("Press R to restart", 280,355);
             fill(0);
@@ -291,7 +304,7 @@ public class App extends PApplet{
      */
 	@Override
     public void keyPressed(){
-        for (Buttons button : buttonsCollection.ButtonsArray) {
+        for (Buttons button : buttonsCollection.buttonsArray) {
             if (this.key == button.triggerCode || this.key == Character.toUpperCase(button.triggerCode)){
                 button.monitorKey();
             }
@@ -306,10 +319,10 @@ public class App extends PApplet{
     /**
      * Receive key released signal from the keyboard.
      */
-	@Override
-    public void keyReleased(){
-
-    }
+//	@Override
+//    public void keyReleased(){
+//
+//    }
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -318,10 +331,10 @@ public class App extends PApplet{
         System.out.println(mouseX/32 + " " + (mouseY-40)/32);
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
+//    @Override
+//    public void mouseReleased(MouseEvent e) {
+//
+//    }
 
     /*@Override
     public void mouseDragged(MouseEvent e) {
@@ -351,7 +364,7 @@ public class App extends PApplet{
         if (ManaBar.mana <= 0) {
             ManaBar.mana = 0;
             GAME_TICKING = false;
-            LOSE = true;
+            setLOSE(true);
         }
 
     }

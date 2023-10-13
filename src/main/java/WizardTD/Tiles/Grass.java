@@ -10,10 +10,5 @@ public class Grass extends Tiles{
         super(x, y);
         this.occupied = false;
     }
-    public void setOccupied(){
-        occupied = true;
-    }
-    public boolean isOccupied(){
-        return occupied;
-    }
+
 }

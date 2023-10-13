@@ -49,8 +49,8 @@ public class WaveManager {
     public void WaveRunControl(){
         if (waveCount<waves.size()) {
             App.runningMonsterList = waves.get(waveCount);
-        } else if (!App.LOSE) {
-            App.WIN = true;
+        } else {
+            App.setWIN(true);
         }
     }
 

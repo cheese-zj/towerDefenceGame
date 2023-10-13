@@ -9,18 +9,19 @@ import java.util.*;
 public class GridCreator {
 
     public static String[][] LevelArray;
+    public static String Level = App.json.getString("layout");
     public static String[][] LevelReader() {
 
-        String Level = App.json.getString("layout");
         File LevelFile = new File(Level);
         LevelArray = new String[20][20];  // Initialization
-        Scanner sc;
 
+        Scanner sc;
         try {
             sc = new Scanner(LevelFile);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
         int i = 0;
         while (sc.hasNextLine()) {
             String line = sc.nextLine();

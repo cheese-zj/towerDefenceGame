@@ -21,12 +21,12 @@ public class Tower extends TowerPreset {
     public int fireCost = 0;
     public int dmgCost = 0;
 
-    private boolean inRange(Monster monster) {
+    protected boolean inRange(Monster monster) {
         double xDis = monster.getX()+6 - this.x*App.CELLSIZE;
         double yDis = monster.getY()+6 - this.y*App.CELLSIZE;
         return (int)(Math.pow(xDis,2) + Math.pow(yDis,2)) <= Math.pow(towerRange+towerRangeLv*32, 2)+52;
     }
-    private void detectMonster() {
+    protected void detectMonster() {
         if (trackedMonster == null) {
             for (Monster monster : App.runningMonsterList) {
             //System.out.println("Detecting");
@@ -45,7 +45,7 @@ public class Tower extends TowerPreset {
         }
     }
     int fireCounter = 0;
-    private void generateFireBall() {
+    protected void generateFireBall() {
         if (trackedMonster!=null) {
             App.fireBalls.add(
                     new FireBall((this.x)*32+16, (this.y)*32+16+40, 5,
@@ -65,7 +65,7 @@ public class Tower extends TowerPreset {
             if (App.isMousePressed) {
                 if (ManaBar.mana > rangeCost && U1.U1checked) {
                     towerRangeLv++; ManaBar.mana -= rangeCost;}
-                if (ManaBar.mana > rangeCost && U2.U2checked) {
+                if (ManaBar.mana > fireCost && U2.U2checked) {
                     towerFireLv++; ManaBar.mana -= fireCost;}
                 if (ManaBar.mana > dmgCost && U3.U3checked) {
                     towerDmgLv++; ManaBar.mana -= dmgCost;}

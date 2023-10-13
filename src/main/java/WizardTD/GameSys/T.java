@@ -11,12 +11,12 @@ public class T extends Buttons{
         super(x, y, app,"T", "Build\ntower",'t');
         this.towerBuilder = new TowerBuilder();
     }
-    private void MouseBuildTower(int mouseX, int mouseY) {
+    protected void MouseBuildTower(int mouseX, int mouseY) {
 
         if (mouseX/32 < 20 && (mouseY-40)/32 < 20) {
             if (
                     App.grasses[mouseX/32][(mouseY-40) / 32] != null &&
-                    !App.grasses[mouseX/32][(mouseY-40) / 32].isOccupied()
+                    !App.grasses[mouseX/32][(mouseY-40) / 32].occupied
             ) {
                 towerBuilder.BuildTower(mouseX/32, (mouseY-40)/32);
             }

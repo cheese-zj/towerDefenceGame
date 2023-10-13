@@ -10,7 +10,7 @@ public class ManaBar {
     public static int manaCap;
     public static int manaGain;
     public static int manaPoolCost;
-    boolean ticking = true;
+    //boolean ticking = true;
     int manaTick = 60;
     public ManaBar(){
         mana = App.json.getInt("initial_mana");
@@ -19,7 +19,7 @@ public class ManaBar {
         manaPoolCost = App.json.getInt("mana_pool_spell_initial_cost");
     }
 
-    private void manaUpdate(){
+    protected void manaUpdate(){
         if (App.GAME_TICKING) {
             if (manaTick >= 60 && manaTick <= 61 &&mana <= manaCap) {
                 mana += manaGain;
@@ -51,9 +51,7 @@ public class ManaBar {
         String manaBarText = mana + "/" + manaCap;
         app.textFont(tFont,16);
         app.text(manaBarText,445,27);
-        if (ticking) {
-            manaUpdate();
-        }
+        manaUpdate();
 
     }
     public void manaBarReset() {

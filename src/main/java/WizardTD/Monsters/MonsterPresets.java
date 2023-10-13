@@ -57,7 +57,7 @@ public abstract class MonsterPresets {
 
 
 
-    private void drawHpBar(App app) {
+    protected void drawHpBar(App app) {
         PShape hpBar = app.createShape(app.RECT,
                 (float) this.x+6-5, (float) this.y+40+6-5, 30*((float) hp/initialHp),(float) 2);
         hpBar.setFill(app.color(0,233,2));
@@ -69,10 +69,11 @@ public abstract class MonsterPresets {
     }
     public void draw(App app) {
         if (ticking) {
-            app.image(this.sprite, (float) this.x+6, (float) this.y+40+6);
+            if (type.equals("beetle")) app.image(this.sprite, (float) this.x, (float) this.y+40+2);
+            else app.image(this.sprite, (float) this.x+6, (float) this.y+40+6);
             drawHpBar(app);
         }
-        if (!ticking && dead && Objects.equals(type, "gremlin")) {
+        if (!ticking && dead && type.equals("gremlin")) {
             //death animation
             drawDeathAnimation(app);
         }
