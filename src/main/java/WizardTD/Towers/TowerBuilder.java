@@ -43,7 +43,7 @@ public class TowerBuilder {
             }
             Tower newTower = new Tower(gridX, gridY, towerRangeLv, towerFireLv, towerDmgLv);
             App.towers.add(newTower);
-            App.grasses[gridX][gridY].occupied = false;
+            App.grasses[gridX][gridY].setOccupied(true);
         }
     }
 }

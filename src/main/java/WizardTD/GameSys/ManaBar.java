@@ -10,6 +10,7 @@ public class ManaBar {
     public static int manaCap;
     public static int manaGain;
     public static int manaPoolCost;
+    protected static boolean shielded = false;
     //boolean ticking = true;
     int manaTick = 60;
     public ManaBar(){
@@ -32,7 +33,11 @@ public class ManaBar {
     }
 
     public static void getAttacked(int dmgTaken) {
-        mana -= dmgTaken;
+        if (!shielded) {
+            mana -= dmgTaken;
+        } else {
+            shielded = false;
+        }
         if (mana<0){
             mana = 0;
         }
@@ -44,8 +49,10 @@ public class ManaBar {
                 app.createShape(PConstants.RECT, 340,10,280,20);
         PFont tFont = app.createFont("Arial",16,true);
         manaBar.setFill(app.color(40,80,235));
+        if (shielded) manaBar.setFill(app.color(255,255,100));
         manaBarBase.setFill(app.color(255,255,255));
         manaBarBase.setStrokeWeight(2);
+        app.fill(0);
         app.shape(manaBarBase);
         app.shape(manaBar);
         String manaBarText = mana + "/" + manaCap;
@@ -59,5 +66,9 @@ public class ManaBar {
         manaCap = App.json.getInt("initial_mana_cap");
         manaGain = App.json.getInt("initial_mana_gained_per_second");
         manaPoolCost = App.json.getInt("mana_pool_spell_initial_cost");
+    }
+
+    public static void manaBarGetShielded() {
+        shielded = true;
     }
 }

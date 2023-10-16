@@ -5,8 +5,6 @@ import WizardTD.GameSys.ManaBar;
 import processing.core.PImage;
 import processing.core.PShape;
 
-import java.util.Objects;
-
 public abstract class MonsterPresets {
     protected double x;
     protected double y;
@@ -61,17 +59,35 @@ public abstract class MonsterPresets {
         PShape hpBar = app.createShape(app.RECT,
                 (float) this.x+6-5, (float) this.y+40+6-5, 30*((float) hp/initialHp),(float) 2);
         hpBar.setFill(app.color(0,233,2));
+        if (poisoned) hpBar.setFill(app.color(200,0,255));
         PShape hpBarBase = app.createShape(app.RECT,
                 (float) this.x+6-5, (float) this.y+40+6-5, 30,(float) 2);
         hpBarBase.setFill(app.color(255,0,0));
+        app.strokeWeight(1);
         app.shape(hpBarBase);
         app.shape(hpBar);
+        hpBar.setFill(app.color(0,233,2));
     }
-    public void draw(App app) {
+    public void update(App app) {
+        if (hp <= 0) hp = 0;
         if (ticking) {
             if (type.equals("beetle")) app.image(this.sprite, (float) this.x, (float) this.y+40+2);
             else app.image(this.sprite, (float) this.x+6, (float) this.y+40+6);
             drawHpBar(app);
+
+            if (poisoned && poisonedLasting>0) {
+                if (poisonedLasting%60==0) hp -= hp/15+1;
+                poisonedLasting-=App.TICK_Multiplier;
+            }
+            if (poisonedLasting == 0) poisoned = false;
+
+            if (hp<=0) {
+                if (ManaBar.mana < ManaBar.manaCap) {
+                    ManaBar.mana += mana_gained_on_kill;
+                }
+                dead = true;
+                ticking = false;
+            }
         }
         if (!ticking && dead && type.equals("gremlin")) {
             //death animation
@@ -87,13 +103,21 @@ public abstract class MonsterPresets {
 
     public void getHit(float dmgTaken){
         hp -= dmgTaken * armour;
-        if (hp<=0) {
-            if (ManaBar.mana < ManaBar.manaCap) {
-                ManaBar.mana += mana_gained_on_kill;
-            }
-            dead = true;
-            ticking = false;
-        }
+        if (hp <= 0) hp = 0;
+    }
+    public void getBlasted(){
+        hp /= 2.5F;
+    }
+
+    private boolean poisoned = false;
+    private int poisonedLasting = 0;
+    public void getPoisoned(int lasting){
+        poisoned = true;
+        poisonedLasting = lasting*60;
+    }
+
+    public void getStonised() {
+        speed /= 1.5;
     }
 
     protected void hitWizard(){

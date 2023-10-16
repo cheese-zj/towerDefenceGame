@@ -54,6 +54,7 @@
   "mana_pool_spell_initial_cost": 100,
   "mana_pool_spell_cost_increase_per_use": 150,
   "mana_pool_spell_cap_multiplier": 1.5,
-  "mana_pool_spell_mana_gained_multiplier": 1.1
+  "mana_pool_spell_mana_gained_multiplier": 1.1,
+  "initial_spell_amount": 2
 }
 

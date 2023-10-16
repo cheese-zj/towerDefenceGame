@@ -16,18 +16,6 @@ public class Monster extends MonsterPresets {
     private int verticalInv = 1;
     private int horizontalInv = 1;
 
-//    private Path[][] deepCopyPaths(Path[][] original) {
-//        if (original == null) {
-//            return null;
-//        }
-//
-//        final Path[][] result = new Path[original.length][];
-//        for (int i = 0; i < original.length; i++) {
-//            result[i] = original[i].clone();
-//        }
-//        return result;
-//    }
-
 
     protected Path[][] pathsMem = App.paths;
 
@@ -102,6 +90,7 @@ public class Monster extends MonsterPresets {
     float hold = 0;
 
     protected void respawnAfterHit() {
+        ticking = false;
         int posFixSpawnX = 0, posFixSpawnY = 0;
         int[] coordinates = getRandomCoordinates(spawnPoints);
         int gridX = coordinates[0];
@@ -118,10 +107,10 @@ public class Monster extends MonsterPresets {
             else if (gridY == 0) this.goSouth();
             else if (gridY == 19) this.goNorth();
         }
-        System.out.println((gridX)*(App.CELLSIZE) + posFixSpawnX);
-        System.out.println((gridY)*(App.CELLSIZE) + posFixSpawnY);
+
         x = (gridX)*(App.CELLSIZE) + posFixSpawnX;
         y = (gridY)*(App.CELLSIZE) + posFixSpawnY;
+        ticking = true;
     }
 
     public void tick() {
@@ -136,8 +125,6 @@ public class Monster extends MonsterPresets {
                     canTrack = false;
                     hitWizard();
                     respawnAfterHit();
-                    this.ticking = true;
-                    canTrack = true;
                 }
                 if (goVertical) {
                     if ((int)this.x % 32 ==0) {

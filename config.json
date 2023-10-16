@@ -9,7 +9,7 @@
           "type": "gremlin",
           "hp": 100,
           "speed": 1,
-          "armour": 0.5,
+          "armour": 0.7,
           "mana_gained_on_kill": 10,
           "quantity": 10
         }
@@ -20,12 +20,26 @@
       "pre_wave_pause": 10,
       "monsters": [
         {
-          "type": "gremlin",
+          "type": "beetle",
           "hp": 50,
           "speed": 2.5,
           "armour": 0.7,
           "mana_gained_on_kill": 20,
           "quantity": 15
+        }
+      ]
+    },
+    {
+      "duration": 5,
+      "pre_wave_pause": 10,
+      "monsters": [
+        {
+          "type": "gremlin",
+          "hp": 70,
+          "speed": 2,
+          "armour": 0.6,
+          "mana_gained_on_kill": 20,
+          "quantity": 20
         }
       ]
     },
@@ -42,18 +56,61 @@
           "quantity": 25
         }
       ]
+    },
+    {
+      "duration": 25,
+      "pre_wave_pause": 10,
+      "monsters": [
+        {
+          "type": "gremlin",
+          "hp": 200,
+          "speed": 1.2,
+          "armour": 0.8,
+          "mana_gained_on_kill": 80,
+          "quantity": 100
+        }
+      ]
+    },
+    {
+      "duration": 50,
+      "pre_wave_pause": 10,
+      "monsters": [
+        {
+          "type": "gremlin",
+          "hp": 250,
+          "speed": 1,
+          "armour": 0.5,
+          "mana_gained_on_kill": 90,
+          "quantity": 250
+        }
+      ]
+    },
+    {
+      "duration": 100,
+      "pre_wave_pause": 1,
+      "monsters": [
+        {
+          "type": "gremlin",
+          "hp": 50000,
+          "speed": 1,
+          "armour": 0.8,
+          "mana_gained_on_kill": 90,
+          "quantity": 5
+        }
+      ]
     }
   ],
   "initial_tower_range": 96,
   "initial_tower_firing_speed": 1.5,
   "initial_tower_damage": 40,
-  "initial_mana": 200,
+  "initial_mana": 1000,
   "initial_mana_cap": 1000,
   "initial_mana_gained_per_second": 2,
   "tower_cost": 100,
   "mana_pool_spell_initial_cost": 100,
   "mana_pool_spell_cost_increase_per_use": 150,
   "mana_pool_spell_cap_multiplier": 1.5,
-  "mana_pool_spell_mana_gained_multiplier": 1.1
+  "mana_pool_spell_mana_gained_multiplier": 1.1,
+  "initial_spell_amount": 2
 }
 

@@ -26,7 +26,7 @@ public class FireBall {
     }
 
     protected void move() {
-        if (App.GAME_TICKING) {
+        if (App.GAME_TICKING && ticking) {
             double xDis = target.getX() + 12 - this.x;
             double yDis = target.getY() + 40 + 12 - this.y;
             double distance = Math.sqrt(Math.pow(xDis, 2) + Math.pow(yDis, 2));
@@ -49,6 +49,7 @@ public class FireBall {
     }
     public void tick() {
         move();
+        if (!target.ticking) ticking = false;
     }
 
 }

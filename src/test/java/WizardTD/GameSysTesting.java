@@ -51,7 +51,6 @@ public class GameSysTesting extends App{
         for (Buttons buttons : buttonsCollection.buttonsArray){
             this.button = buttons;
             button.functionality(this);
-            App.isMousePressed = true;
             button.monitorKey();
         }
     }
@@ -121,18 +120,14 @@ public class GameSysTesting extends App{
     }
 
     @Test
-    public boolean ButtonTests() {
+    public void ButtonTests() {
         M m = new M(1,1,this);
-        App.isMousePressed = true;
-        m.monitoring();
-        return !App.isMousePressed;
     }
 
     @Test
-    public boolean ButtonTestsWithT() {
+    public void ButtonTestsWithT() {
         T t = new T(1,1,this);
         this.key = t.triggerCode;
-        t.monitoring();
-        return !App.isMousePressed;
+        t.draw(app);
     }
 }

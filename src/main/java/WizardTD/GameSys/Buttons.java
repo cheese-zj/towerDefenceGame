@@ -34,7 +34,7 @@ public abstract class Buttons {
         selectBase.setFill(app.color(240,247,0));
     }
 
-    protected boolean checkHover(int mouseX, int mouseY) {
+    public boolean checkHover(int mouseX, int mouseY) {
         if (mouseX <= this.x+48 && mouseX >= this.x && mouseY <= this.y+48 && mouseY >= this.y){
             return true;
         }
@@ -49,12 +49,6 @@ public abstract class Buttons {
         return y;
     }
 
-    public void monitoring() {
-        if (App.isMousePressed){
-            checked = !checked;
-            App.isMousePressed = false;
-        }
-    }
 
     public void monitorKey() {
         checked = !checked;
@@ -62,15 +56,16 @@ public abstract class Buttons {
 
     public void draw(App app) {
         if (checkHover(app.mouseX,app.mouseY)) {
-            //System.out.println("A");
-            //System.out.println(App.isMousePressed);
-            monitoring();
             app.shape(hoverBase);
+            if (App.isMousePressed){
+                checked = !checked;
+            }
         }
         if (checked) {
             app.shape(selectBase);
         }
         app.shape(shapeRec);
+        app.fill(0);
         app.textFont(titleFont,24);
         app.text(buttonText,x+5,y+25);
         app.textFont(titleFont, 11.5F);

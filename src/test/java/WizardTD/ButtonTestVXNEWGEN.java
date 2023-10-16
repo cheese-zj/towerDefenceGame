@@ -52,11 +52,11 @@ public class ButtonTestVXNEWGEN {
         testApp.DrawGUI();
         testApp.draw();
         for (Buttons buttons : buttonsCollection.buttonsArray) {
-            buttons.monitoring();
+            buttons.draw(testApp);
         }
         for (Buttons buttons : buttonsCollection.buttonsArray) {
             TestApp.isMousePressed = true;
-            buttons.monitoring();
+            buttons.draw(testApp);
         }
     }
     @RepeatedTest(2)
@@ -67,7 +67,7 @@ public class ButtonTestVXNEWGEN {
 
         for (Buttons buttons : buttonsCollection.buttonsArray) {
             TestApp.isMousePressed = true;
-            buttons.monitoring();
+            buttons.draw(testApp);
         }
     }
 
@@ -109,13 +109,13 @@ public class ButtonTestVXNEWGEN {
         testApp.DrawGUI();
         testApp.draw();
         for (Buttons buttons : buttonsCollection.buttonsArray) {
-            buttons.monitoring();
+            buttons.draw(testApp);
         }
         for (Buttons buttons : buttonsCollection.buttonsArray) {
             TestApp.isMousePressed = true;
             testApp.mouseX = 15*32;
             testApp.mouseY = 32+40;
-            buttons.monitoring();
+            buttons.draw(testApp);
             buttons.functionality(testApp);
         }
     }

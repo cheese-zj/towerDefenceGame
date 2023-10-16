@@ -25,8 +25,8 @@ public class MonsterCreator {
     }
 
     public Monster[] CreateMonsters(int monsterAmount,
-                                    float speed, int hp, float armour,int mana_gained_on_kill,
-                                    int spawnTick, float preWavePause, String type) {
+                                             float speed, int hp, float armour, int mana_gained_on_kill,
+                                             int spawnTick, float preWavePause, String type) {
 
         Monster[] monsters = new Monster[monsterAmount];
 
@@ -43,20 +43,21 @@ public class MonsterCreator {
                 else if (gridY == 19) posFixSpawnY = 31;
             }
 
-            monsters[i] = new Monster(
+            Monster newMonster = new Monster(
                     (gridX)*(App.CELLSIZE) + posFixSpawnX,
                     (gridY)*(App.CELLSIZE) + posFixSpawnY,
                     speed, type, hp, armour, mana_gained_on_kill, (i*spawnTick)+preWavePause*60);
-            monsters[i].setSprite(App.gremlinpng);
-            if (Objects.equals(type, "gremlin"))monsters[i].setSprite(App.gremlinpng);
-            else if (Objects.equals(type, "worm"))monsters[i].setSprite(App.wormpng);
-            else if (Objects.equals(type, "beetle"))monsters[i].setSprite(App.beetlepng);
+            newMonster.setSprite(App.gremlinpng);
+            if (Objects.equals(type, "gremlin")) newMonster.setSprite(App.gremlinpng);
+            else if (Objects.equals(type, "worm")) newMonster.setSprite(App.wormpng);
+            else if (Objects.equals(type, "beetle")) newMonster.setSprite(App.beetlepng);
             {
-                if (gridX == 0) monsters[i].goEast();
-                else if (gridX == 19) monsters[i].goWest();
-                else if (gridY == 0) monsters[i].goSouth();
-                else if (gridY == 19) monsters[i].goNorth();
+                if (gridY == 0) newMonster.goSouth();
+                if (gridY == 19) newMonster.goNorth();
+                if (gridX == 0) newMonster.goEast();
+                if (gridX == 19) newMonster.goWest();
             }
+            monsters[i] = (newMonster);
         }
         return monsters;
     }

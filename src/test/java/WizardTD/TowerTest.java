@@ -170,7 +170,6 @@ public class TowerTest {
         for (int i=0; i<760; i++){
             for (int j=0; j <680; j++){
                 testApp.mousePressed();
-                TestApp.isMousePressed = true;
                 U1.U1checked = true;
                 U2.U2checked = true;
                 U3.U3checked = true;

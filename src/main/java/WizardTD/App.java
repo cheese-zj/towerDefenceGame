@@ -5,6 +5,7 @@ import WizardTD.GameSys.*;
 import WizardTD.Helpers.MapCreator;
 import WizardTD.Helpers.WaveManager;
 import WizardTD.Monsters.*;
+import WizardTD.Spell.SpellCaster;
 import WizardTD.Tiles.*;
 import WizardTD.Towers.*;
 
@@ -38,6 +39,7 @@ public class App extends PApplet{
 
     private final MapCreator mapCreator;
     public WaveManager waveManager;
+    private final SpellCaster spellCaster;
 
     private final ButtonsCollection buttonsCollection;
 
@@ -98,6 +100,7 @@ public class App extends PApplet{
         buttonsCollection = new ButtonsCollection();
         towers = new HashSet<>();
         fireBalls = new ArrayList<>();
+        spellCaster = new SpellCaster();
     }
 
     protected void DrawMap() {
@@ -123,11 +126,12 @@ public class App extends PApplet{
         boolean nextWave = true;
         for (int i=0; i< runningMonsterList.length; i++) {
             runningMonsterList[i].tick();
-            runningMonsterList[i].draw(this);
+            runningMonsterList[i].update(this);
             nextWave = nextWave && runningMonsterList[i].dead;
         }
         if (nextWave && !WIN) {
             waveManager.waveCount++;
+            Inventory.spellCount+=(waveManager.waveCount);
             waveManager.WaveRunControl();
             timeCounter = 0;
         }
@@ -136,7 +140,7 @@ public class App extends PApplet{
 
     protected void DrawTowerUpgradeInfo() {
         for (Tower tower : towers) {
-            if (mouseX - (1 + tower.getX()) * 32 <= 0 && mouseX - (1 + tower.getY()) * 32 >= -32
+            if (mouseX - (1 + tower.getX()) * 32 <= 0 && mouseX - (1 + tower.getX()) * 32 >= -32
                     && mouseY - ((1 + tower.getY()) * 32 + 40) <= 0 && mouseY - ((1 + tower.getY()) * 32 + 40) >= -32) {
                 tower.drawUpgrade(this,tower.rangeCost,tower.fireCost,tower.dmgCost);
             }
@@ -203,6 +207,11 @@ public class App extends PApplet{
         }
     }
 
+    protected void DrawParticles() {
+        if (SpellCaster.coolDown > 0 ) SpellCaster.coolDown--;
+        spellCaster.DrawParticles(this);
+    }
+
     public void gameReset() {
 
         manaBar.manaBarReset();
@@ -211,7 +220,7 @@ public class App extends PApplet{
         for (Monster monster : runningMonsterList){
             monster.ticking = false;
             monster.dead = true;
-            monster.canTrack = false;
+//            monster.canTrack = false;
         }
 
         for (int i=0; i<20; i++) {
@@ -226,6 +235,7 @@ public class App extends PApplet{
         waveManager.waveCount=0;
         waveManager.WaveRunControl();
         timeCounter = 0;
+        Inventory.spellCount = json.getInt("initial_spell_amount");
 
         GAME_TICKING = true;
         LOSE = false;
@@ -327,8 +337,6 @@ public class App extends PApplet{
     @Override
     public void mousePressed(MouseEvent e) {
         isMousePressed = true;
-//        System.out.println("Mouse Pressed (from App)");
-//        System.out.println(mouseX/32 + " " + (mouseY-40)/32);
     }
 
 //    @Override
@@ -357,6 +365,7 @@ public class App extends PApplet{
 
         mapCreator.wizardHouse.draw(this);
         DrawTowerRange();
+        DrawParticles();
         DrawGUI();
         DrawTowerUpgradeInfo();
         //inputManager.Monitoring(mouseX, mouseY);
@@ -366,7 +375,7 @@ public class App extends PApplet{
             GAME_TICKING = false;
             setLOSE(true);
         }
-
+        isMousePressed = false;
     }
 
     public static void main(String[] args) {
