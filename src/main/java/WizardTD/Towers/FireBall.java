@@ -13,7 +13,7 @@ public class FireBall {
     protected double speed;
     protected float damage;
     public boolean ticking;
-    private final Monster target;
+    public final Monster target;
     private PImage sprite;
     public FireBall (double x, double y, double speed, float damage, Monster target) {
         this.x = x;
@@ -43,13 +43,12 @@ public class FireBall {
         }
     }
     public void draw(App app) {
-        if (ticking && target.ticking) {
-            app.image(App.fireballpng, (float) this.x, (float) this.y);
+        if (ticking) {
+            app.image(sprite, (float) this.x, (float) this.y);
         }
     }
     public void tick() {
         move();
-        if (!target.ticking) ticking = false;
     }
 
 }

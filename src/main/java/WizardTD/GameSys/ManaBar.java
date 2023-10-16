@@ -66,6 +66,7 @@ public class ManaBar {
         manaCap = App.json.getInt("initial_mana_cap");
         manaGain = App.json.getInt("initial_mana_gained_per_second");
         manaPoolCost = App.json.getInt("mana_pool_spell_initial_cost");
+        shielded = false;
     }
 
     public static void manaBarGetShielded() {

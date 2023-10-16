@@ -3,6 +3,7 @@ package WizardTD.Monsters;
 import WizardTD.Tiles.*;
 
 import WizardTD.App;
+import WizardTD.Towers.FireBall;
 
 import java.util.Objects;
 
@@ -110,6 +111,13 @@ public class Monster extends MonsterPresets {
 
         x = (gridX)*(App.CELLSIZE) + posFixSpawnX;
         y = (gridY)*(App.CELLSIZE) + posFixSpawnY;
+
+        for (FireBall fireBall : App.fireBalls) {
+            if (fireBall.target.equals(this)){
+                fireBall.ticking = false;
+            }
+        }
+
         ticking = true;
     }
 
@@ -118,7 +126,6 @@ public class Monster extends MonsterPresets {
             this.hold+= (float) App.TICK_Multiplier;
             if (this.hold >= this.spawnTick) {
                 canTrack = true;
-
                 if (this.x - this.desX <= 6 && this.x - this.desX >= 0.0 &&
                         this.y - this.desY <= 6 && this.y - this.desY >= 0.0) {
                     this.ticking = false;

@@ -77,7 +77,7 @@
       "monsters": [
         {
           "type": "gremlin",
-          "hp": 250,
+          "hp": 200,
           "speed": 1,
           "armour": 0.5,
           "mana_gained_on_kill": 90,
@@ -86,16 +86,16 @@
       ]
     },
     {
-      "duration": 100,
+      "duration": 50,
       "pre_wave_pause": 1,
       "monsters": [
         {
           "type": "gremlin",
-          "hp": 50000,
+          "hp": 25000,
           "speed": 1,
-          "armour": 0.8,
-          "mana_gained_on_kill": 90,
-          "quantity": 5
+          "armour": 0.4,
+          "mana_gained_on_kill": 1000,
+          "quantity": 10
         }
       ]
     }
@@ -103,7 +103,7 @@
   "initial_tower_range": 96,
   "initial_tower_firing_speed": 1.5,
   "initial_tower_damage": 40,
-  "initial_mana": 1000,
+  "initial_mana": 250,
   "initial_mana_cap": 1000,
   "initial_mana_gained_per_second": 2,
   "tower_cost": 100,

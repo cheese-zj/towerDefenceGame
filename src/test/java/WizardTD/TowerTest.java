@@ -189,7 +189,7 @@ public class TowerTest {
         towerBuilder.BuildTower(0,5);
     }
 
-    @RepeatedTest(1)
+    @Test
     public void BuilderT2() {
         U1.U1checked = true;
         U2.U2checked = true;
