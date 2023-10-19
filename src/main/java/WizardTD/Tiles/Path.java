@@ -2,6 +2,8 @@ package WizardTD.Tiles;
 
 public class Path extends Tiles{
 
+    //direction variables for path-finding
+
     private boolean North;
     private boolean South;
     private boolean East;

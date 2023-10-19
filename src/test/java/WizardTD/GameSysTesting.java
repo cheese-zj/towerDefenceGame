@@ -20,7 +20,7 @@ public class GameSysTesting extends App{
     public void Setup() {
         app = new App();
         App app = new App();
-        app.configPath = "configtest.json";
+        app.configPath = "src/test/configtest.json";
         this.waveManager = new WaveManager();
         app.loop();
         PApplet.runSketch(new String[] { "App" }, app);
@@ -32,6 +32,7 @@ public class GameSysTesting extends App{
         app.gameReset();
         app.delay(2000);
     }
+
 
 
     @Test
@@ -65,7 +66,7 @@ public class GameSysTesting extends App{
         a = ManaBar.mana;
     }
 
-    @RepeatedTest(2)
+    @Test
     public void WaveSysTest() {
         int a = waveManager.waveCount;
         waveManager.WaveSetup();
@@ -121,13 +122,11 @@ public class GameSysTesting extends App{
 
     @Test
     public void ButtonTests() {
-        M m = new M(1,1,this);
     }
 
     @Test
     public void ButtonTestsWithT() {
-        T t = new T(1,1,this);
-        this.key = t.triggerCode;
-        t.draw(app);
+        this.key = 't';
+        app.keyPressed();
     }
 }

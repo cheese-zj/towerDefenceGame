@@ -1,7 +1,6 @@
 package WizardTD;
 
 import WizardTD.GameSys.*;
-//import WizardTD.Helpers.InputManager;
 import WizardTD.Helpers.MapCreator;
 import WizardTD.Helpers.WaveManager;
 import WizardTD.Monsters.*;
@@ -52,7 +51,7 @@ public class App extends PApplet{
     public static boolean isMousePressed;
     protected int timeCounter = 0;
 
-    public static Monster[] runningMonsterList;
+    public static ArrayList<Monster> runningMonsterList;
     public static ArrayList<FireBall> fireBalls;
     public static HashSet<Tower> towers;
     public ManaBar manaBar;
@@ -72,27 +71,17 @@ public class App extends PApplet{
     public static PShape topBar, sideBar;
     public static PFont gameFont;
 
-    public static boolean isWIN() {
-        return WIN;
-    }
-
     public static void setWIN(boolean WIN) {
         App.WIN = WIN;
     }
-
-    public static boolean isLOSE() {
-        return LOSE;
-    }
-
     public static void setLOSE(boolean LOSE) {
         App.LOSE = LOSE;
     }
 
     protected static boolean WIN = false;
     protected static boolean LOSE = false;
+    public static boolean LASTWAVE = false;
 
-
-    // Feel free to add any additional methods or attributes you want. Please put classes in different files.
     public App() {
         configPath = "config.json";
         mapCreator = new MapCreator();
@@ -122,20 +111,23 @@ public class App extends PApplet{
     }
 
     protected void DrawMonsters() {
+        if (!WIN) {
+            boolean waveDone = true;
+            for (int i = 0; i < runningMonsterList.size(); i++) {
+                runningMonsterList.get(i).tick();
+                runningMonsterList.get(i).update(this);
+                if (runningMonsterList.get(i).selfDelete) {
+                    runningMonsterList.remove(i);
+                }
+                if (!runningMonsterList.isEmpty()) {
+                    waveDone = waveDone && runningMonsterList.get(i).dead;
+                }
 
-        boolean nextWave = true;
-        for (int i=0; i< runningMonsterList.length; i++) {
-            runningMonsterList[i].tick();
-            runningMonsterList[i].update(this);
-            nextWave = nextWave && runningMonsterList[i].dead;
+            }
+            if (waveDone && LASTWAVE){
+                setWIN(true);
+            }
         }
-        if (nextWave && !WIN) {
-            waveManager.waveCount++;
-            Inventory.spellCount+=(waveManager.waveCount);
-            waveManager.WaveRunControl();
-            timeCounter = 0;
-        }
-
     }
 
     protected void DrawTowerUpgradeInfo() {
@@ -168,6 +160,7 @@ public class App extends PApplet{
 
         if (GAME_TICKING) timeCounter+=TICK_Multiplier;
         float startsIn = -1;
+
         if (waveManager.waveCount < waveManager.wavePauseInfoMap.size()) {
             startsIn = waveManager.wavePauseInfoMap.get(waveManager.waveCount) - (timeCounter / 60);
         }
@@ -181,8 +174,20 @@ public class App extends PApplet{
         }
 
         textFont(gameFont,25);
-        if (!WIN) text("Wave "+(1+waveManager.waveCount),10,30);
-        if (startsIn >= 0) text("starts: "+(int)(startsIn),110,30);
+        if (!LASTWAVE) {
+            text("Wave " + (1 + waveManager.waveCount), 10, 30);
+        } else if (!WIN) {
+            text("Last Wave!", 10, 30);
+        }
+        if (startsIn >= 0) {
+            text("starts: " + (int) (startsIn), 110, 30);
+        } else {
+            if (!WIN) {
+                waveManager.waveCount++;
+                waveManager.WaveRunControl();
+                timeCounter = 0;
+            }
+        }
         if (WIN) {
             fill(50,100,50);
             strokeWeight(4);
@@ -207,11 +212,17 @@ public class App extends PApplet{
         }
     }
 
-    protected void DrawParticles() {
+    protected void DrawSpell() {
         if (SpellCaster.coolDown > 0 ) SpellCaster.coolDown--;
         spellCaster.DrawParticles(this);
     }
 
+    /**
+     * Reset the game
+     * Resetting all the variables that were set from the beginning of the game
+     * Clearing all the running lists of Objects in order to get rid of all the created Objects:
+     * Eg: Towers, Monsters, Fireballs
+     */
     public void gameReset() {
 
         manaBar.manaBarReset();
@@ -220,7 +231,6 @@ public class App extends PApplet{
         for (Monster monster : runningMonsterList){
             monster.ticking = false;
             monster.dead = true;
-//            monster.canTrack = false;
         }
 
         for (int i=0; i<20; i++) {
@@ -252,6 +262,7 @@ public class App extends PApplet{
 
     /**
      * Load all resources such as images. Initialise the elements such as the player, enemies and map elements.
+     * Also initialise helpers to deal with various Objects.
      */
 	@Override
     public void setup() {
@@ -305,12 +316,15 @@ public class App extends PApplet{
         waveManager = new WaveManager();
 
         waveManager.WaveSetup();
+
+        runningMonsterList = new ArrayList<Monster>();
         waveManager.WaveRunControl();
 
     }
 
     /**
      * Receive key pressed signal from the keyboard.
+     * Comparing signal to char variables assigned to each button class in a button collection to trigger them
      */
 	@Override
     public void keyPressed(){
@@ -326,28 +340,19 @@ public class App extends PApplet{
         }
     }
 
-    /**
-     * Receive key released signal from the keyboard.
-     */
-//	@Override
-//    public void keyReleased(){
-//
-//    }
 
+    /**
+     * @param e
+     * The whole mousePressed logic is now based on the variable
+     * This is distributing works, so they are to be done by each clickable classes instead here
+     * PREVENTING OVER CLICKING!! WORKS WELL!!
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         isMousePressed = true;
+
     }
 
-//    @Override
-//    public void mouseReleased(MouseEvent e) {
-//
-//    }
-
-    /*@Override
-    public void mouseDragged(MouseEvent e) {
-
-    }*/
 
     /**
      * Draw all elements in the game by current frame.
@@ -365,7 +370,7 @@ public class App extends PApplet{
 
         mapCreator.wizardHouse.draw(this);
         DrawTowerRange();
-        DrawParticles();
+        DrawSpell();
         DrawGUI();
         DrawTowerUpgradeInfo();
         //inputManager.Monitoring(mouseX, mouseY);

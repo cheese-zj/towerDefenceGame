@@ -9,10 +9,8 @@ import WizardTD.Towers.TowerPreset;
 
 import static java.awt.Font.createFont;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.*;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PFont;
@@ -38,12 +36,15 @@ public class TowerTest {
     public void setUp() {
         Monster trackedMonster = null;
         testApp = new TestApp();
+        testApp.configPath = "src/test/configtest.json";
         PApplet.runSketch(new String[]{"TestApp"}, testApp);
         app = new App();
+        app.configPath = "src/test/configtest.json";
         PApplet.runSketch(new String[]{"TestApp"}, app);
         manaBar = new ManaBar();
         towerBuilder = new TowerBuilder();
-        testApp.setup();
+        //testApp.setup();
+        testApp.delay(100);
         towerInstance = new Tower(2,2,1,1,1);
         towerInstance2 = new Tower(3,3,3,3,3);
         towerInstance3 = new Tower(1,1,0,0,0);
@@ -56,9 +57,10 @@ public class TowerTest {
 
     @AfterEach
     public void done() {
-        app.frame.dispose();
         testApp.frame.dispose();
     }
+
+
 
     @RepeatedTest(2)
     public void testDrawUpgrade() {
@@ -94,7 +96,7 @@ public class TowerTest {
         assertEquals("Total:       100", testApp.capturedText);
     }
 
-    @RepeatedTest(2)
+    @RepeatedTest(1)
     public void testDrawUpgrade3() {
         // Set the state
         U1.U1checked = true;
@@ -182,61 +184,58 @@ public class TowerTest {
 
     @RepeatedTest(2)
     public void BuilderT() {
+        App.isMousePressed = true;
         U1.U1checked = true;
         U2.U2checked = true;
         U3.U3checked = true;
+        Inventory.InvChecked = false;
         ManaBar.mana = 1000;
         towerBuilder.BuildTower(0,5);
-    }
-
-    @Test
-    public void BuilderT2() {
+        app.delay(100);
+        testApp.delay(100);
+        App.isMousePressed = true;
         U1.U1checked = true;
         U2.U2checked = true;
         U3.U3checked = true;
         ManaBar.mana = 2;
         towerBuilder.BuildTower(0,12);
-    }
-
-    @RepeatedTest(1)
-    public void BuilderT2B() {
+        app.delay(100);
+        testApp.delay(100);
+        App.isMousePressed = true;
         U1.U1checked = false;
         U2.U2checked = true;
         U3.U3checked = false;
         ManaBar.mana = 102;
         towerBuilder.BuildTower(0,13);
-    }
-
-    @RepeatedTest(1)
-    public void BuilderT2C() {
+        app.delay(100);
+        testApp.delay(100);
+        App.isMousePressed = true;
         U1.U1checked = false;
         U2.U2checked = true;
         U3.U3checked = true;
         ManaBar.mana = 102;
         towerBuilder.BuildTower(0,14);
-    }
-
-    @RepeatedTest(1)
-    public void BuilderT2D() {
+        App.isMousePressed = true;
+        app.delay(100);
+        testApp.delay(100);
         U1.U1checked = false;
         U2.U2checked = true;
         U3.U3checked = true;
         ManaBar.mana = 122;
         towerBuilder.BuildTower(0,15);
-    }
-
-    @RepeatedTest(1)
-    public void BuilderT3() {
+        App.isMousePressed = true;
+        app.delay(100);
+        testApp.delay(100);
         U1.U1checked = false;
         U2.U2checked = false;
         U3.U3checked = false;
         ManaBar.mana = 2;
         towerBuilder.BuildTower(0,16);
+
     }
 
     @RepeatedTest(1)
     public void ManaBarExtra() {
-
         TestApp.TICK_Multiplier = 2;
         manaBar.drawManaBar(testApp);
 

@@ -1,17 +1,20 @@
 package WizardTD.Helpers;
 
 import WizardTD.App;
+import WizardTD.GameSys.Inventory;
 import WizardTD.Monsters.Monster;
 import WizardTD.Monsters.MonsterCreator;
 import processing.data.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class WaveManager {
     MonsterCreator monsterCreator;
     public ArrayList<Monster[]> waves;
     public HashMap<Integer,Float> wavePauseInfoMap;
+    private HashMap<Integer,Integer> waveDuration;
     public int waveCount = 0;
 //    public static JSONArray wavesInfo;
 
@@ -20,6 +23,8 @@ public class WaveManager {
         this.monsterCreator = new MonsterCreator();
         waves = new ArrayList<>();
         wavePauseInfoMap = new HashMap<>();
+        waveDuration = new HashMap<>();
+        waveDuration.put(-1,0);
     }
 
     public void WaveSetup(){
@@ -27,10 +32,11 @@ public class WaveManager {
             JSONObject waveObj = App.wavesInfo.getJSONObject(i);
             JSONObject monsterInfo = waveObj.getJSONArray("monsters").getJSONObject(0);
 
-            float preWavePause = waveObj.getFloat("pre_wave_pause");
-            wavePauseInfoMap.put(i,preWavePause);
-
             int duration = waveObj.getInt("duration");
+            waveDuration.put(i,duration);
+
+            float preWavePause = waveObj.getFloat("pre_wave_pause") + waveDuration.get(i-1);
+            wavePauseInfoMap.put(i,preWavePause);
 
             String type = monsterInfo.getString("type");
             int hp = monsterInfo.getInt("hp");
@@ -48,9 +54,10 @@ public class WaveManager {
     }
     public void WaveRunControl(){
         if (waveCount<waves.size()) {
-            App.runningMonsterList = waves.get(waveCount);
+            App.runningMonsterList.addAll(Arrays.asList(waves.get(waveCount)));
+            Inventory.spellCount+=waveCount+1;
         } else {
-            App.setWIN(true);
+            App.LASTWAVE = true;
         }
     }
 

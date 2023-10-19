@@ -22,6 +22,13 @@ public abstract class TowerPreset {
     protected PImage sprite;
     protected int displayFix = 0;
 
+    /**
+     * @param x
+     * @param y
+     * @param towerRangeLv
+     * @param towerFireLv
+     * @param towerDmgLv
+     */
     public TowerPreset(double x, double y, int towerRangeLv, int towerFireLv, int towerDmgLv) {
         this.x = x;
         this.y = y;
@@ -30,11 +37,15 @@ public abstract class TowerPreset {
         this.towerDmgLv = towerDmgLv;
     }
 
+    /**
+     * @param app
+     * @return
+     * Creating the towerRange PShape and display it only when hovering through the tower
+     */
     public PShape createRangeDisplay(App app){
         PShape range = app.createShape(app.ELLIPSE,
                 (float) ((0.5+x)*32), (float) ((0.5+y)*32+40),
                 (float) (towerRange+(towerRangeLv)*32)*2, (float) (towerRange+(towerRangeLv)*32)*2);
-        //app.ellipse((float) ((0.5+x)*32), (float) ((0.5+y)*32+40), (float) towerRange*2, (float) towerRange*2);
         range.setStroke(app.color(255,247,0));
         range.setStrokeWeight(3);
         range.setFill(false);
@@ -47,6 +58,7 @@ public abstract class TowerPreset {
         }
     }
 
+    //Drawing the upgrade info board
     public void drawUpgrade(App app, int rCost, int fCost, int dCost) {
         PShape topBlock = app.createShape(PConstants.RECT, 650,550,90,24);
         topBlock.setStrokeWeight(1);
@@ -86,7 +98,7 @@ public abstract class TowerPreset {
         }
 
         app.textFont(App.gameFont, 13);
-        app.text("Total:       "+totalCost,653,592+midBlockHeight);
+        app.text("Total:      "+totalCost,653,592+midBlockHeight);
     }
     public abstract void tick();
     protected void setSprite(PImage sprite) {

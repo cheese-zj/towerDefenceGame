@@ -9,6 +9,7 @@ import WizardTD.Helpers.WaveManager;
 import WizardTD.Monsters.Monster;
 import WizardTD.Monsters.MonsterCreator;
 import WizardTD.Monsters.MonsterPresets;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import processing.core.PApplet;
@@ -26,7 +27,7 @@ public class MonsterEdgeTesting {
         App app;
         app = new App();
         this.app = new App();
-        app.configPath = "configtest.json";
+        app.configPath = "src/test/configtest.json";
         this.waveManager = new WaveManager();
         this.mapCreator = new MapCreator();
         this.imageHelper = new ImageHelper();
@@ -55,5 +56,13 @@ public class MonsterEdgeTesting {
         //monster.drawDeathAnimation(app);
         monsterCreator.CreateMonsters(1,1,1,1,1,1,1,"worm");
         monsterCreator.CreateMonsters(1,1,1,1,1,1,1,"beetle");
+    }
+    @Test
+    public void TestMonsterGeneraton2() {
+        monster.tick();
+        monster.getHit(20);
+        monster.getPoisoned(5);
+        monster.update(app);
+        app.delay(500);
     }
 }

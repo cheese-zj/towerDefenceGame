@@ -37,10 +37,9 @@ public class TowerTesting {
 
     @BeforeEach
     public void Setup() {
-        App app = new App();
-        this.app = new App();
+        app = new App();
         this.towerBuilder = new TowerBuilder();
-        app.configPath = "configtest.json";
+        app.configPath = "src/test/configtest.json";
         app.loop();
         PApplet.runSketch(new String[] { "App" }, app);
         //app.setup();
@@ -49,10 +48,6 @@ public class TowerTesting {
         app.delay(1000); // to give time to initialise stuff before drawing begins
     }
 
-    @AfterEach
-    public void done() {
-        app.frame.dispose();
-    }
 
     @Test
     public void TowerBasics(){

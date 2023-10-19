@@ -11,6 +11,7 @@ import WizardTD.Monsters.Monster;
 import WizardTD.Tiles.*;
 import WizardTD.Towers.FireBall;
 import WizardTD.Towers.Tower;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,13 +35,15 @@ public class MapTesting {
     @BeforeEach
     public void Setup() {
         App app = new App();
-        app.configPath = "configtest.json";
+        app.configPath = "src/test/configtest.json";
         app.loop();
         PApplet.runSketch(new String[] { "App" }, app);
         //app.setup();
         app.delay(1000); // to give time to initialise stuff before drawing begins
         //assertEquals(expected, app.powerUp(500));
     }
+
+
 
 
     @Test

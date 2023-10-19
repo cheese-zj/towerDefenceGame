@@ -1,20 +1,20 @@
          X
         SXXX
-     X  SX S
+     X   X
 XXXXXXXXXXXXXX
   S XSS X  X XXXXXXXXXX
   SXXX  X  X
   S X   X  X  SXX
-    S S X XWX  S
+    S S X XWX
   X      XXXXXXXXXXXXXXX
    S    X     XX  SS
-     S SX XX  X    S S
+     S SX XX  X
  S   S XX SS  X    S S
   SSS  X  X  XX S
  S   SXXXXXXXXXXX XSS
- S S S  X  S XSS S
+     S  X  S XSS S
  S   SXXXXX XX    S SS
- SSXXS  X XXX   S  S
- SS SS  XS  X    SSSS
+ SSXXS  X XXX
+ SS SS  XS  X
       S X   X   S  SS
         X   X S

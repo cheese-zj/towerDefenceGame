@@ -90,7 +90,7 @@ public class Monster extends MonsterPresets {
 
     float hold = 0;
 
-    protected void respawnAfterHit() {
+    public void respawnAfterHit() {
         ticking = false;
         int posFixSpawnX = 0, posFixSpawnY = 0;
         int[] coordinates = getRandomCoordinates(spawnPoints);

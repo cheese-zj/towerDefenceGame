@@ -7,6 +7,7 @@ import WizardTD.Helpers.GridCreator;
 import WizardTD.Helpers.ImageHelper;
 import WizardTD.Helpers.MapCreator;
 import WizardTD.Helpers.WaveManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ public class AppDrawTesting extends App {
     public void Setup() {
         app = new App();
         App app = new App();
-        app.configPath = "configtest.json";
+        app.configPath = "src/test/configtest.json";
         this.waveManager = new WaveManager();
         this.mapCreator = new MapCreator();
         this.imageHelper = new ImageHelper();
@@ -34,9 +35,9 @@ public class AppDrawTesting extends App {
         app.delay(1000); // to give time to initialise stuff before drawing begins
         ManaBar manaBar = new ManaBar();
         ButtonsCollection buttonsCollection = new ButtonsCollection();
-        //app.draw();
         app.delay(2000);
     }
+
 
     @Override
     public void DrawMap() {}
@@ -56,6 +57,9 @@ public class AppDrawTesting extends App {
 
     @Override
     public void DrawTowerUpgradeInfo() {}
+
+    @Override
+    public void DrawSpell() {}
 
     @RepeatedTest(2)
     public void TestDraw() {

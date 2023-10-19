@@ -8,15 +8,14 @@ public class TowerBuilder {
     public static int towerRangeLv;
     public static int towerFireLv;
     public static int towerDmgLv;
-    public static int buildCost = 100;
+    public static int buildCost = App.json.getInt("tower_cost");
 
-    //read the config file
     public TowerBuilder() {
     }
 
+    //Building the Tower: check the mana condition and react to that.
     public void BuildTower(int gridX, int gridY) {
-        //System.out.println(gridX + " " + gridY);
-        //System.out.println("Test TowerBuilder method Build Tower");
+
         towerRangeLv = 0;
         towerFireLv = 0;
         towerDmgLv = 0;

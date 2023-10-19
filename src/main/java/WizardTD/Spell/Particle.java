@@ -9,6 +9,8 @@ import java.util.Random;
 
 public class Particle {
 
+    //Particle effect for spell clicks using PVector
+
 
     PVector position;
     PVector velocity;

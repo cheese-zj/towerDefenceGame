@@ -20,6 +20,7 @@ public abstract class MonsterPresets {
     public boolean dead = false;
     private int deathAnimationCounter = 0;
     float initialHp = hp;
+    public boolean selfDelete = false;
 
     public MonsterPresets(double x, double y, double speed, String type, float hp, float armour, int mana_gained_on_kill, float spawnTick){
         this.x = x;
@@ -49,6 +50,8 @@ public abstract class MonsterPresets {
             app.image(App.gremlin4png, (float) this.x + 6, (float) this.y + 40 + 6);
         } else if (deathAnimationCounter<24) {
             app.image(App.gremlin5png, (float) this.x + 6, (float) this.y + 40 + 6);
+        } else if (deathAnimationCounter<28) {
+            selfDelete = true;
         }
         if (App.GAME_TICKING) deathAnimationCounter++;
     }
