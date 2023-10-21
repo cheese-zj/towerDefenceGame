@@ -10,7 +10,7 @@ import java.util.Objects;
 import static WizardTD.Helpers.MapCreator.spawnPoints;
 import static WizardTD.Monsters.MonsterCreator.getRandomCoordinates;
 
-public class Monster extends MonsterPresets {
+public class Monster extends MonsterPresets implements MonsterPathReader {
 
 
     private boolean goVertical = true;
@@ -20,7 +20,6 @@ public class Monster extends MonsterPresets {
 
     protected Path[][] pathsMem = App.paths;
 
-    MonsterPathReader monsterPathReader = new MonsterPathReader();
 
     public MonsterDirection getCurrentDirection() {
         if (speed != 0) {
@@ -135,11 +134,11 @@ public class Monster extends MonsterPresets {
                 }
                 if (goVertical) {
                     if ((int)this.x % 32 ==0) {
-                        this.monsterPathReader.Read(this);
+                        Read(this);
                     }
                 } else {
                     if ((int)(this.y) % 32 ==0) {
-                        this.monsterPathReader.Read(this);
+                        Read(this);
                     }
                 }
                 updatePosition();

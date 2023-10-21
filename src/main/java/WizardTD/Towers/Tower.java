@@ -29,12 +29,10 @@ public class Tower extends TowerPreset {
     protected void detectMonster() {
         if (trackedMonster == null) {
             for (Monster monster : App.runningMonsterList) {
-            //System.out.println("Detecting");
                 if (inRange(monster)) {
                     if (monster.ticking && monster.canTrack && App.GAME_TICKING) {
                         trackedMonster = monster;
                         break;
-                        //System.out.println("Track!");
                     }
                 }
             }
@@ -55,8 +53,7 @@ public class Tower extends TowerPreset {
 
 
     public void monitoring(int mouseX, int mouseY) {
-        if (mouseX-(1+this.x)*32<=0 && mouseX-(1+this.x)*32>=-32
-                && mouseY-((1+this.y)*32+40)<=0 && mouseY-((1+this.y)*32+40) >=-32) {
+        if (checkHoverTower(mouseX,mouseY,(float) this.x,(float) this.y)) {
 // Increment counter based on towers' levels
             if (U1.U1checked) rangeCost = (towerRangeLv+2)*10;
             if (U2.U2checked) fireCost = (towerFireLv+2)*10;

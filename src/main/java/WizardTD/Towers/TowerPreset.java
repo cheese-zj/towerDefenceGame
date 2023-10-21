@@ -4,13 +4,14 @@ import WizardTD.App;
 import WizardTD.GameSys.U1;
 import WizardTD.GameSys.U2;
 import WizardTD.GameSys.U3;
+import WizardTD.Helpers.CheckHover;
 import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PShape;
 
 import java.util.HashMap;
 
-public abstract class TowerPreset {
+public abstract class TowerPreset implements CheckHover {
     protected double x;
     protected double y;
     protected int towerRange=App.json.getInt("initial_tower_range");

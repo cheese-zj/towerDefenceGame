@@ -1,10 +1,11 @@
 package WizardTD.GameSys;
 import WizardTD.App;
+import WizardTD.Helpers.CheckHover;
 import processing.core.PConstants;
 import processing.core.PFont;
 import processing.core.PShape;
 
-public abstract class Buttons {
+public abstract class Buttons implements CheckHover {
 
     protected float x;
     protected float y;
@@ -34,12 +35,7 @@ public abstract class Buttons {
         selectBase.setFill(app.color(240,247,0));
     }
 
-    public boolean checkHover(int mouseX, int mouseY) {
-        if (mouseX <= this.x+48 && mouseX >= this.x && mouseY <= this.y+48 && mouseY >= this.y){
-            return true;
-        }
-        return false;
-    }
+
 
     public float getX() {
         return x;
@@ -55,7 +51,7 @@ public abstract class Buttons {
     }
 
     public void draw(App app) {
-        if (checkHover(app.mouseX,app.mouseY)) {
+        if (checkHover(app.mouseX,app.mouseY, this.x, this.y)) {
             app.shape(hoverBase);
             if (App.isMousePressed){
                 checked = !checked;

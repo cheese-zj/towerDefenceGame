@@ -5,10 +5,10 @@ import WizardTD.Tiles.*;
 
 import java.util.*;
 
-public class MonsterPathReader {
+public interface MonsterPathReader {
 
     HashMap<MonsterDirection, Integer> determine = new HashMap<>();
-    private void ReadSurround(Path path, Path[][] paths, Monster monster) {
+    default void ReadSurround(Path path, Path[][] paths, Monster monster) {
         int X = path.getX()/App.CELLSIZE;
         int Y = (path.getY())/App.CELLSIZE;
         determine.put(MonsterDirection.SOUTH,Integer.MAX_VALUE);
@@ -40,10 +40,10 @@ public class MonsterPathReader {
 
 
 
-    private String getKey(int X, int Y) {
+    default String getKey(int X, int Y) {
         return X + "," + Y; // Returns a string like "5,7"
     }
-    private int ReadExpand(Path path, Path[][] paths, Set<String> visitedPaths, int count) {
+    default int ReadExpand(Path path, Path[][] paths, Set<String> visitedPaths, int count) {
         if (path == null) return Integer.MAX_VALUE - count;
 
         int X = path.getX() / App.CELLSIZE;
@@ -84,7 +84,7 @@ public class MonsterPathReader {
     }
 
 
-    public void Read(Monster monster) {
+    default void Read(Monster monster) {
 
 
         int monsterX = ((int) monster.getX())/App.CELLSIZE;  // Monsters' X and Y co in index num system instead of the actual ones

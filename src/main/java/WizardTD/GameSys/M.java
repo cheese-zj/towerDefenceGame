@@ -28,7 +28,7 @@ public class M extends Buttons{
             }
             checked = false;
         }
-        if (checkHover(app.mouseX,app.mouseY)){
+        if (checkHover(app.mouseX,app.mouseY, this.x, this.y)){
             app.shape(hintBox);
             app.textFont(App.gameFont,15);
             app.text(hint, x-100, y+19);

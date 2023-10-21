@@ -373,7 +373,6 @@ public class App extends PApplet{
         DrawSpell();
         DrawGUI();
         DrawTowerUpgradeInfo();
-        //inputManager.Monitoring(mouseX, mouseY);
 
         if (ManaBar.mana <= 0) {
             ManaBar.mana = 0;
