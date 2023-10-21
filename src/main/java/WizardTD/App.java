@@ -236,7 +236,7 @@ public class App extends PApplet{
         for (int i=0; i<20; i++) {
             for (int j=0; j<20; j++) {
                 if (grasses[i][j] != null){
-                    grasses[i][j].occupied = false;
+                    grasses[i][j].setOccupied(false);
                 }
             }
         }

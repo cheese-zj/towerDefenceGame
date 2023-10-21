@@ -39,6 +39,7 @@ public class MonsterPathReader {
     }
 
 
+
     private String getKey(int X, int Y) {
         return X + "," + Y; // Returns a string like "5,7"
     }

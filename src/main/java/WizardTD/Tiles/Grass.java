@@ -7,7 +7,7 @@ public class Grass extends Tiles{
 
     //An occupation variable to determine if there's any tower on it to prevent building at the same spot
 
-    public boolean occupied;
+    private boolean occupied;
 
     public boolean isOccupied() {
         return occupied;

@@ -67,7 +67,7 @@ public class MapTesting {
     public void CheckGrass() {
         Grass grass = new Grass(10,10);
         Grass[][] grasses = new Grass[20][20];
-        grass.occupied = false;
+        grass.setOccupied(false);
 
     }
     @Test

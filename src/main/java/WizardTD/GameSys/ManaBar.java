@@ -21,13 +21,13 @@ public class ManaBar {
     }
 
     protected void manaUpdate(){
+        if (mana > manaCap) mana = manaCap;
         if (App.GAME_TICKING) {
-            if (manaTick >= 60 && manaTick <= 61 &&mana <= manaCap) {
+            if (manaTick >= 60 && manaTick <= 61 && mana <= manaCap) {
                 mana += manaGain;
                 manaTick %= 60;
             }
             manaTick += App.TICK_Multiplier;
-            if (mana > manaCap) mana = manaCap;
         }
 
     }
@@ -43,6 +43,7 @@ public class ManaBar {
         }
     }
     public void drawManaBar(App app) {
+        manaUpdate();
         PShape manaBar =
                 app.createShape(PConstants.RECT, 340,10,(float)(280*(((double)mana/(double) manaCap))),20);
         PShape manaBarBase =
@@ -58,8 +59,6 @@ public class ManaBar {
         String manaBarText = mana + "/" + manaCap;
         app.textFont(tFont,16);
         app.text(manaBarText,445,27);
-        manaUpdate();
-
     }
     public void manaBarReset() {
         mana = App.json.getInt("initial_mana");
