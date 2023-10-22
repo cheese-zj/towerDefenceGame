@@ -1,10 +1,10 @@
-package WizardTD.GameSys;
+package WizardTD.GameSys.ButtonClasses;
 
 import WizardTD.App;
-import WizardTD.Towers.Tower;
+import WizardTD.GameSys.Buttons;
 import WizardTD.Towers.TowerBuilder;
 
-public class T extends Buttons{
+public class T extends Buttons {
 
     TowerBuilder towerBuilder;
     public T(float x, float y, App app) {
@@ -13,7 +13,7 @@ public class T extends Buttons{
     }
     protected void MouseBuildTower(int mouseX, int mouseY) {
 
-        if (mouseX/32 < 20 && (mouseY-40)/32 < 20) {
+        if (hoverInMap(mouseX,mouseY)) {
             if (App.grasses[mouseX/32][(mouseY-40) / 32] != null &&
                     !App.grasses[mouseX/32][(mouseY-40) / 32].isOccupied()) {
                 towerBuilder.BuildTower(mouseX/32, (mouseY-40)/32);

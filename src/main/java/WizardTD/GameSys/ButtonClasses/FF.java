@@ -1,8 +1,9 @@
-package WizardTD.GameSys;
+package WizardTD.GameSys.ButtonClasses;
 
 import WizardTD.App;
+import WizardTD.GameSys.Buttons;
 
-public class FF extends Buttons{
+public class FF extends Buttons {
 
     public FF(float x, float y, App app) {
         super(x, y, app,"FF", "2x\nSpeed",'f');

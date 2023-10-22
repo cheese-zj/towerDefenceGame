@@ -1,17 +1,16 @@
 package WizardTD;
 
 import WizardTD.GameSys.ButtonsCollection;
-import WizardTD.GameSys.M;
-import WizardTD.GameSys.ManaBar;
-import WizardTD.Helpers.GridCreator;
+import WizardTD.GameSys.*;
 import WizardTD.Helpers.ImageHelper;
 import WizardTD.Helpers.MapCreator;
 import WizardTD.Helpers.WaveManager;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 import processing.core.PApplet;
+import WizardTD.GameSys.ButtonClasses.*;
+import WizardTD.GameSys.Buttons;
+import WizardTD.GameSys.*;
 
 public class AppDrawTesting extends App {
 
@@ -19,6 +18,7 @@ public class AppDrawTesting extends App {
     WaveManager waveManager;
     MapCreator mapCreator;
     ImageHelper imageHelper;
+    //
 
 
     @BeforeEach

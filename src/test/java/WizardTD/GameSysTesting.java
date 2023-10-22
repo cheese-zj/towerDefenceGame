@@ -6,12 +6,16 @@ import WizardTD.Monsters.Monster;
 import WizardTD.Monsters.MonsterDirection;
 import WizardTD.Towers.FireBall;
 import WizardTD.Towers.Tower;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import processing.core.PApplet;
-
+import WizardTD.GameSys.ButtonClasses.*;
+import WizardTD.GameSys.Buttons;
+import WizardTD.GameSys.*;
+import WizardTD.GameSys.ButtonClasses.Inventory;
+import WizardTD.GameSys.*;
+import WizardTD.GameSys.ButtonsCollection;
 import java.util.ArrayList;
 
 public class GameSysTesting extends App{
@@ -58,8 +62,8 @@ public class GameSysTesting extends App{
 
     @Test
     public void ManaBarTest() {
-        int a = ManaBar.mana;
-        a = ManaBar.manaGain;
+        float a = ManaBar.mana;
+        a = (int) ManaBar.manaGain;
         a = ManaBar.manaCap;
         a = ManaBar.manaPoolCost;
         ManaBar.getAttacked(10);

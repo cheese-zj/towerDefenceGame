@@ -1,12 +1,10 @@
-package WizardTD.GameSys;
+package WizardTD.GameSys.ButtonClasses;
 
 import WizardTD.App;
+import WizardTD.GameSys.Buttons;
 import WizardTD.Spell.SpellType;
-import WizardTD.Towers.TowerBuilder;
 
-import java.util.ArrayList;
-
-public class Inventory extends Buttons{
+public class Inventory extends Buttons {
 
     public static boolean InvChecked;
     public static int spellCount = App.json.getInt("initial_spell_amount");
@@ -41,8 +39,7 @@ public class Inventory extends Buttons{
         app.fill(0);
         app.textFont(App.gameFont, 15);
         app.text(SpellChoice.toString(),this.x+30, this.y+75);
-        if (App.isMousePressed && app.mouseX >= this.x && app.mouseX <= this.x+70
-                && app.mouseY >= this.y+60 && app.mouseY <= this.y+90){
+        if (App.isMousePressed && checkHoverInventorySpec(app.mouseX, app.mouseY,this.x,this.y)){
             SpellChoice = SpellChoice.next();
         }
     }

@@ -1,6 +1,7 @@
 package WizardTD;
 
 import WizardTD.GameSys.*;
+import WizardTD.GameSys.ButtonClasses.*;
 import WizardTD.Helpers.MapCreator;
 import WizardTD.Helpers.WaveManager;
 import WizardTD.Monsters.*;

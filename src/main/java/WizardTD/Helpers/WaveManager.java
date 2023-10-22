@@ -1,7 +1,7 @@
 package WizardTD.Helpers;
 
 import WizardTD.App;
-import WizardTD.GameSys.Inventory;
+import WizardTD.GameSys.ButtonClasses.Inventory;
 import WizardTD.Monsters.Monster;
 import WizardTD.Monsters.MonsterCreator;
 import processing.data.JSONObject;

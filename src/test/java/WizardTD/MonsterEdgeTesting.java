@@ -1,15 +1,15 @@
 package WizardTD;
 
 import WizardTD.GameSys.ButtonsCollection;
-import WizardTD.GameSys.M;
-import WizardTD.GameSys.ManaBar;
+import WizardTD.GameSys.ButtonClasses.Inventory;
+import WizardTD.GameSys.Buttons;
+import WizardTD.GameSys.*;
+import WizardTD.GameSys.ButtonsCollection;
 import WizardTD.Helpers.ImageHelper;
 import WizardTD.Helpers.MapCreator;
 import WizardTD.Helpers.WaveManager;
 import WizardTD.Monsters.Monster;
 import WizardTD.Monsters.MonsterCreator;
-import WizardTD.Monsters.MonsterPresets;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import processing.core.PApplet;

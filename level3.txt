@@ -5,9 +5,9 @@ S  S   S    S   X
              S  X   
      S  S XXXXXXXXXX
 S S       X     X S 
-     S S SX  S XX   
-      XXXXXXXXXXX   
-   S  XS  X        S
+     S S XXX S XX
+      XXXX XXXXXX
+   S  XS XXX       S
   S   X   X    S    
       X   X S       
  S  S X  SX     S  S
@@ -16,5 +16,5 @@ S S       X     X S
      S    X         
   S       X S     S 
       XXXXXXXXX     
-      X       X S   
+      X       X S
       X S  S  X

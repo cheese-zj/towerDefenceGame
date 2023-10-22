@@ -6,9 +6,9 @@ import processing.core.PFont;
 import processing.core.PShape;
 
 public class ManaBar {
-    public static int mana;
+    public static float mana;
     public static int manaCap;
-    public static int manaGain;
+    public static float manaGain;
     public static int manaPoolCost;
     protected static boolean shielded = false;
     //boolean ticking = true;
@@ -56,7 +56,7 @@ public class ManaBar {
         app.fill(0);
         app.shape(manaBarBase);
         app.shape(manaBar);
-        String manaBarText = mana + "/" + manaCap;
+        String manaBarText = (int)mana + "/" + manaCap;
         app.textFont(tFont,16);
         app.text(manaBarText,445,27);
     }

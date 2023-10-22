@@ -24,9 +24,9 @@ public class Monster extends MonsterPresets implements MonsterPathReader {
     public MonsterDirection getCurrentDirection() {
         if (speed != 0) {
             if (goVertical && verticalInv == 1) {return MonsterDirection.EAST;}
-            if (goVertical && verticalInv == -1) {return MonsterDirection.WEST;}
-            if (!goVertical && horizontalInv == 1) {return MonsterDirection.SOUTH;}
-            if (!goVertical && horizontalInv == -1) {return MonsterDirection.NORTH;}
+            else if (goVertical && verticalInv == -1) {return MonsterDirection.WEST;}
+            else if (!goVertical && horizontalInv == 1) {return MonsterDirection.SOUTH;}
+            else if (!goVertical && horizontalInv == -1) {return MonsterDirection.NORTH;}
         }
         return null;
     }
@@ -87,7 +87,7 @@ public class Monster extends MonsterPresets implements MonsterPathReader {
         }
     }
 
-    float hold = 0;
+    private float hold = 0;
 
     public void respawnAfterHit() {
         ticking = false;

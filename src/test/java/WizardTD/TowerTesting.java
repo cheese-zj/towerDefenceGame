@@ -2,29 +2,15 @@ package WizardTD;
 
 
 import WizardTD.GameSys.*;
-import WizardTD.Helpers.GridCreator;
-import WizardTD.Helpers.MapCreator;
 import WizardTD.Helpers.WaveManager;
-import WizardTD.Monsters.Monster;
-import WizardTD.Tiles.Grass;
-import WizardTD.Tiles.Path;
-import WizardTD.Tiles.Shrub;
-import WizardTD.Towers.FireBall;
 import WizardTD.Towers.Tower;
 import WizardTD.Towers.TowerBuilder;
-import WizardTD.Towers.TowerPreset;
-import org.checkerframework.checker.units.qual.A;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import processing.core.*;
-import processing.data.JSONArray;
-import processing.data.JSONObject;
+import WizardTD.GameSys.ButtonClasses.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
 
 public class TowerTesting {
 
@@ -92,7 +78,7 @@ public class TowerTesting {
 
     @Test
     public boolean ManabarConsumption() {
-        int originalMana = ManaBar.mana;
+        float originalMana = ManaBar.mana;
         U1.U1checked = true;
         U2.U2checked = true;
         U3.U3checked = true;

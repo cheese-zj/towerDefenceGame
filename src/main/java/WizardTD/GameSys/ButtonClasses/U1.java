@@ -1,9 +1,9 @@
-package WizardTD.GameSys;
+package WizardTD.GameSys.ButtonClasses;
 
 import WizardTD.App;
-import WizardTD.Towers.TowerBuilder;
+import WizardTD.GameSys.Buttons;
 
-public class U1 extends Buttons{
+public class U1 extends Buttons {
 
     public static boolean U1checked;
     public U1(float x, float y, App app) {

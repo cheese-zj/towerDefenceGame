@@ -1,10 +1,11 @@
 package WizardTD;
 
-import WizardTD.GameSys.Inventory;
-import WizardTD.GameSys.P;
-import WizardTD.GameSys.T;
+
+import WizardTD.GameSys.ButtonClasses.Inventory;
+import WizardTD.GameSys.Buttons;
+import WizardTD.GameSys.*;
+import WizardTD.GameSys.ButtonsCollection;
 import WizardTD.Monsters.Monster;
-import WizardTD.Monsters.MonsterDirection;
 import WizardTD.Spell.Particle;
 import WizardTD.Spell.SpellCaster;
 import WizardTD.Spell.SpellType;

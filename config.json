@@ -1,5 +1,5 @@
 {
-  "layout": "level2.txt",
+  "layout": "level3.txt",
   "waves": [
     {
       "duration": 8,
@@ -72,30 +72,30 @@
       ]
     },
     {
-      "duration": 30,
-      "pre_wave_pause": 10,
+      "duration": 40,
+      "pre_wave_pause": 8,
       "monsters": [
         {
           "type": "gremlin",
           "hp": 200,
           "speed": 1,
           "armour": 0.5,
-          "mana_gained_on_kill": 90,
-          "quantity": 100
+          "mana_gained_on_kill": 70,
+          "quantity": 200
         }
       ]
     },
     {
-      "duration": 50,
+      "duration": 45,
       "pre_wave_pause": 1,
       "monsters": [
         {
           "type": "gremlin",
-          "hp": 2500,
+          "hp": 5000,
           "speed": 1,
-          "armour": 0.4,
-          "mana_gained_on_kill": 1000,
-          "quantity": 10
+          "armour": 0.3,
+          "mana_gained_on_kill": 800,
+          "quantity": 15
         }
       ]
     }
@@ -110,7 +110,7 @@
   "mana_pool_spell_initial_cost": 100,
   "mana_pool_spell_cost_increase_per_use": 150,
   "mana_pool_spell_cap_multiplier": 1.5,
-  "mana_pool_spell_mana_gained_multiplier": 1.1,
+  "mana_pool_spell_mana_gained_multiplier": 1.5,
   "initial_spell_amount": 2
 }
 

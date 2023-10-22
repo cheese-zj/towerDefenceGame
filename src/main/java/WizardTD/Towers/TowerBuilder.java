@@ -1,9 +1,9 @@
 package WizardTD.Towers;
 
 import WizardTD.App;
-import WizardTD.GameSys.*;
+import WizardTD.GameSys.ManaBar;
 
-public class TowerBuilder {
+public class TowerBuilder implements costCheck {
 
     public static int towerRangeLv;
     public static int towerFireLv;
@@ -21,26 +21,10 @@ public class TowerBuilder {
         towerDmgLv = 0;
 
         if (ManaBar.mana > buildCost) {
-            int rangeCost = 0;
-            int fireCost = 0;
-            int dmgCost = 0;
-            if (U1.U1checked) rangeCost = (towerRangeLv + 2) * 10;
-            if (U2.U2checked) fireCost = (towerFireLv + 2) * 10;
-            if (U3.U3checked) dmgCost = (towerDmgLv + 2) * 10;
-            ManaBar.mana -= (buildCost);
-            if (ManaBar.mana > rangeCost && U1.U1checked) {
-                towerRangeLv++;
-                ManaBar.mana -= rangeCost;
-            }
-            if (ManaBar.mana > fireCost && U2.U2checked) {
-                towerFireLv++;
-                ManaBar.mana -= fireCost;
-            }
-            if (ManaBar.mana > dmgCost && U3.U3checked) {
-                towerDmgLv++;
-                ManaBar.mana -= dmgCost;
-            }
             Tower newTower = new Tower(gridX, gridY, towerRangeLv, towerFireLv, towerDmgLv);
+            towerCostManage(newTower);
+            ManaBar.mana -= (buildCost);
+            towerConsume(newTower);
             App.towers.add(newTower);
             App.grasses[gridX][gridY].setOccupied(true);
         }

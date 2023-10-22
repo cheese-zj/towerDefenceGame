@@ -1,11 +1,12 @@
-package WizardTD.GameSys;
+package WizardTD.GameSys.ButtonClasses;
 
 import WizardTD.App;
+import WizardTD.GameSys.Buttons;
+import WizardTD.GameSys.ManaBar;
 import processing.core.PConstants;
-import processing.core.PFont;
 import processing.core.PShape;
 
-public class M extends Buttons{
+public class M extends Buttons {
 
     PShape hintBox;
     public M(float x, float y, App app) {

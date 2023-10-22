@@ -1,6 +1,5 @@
 package WizardTD;
 
-import WizardTD.GameSys.*;
 import WizardTD.Monsters.Monster;
 import WizardTD.Monsters.MonsterDirection;
 import WizardTD.Towers.FireBall;
@@ -8,12 +7,15 @@ import WizardTD.Towers.Tower;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 import processing.core.PApplet;
 import processing.core.PFont;
-
-import java.util.ArrayList;
-
+import WizardTD.GameSys.ButtonClasses.Inventory;
+import WizardTD.GameSys.Buttons;
+import WizardTD.GameSys.*;
+import WizardTD.GameSys.ButtonsCollection;
+import WizardTD.GameSys.ButtonClasses.*;
+import WizardTD.GameSys.Buttons;
+import WizardTD.GameSys.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -77,6 +79,25 @@ public class DrawTestV2 {
         TestApp.setWIN(false);
         testApp.DrawGUI();
         testApp.draw();
+    }
+
+    @RepeatedTest(1)
+    public void GUIDisplayLOSE() {
+
+        ManaBar.getAttacked(5000);
+        // Set the state
+        TestApp.LOSE = true;
+        testApp.DrawGUI();
+        testApp.draw();
+        testApp.mousePressed();
+        testApp.key = 'r';
+        testApp.keyPressed();
+        ManaBar.getAttacked(5000);
+        // Set the state
+        TestApp.LOSE = true;
+        testApp.key = 'R';
+
+
     }
 
     @RepeatedTest(1)

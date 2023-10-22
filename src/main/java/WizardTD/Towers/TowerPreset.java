@@ -1,15 +1,10 @@
 package WizardTD.Towers;
-
+import WizardTD.GameSys.ButtonClasses.*;
 import WizardTD.App;
-import WizardTD.GameSys.U1;
-import WizardTD.GameSys.U2;
-import WizardTD.GameSys.U3;
 import WizardTD.Helpers.CheckHover;
 import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PShape;
-
-import java.util.HashMap;
 
 public abstract class TowerPreset implements CheckHover {
     protected double x;
@@ -53,8 +48,7 @@ public abstract class TowerPreset implements CheckHover {
         return range;
     }
     public void rangeDisplay(App app, int mouseX, int mouseY) {
-        if (mouseX-(1+this.x)*32<=0 && mouseX-(1+this.x)*32>=-32
-                && mouseY-((1+this.y)*32+40)<=0 && mouseY-((1+this.y)*32+40) >=-32){
+        if (checkHoverTower(mouseX,mouseY,(int)this.x,(int)this.y)){
             app.shape(createRangeDisplay(app));
         }
     }

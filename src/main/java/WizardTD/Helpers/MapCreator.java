@@ -48,12 +48,7 @@ public class MapCreator {
                     }
                 }
                 if (levelArray[i][j] != null && (levelArray[i][j].equals("X") || levelArray[i][j].equals("W"))) {
-                    paths[i][j] = new Path(i * App.CELLSIZE, j * App.CELLSIZE );
-
-                    // Check if path is on the boundary and make it a spawn point
-                    if (i == 0 || j == 0 || i == 19 || j == 19) {
-                        spawnPoints.add(i + " " + j);
-                    }
+                    Path path = new Path(i * App.CELLSIZE, j * App.CELLSIZE );
 
                     // Check surrounding tiles
                     boolean east  = i < 19 && (levelArray[i + 1][j].equals("X") || levelArray[i + 1][j].equals("W"));
@@ -61,47 +56,54 @@ public class MapCreator {
                     boolean south = j < 19 && (levelArray[i][j + 1].equals("X") || levelArray[i][j + 1].equals("W"));
                     boolean north = j > 0  && (levelArray[i][j - 1].equals("X") || levelArray[i][j - 1].equals("W"));
 
-                    paths[i][j].setEast(east);
-                    paths[i][j].setWest(west);
-                    paths[i][j].setSouth(south);
-                    paths[i][j].setNorth(north);
+                    // Check if path is on the boundary and make it a spawn point
+                    if (i == 0 || j == 0 || i == 19 || j == 19) {
+                        spawnPoints.add(i + " " + j);
+                    }
 
-                    paths[i][j].setSprite(App.path0png);
+                    path.setEast(east);
+                    path.setWest(west);
+                    path.setSouth(south);
+                    path.setNorth(north);
+
+                    path.setSprite(App.path0png);
 
                     {
                         // Determine image based on surrounding tiles
-                        if (east || west)
-                            paths[i][j].setSprite(App.path0png);
-                        if (north || south)
-                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path0png, 90));
+                        if ((east || i==19) || (west || i==0))
+                            path.setSprite(App.path0png);
+                        if ((north || j==0) || (south || j==19))
+                            path.setSprite(imageHelper.rotateImageByDegrees(App.path0png, 90));
                     }
                     {
                         // L-shaped paths
-                        if (south && west)
-                            paths[i][j].setSprite(App.path1png);
-                        else if (north && west)
-                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path1png, 90));
-                        else if (north && east)
-                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path1png, 180));
-                        else if (south && east)
-                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path1png, 270));
+                        if ((south || j==19) && (west || i==0))
+                            path.setSprite(App.path1png);
+                        else if ((north || j==0) && (west || i==0))
+                            path.setSprite(imageHelper.rotateImageByDegrees(App.path1png, 90));
+                        else if ((north || j==0) && (east || i==19))
+                            path.setSprite(imageHelper.rotateImageByDegrees(App.path1png, 180));
+                        else if ((south || j==19) && (east || i==19))
+                            path.setSprite(imageHelper.rotateImageByDegrees(App.path1png, 270));
                     }
 
                     {
                         // T-shaped paths
-                        if (east && west && south)
-                            paths[i][j].setSprite(App.path2png);
-                        else if (north && south && west)
-                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path2png, 90));
-                        else if (east && west && north)
-                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path2png, 180));
-                        else if (north && south && east)
-                            paths[i][j].setSprite(imageHelper.rotateImageByDegrees(App.path2png, 270));
+                        if ((east || i==19) && (west || i==0) && (south || j==19))
+                            path.setSprite(App.path2png);
+                        else if ((north || j==0) && (south || j==19) && (west || i==0))
+                            path.setSprite(imageHelper.rotateImageByDegrees(App.path2png, 90));
+                        else if ((east || i==19) && (west || i==0) && (north || j==0))
+                            path.setSprite(imageHelper.rotateImageByDegrees(App.path2png, 180));
+                        else if ((north || j==0) && (south || j==19) && (east || i==19))
+                            path.setSprite(imageHelper.rotateImageByDegrees(App.path2png, 270));
                     }
                     // Cross-shaped paths
-                    if (north && south && west && east) {
-                        paths[i][j].setSprite(App.path3png);
+                    if ((north || j==0) && (south || j==19) && (west || i==0) && (east || i==19)) {
+                        path.setSprite(App.path3png);
                     }
+
+                    paths[i][j] = path;
                 }
             }
         }

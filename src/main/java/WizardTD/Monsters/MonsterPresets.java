@@ -19,7 +19,7 @@ public abstract class MonsterPresets {
     public boolean canTrack = false;
     public boolean dead = false;
     private int deathAnimationCounter = 0;
-    float initialHp = hp;
+    private final float initialHp;
     public boolean selfDelete = false;
 
     public MonsterPresets(double x, double y, double speed, String type, float hp, float armour, int mana_gained_on_kill, float spawnTick){
@@ -60,7 +60,7 @@ public abstract class MonsterPresets {
 
     protected void drawHpBar(App app) {
         PShape hpBar = app.createShape(app.RECT,
-                (float) this.x+6-5, (float) this.y+40+6-5, 30*((float) hp/initialHp),(float) 2);
+                (float) this.x+6-5, (float) this.y+40+6-5, 30*(hp /initialHp),(float) 2);
         hpBar.setFill(app.color(0,233,2));
         if (poisoned) hpBar.setFill(app.color(200,0,255));
         PShape hpBarBase = app.createShape(app.RECT,
@@ -109,7 +109,7 @@ public abstract class MonsterPresets {
         if (hp <= 0) hp = 0;
     }
     public void getBlasted(){
-        hp /= 2.5F;
+        hp /= 1.8F;
     }
 
     private boolean poisoned = false;

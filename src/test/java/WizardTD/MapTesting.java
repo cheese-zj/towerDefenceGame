@@ -1,30 +1,17 @@
 package WizardTD;
 
-
+import WizardTD.GameSys.ButtonClasses.Inventory;
+import WizardTD.GameSys.Buttons;
+import WizardTD.GameSys.*;
 import WizardTD.GameSys.ButtonsCollection;
-import WizardTD.GameSys.ManaBar;
-import WizardTD.GameSys.P;
 import WizardTD.Helpers.GridCreator;
 import WizardTD.Helpers.MapCreator;
 import WizardTD.Helpers.WaveManager;
-import WizardTD.Monsters.Monster;
 import WizardTD.Tiles.*;
-import WizardTD.Towers.FireBall;
-import WizardTD.Towers.Tower;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import processing.core.PApplet;
-import processing.core.PFont;
 import processing.core.PImage;
-import processing.core.PShape;
-import processing.data.JSONArray;
-import processing.data.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
 
 public class MapTesting {
 

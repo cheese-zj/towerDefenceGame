@@ -1,15 +1,10 @@
 package WizardTD.Towers;
 
 import WizardTD.App;
-import WizardTD.GameSys.ManaBar;
-import WizardTD.GameSys.U1;
-import WizardTD.GameSys.U2;
-import WizardTD.GameSys.U3;
+import WizardTD.GameSys.ButtonClasses.*;
 import WizardTD.Monsters.Monster;
-import WizardTD.Monsters.MonsterPresets;
-import processing.core.PShape;
 
-public class Tower extends TowerPreset {
+public class Tower extends TowerPreset implements costCheck {
 
     Monster trackedMonster = null;
 
@@ -54,18 +49,11 @@ public class Tower extends TowerPreset {
 
     public void monitoring(int mouseX, int mouseY) {
         if (checkHoverTower(mouseX,mouseY,(float) this.x,(float) this.y)) {
-// Increment counter based on towers' levels
-            if (U1.U1checked) rangeCost = (towerRangeLv+2)*10;
-            if (U2.U2checked) fireCost = (towerFireLv+2)*10;
-            if (U3.U3checked) dmgCost = (towerDmgLv+2)*10;
-// Check the mana condition and upgrade accordingly
+            // Increment counter based on towers' levels
+            towerCostManage(this);
+            // Check the mana condition and upgrade accordingly
             if (App.isMousePressed) {
-                if (ManaBar.mana > rangeCost && U1.U1checked) {
-                    towerRangeLv++; ManaBar.mana -= rangeCost;}
-                if (ManaBar.mana > fireCost && U2.U2checked) {
-                    towerFireLv++; ManaBar.mana -= fireCost;}
-                if (ManaBar.mana > dmgCost && U3.U3checked) {
-                    towerDmgLv++; ManaBar.mana -= dmgCost;}
+                towerConsume(this);
             }
         }
     }

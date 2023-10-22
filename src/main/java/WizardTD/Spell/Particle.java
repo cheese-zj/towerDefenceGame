@@ -1,10 +1,9 @@
 package WizardTD.Spell;
 
 import WizardTD.App;
-import WizardTD.GameSys.Inventory;
+import WizardTD.GameSys.ButtonClasses.Inventory;
 import processing.core.PVector;
 
-import java.util.Objects;
 import java.util.Random;
 
 public class Particle {

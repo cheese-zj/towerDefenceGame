@@ -1,6 +1,7 @@
 package WizardTD.GameSys;
 
 import WizardTD.App;
+import WizardTD.GameSys.ButtonClasses.*;
 
 import java.util.ArrayList;
 

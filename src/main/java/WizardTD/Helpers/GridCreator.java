@@ -8,12 +8,11 @@ import java.util.*;
 
 public class GridCreator {
 
-    public static String[][] LevelArray;
-    public static String Level = App.json.getString("layout");
+    private static final String Level = App.json.getString("layout");
     public static String[][] LevelReader() {
 
         File LevelFile = new File(Level);
-        LevelArray = new String[20][20];  // Initialization
+        String[][] levelArray = new String[20][20];  // Initialization
 
         Scanner sc;
         try {
@@ -27,14 +26,14 @@ public class GridCreator {
             String line = sc.nextLine();
             for (int j = 0; j < 20; j++) {
                 if (j >= line.length()) {
-                    LevelArray[j][i] = " ";
+                    levelArray[j][i] = " ";
                 } else {
-                    LevelArray[j][i] = String.valueOf(line.charAt(j));
+                    levelArray[j][i] = String.valueOf(line.charAt(j));
                 }
             }
             i++;
         }
-        return LevelArray;
+        return levelArray;
     }
 }
 
