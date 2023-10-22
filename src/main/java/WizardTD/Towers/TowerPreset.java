@@ -6,6 +6,15 @@ import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PShape;
 
+/**
+ * Represents a generic tower preset for the WizardTD game.
+ * <p>
+ * The TowerPreset class provides the foundational attributes and behaviors
+ * for different tower types in the game. Each tower has its range, firing speed,
+ * damage attributes, and appearance based on upgrade levels. The class also manages
+ * hover effects and visual displays of tower stats.
+ * </p>
+ */
 public abstract class TowerPreset implements CheckHover {
     protected double x;
     protected double y;
@@ -34,9 +43,10 @@ public abstract class TowerPreset implements CheckHover {
     }
 
     /**
-     * @param app
-     * @return
-     * Creating the towerRange PShape and display it only when hovering through the tower
+     * Creates a visual representation of the tower's range.
+     *
+     * @param app The game application object for creating shapes.
+     * @return PShape object representing the range.
      */
     public PShape createRangeDisplay(App app){
         PShape range = app.createShape(app.ELLIPSE,
@@ -47,13 +57,27 @@ public abstract class TowerPreset implements CheckHover {
         range.setFill(false);
         return range;
     }
+    /**
+     * Displays the tower's range when the tower is hovered over.
+     *
+     * @param app The game application object for rendering.
+     * @param mouseX Current X-coordinate of the mouse pointer.
+     * @param mouseY Current Y-coordinate of the mouse pointer.
+     */
     public void rangeDisplay(App app, int mouseX, int mouseY) {
         if (checkHoverTower(mouseX,mouseY,(int)this.x,(int)this.y)){
             app.shape(createRangeDisplay(app));
         }
     }
 
-    //Drawing the upgrade info board
+    /**
+     * Renders the upgrade information board for the tower.
+     *
+     * @param app The game application object for rendering.
+     * @param rCost Upgrade cost for range.
+     * @param fCost Upgrade cost for firing speed.
+     * @param dCost Upgrade cost for damage.
+     */
     public void drawUpgrade(App app, int rCost, int fCost, int dCost) {
         PShape topBlock = app.createShape(PConstants.RECT, 650,550,90,24);
         topBlock.setStrokeWeight(1);

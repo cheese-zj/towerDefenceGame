@@ -1,13 +1,13 @@
    S       S    SS
 SS S S     S   S SSS
 S   S  S   S S   SSS
-XXXXX S  X S SS   SS
+   S  X S SS   SS
  S  X X  X   S    SS
    XXXXXXXXXXXXXX  S
   S   X     S   X  S
-   S  XS  S    XXW
+   S  XXW S  X XX
       S   XXXXXXX
-    S  S  X S
+    S  S  X SX
  S        X  S  S SS
       S   X  S   S S
           X    S

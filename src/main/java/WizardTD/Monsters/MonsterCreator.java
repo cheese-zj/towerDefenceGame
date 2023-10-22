@@ -9,8 +9,21 @@ import java.util.Random;
 
 import static WizardTD.Helpers.MapCreator.spawnPoints;
 
+/**
+ * This class provides utility for creating and spawning monsters in the game.
+ * <p>
+ * It helps in determining random spawn points for the monsters and also initializes them
+ * with their respective sprites and starting directions based on their spawn points.
+ * </p>
+ */
 public class MonsterCreator {
 
+    /**
+     * Returns random spawn coordinates from a list of available spawn points.
+     *
+     * @param spawnPoints An ArrayList containing string representations of spawn points.
+     * @return An array of two integers representing x and y coordinates.
+     */
     public static int[] getRandomCoordinates(ArrayList<String> spawnPoints) {
         // Get a random element from the list
         Random rand = new Random();
@@ -23,7 +36,23 @@ public class MonsterCreator {
         //System.out.println(x + " " + y);
         return new int[]{x, y};
     }
-
+    /**
+     * Creates an array of monsters based on the provided specifications.
+     * <p>
+     * The monsters are created at random spawn points and initialized with a sprite based on their type.
+     * Their starting directions are also determined based on their spawn points.
+     * </p>
+     *
+     * @param monsterAmount     The number of monsters to create.
+     * @param speed             The speed of the monsters.
+     * @param hp                The health points of the monsters.
+     * @param armour            The armor value for the monsters.
+     * @param mana_gained_on_kill The amount of mana gained upon killing the monsters.
+     * @param spawnTick         The tick interval for spawning the monsters.
+     * @param preWavePause      The pause before the wave of monsters starts spawning.
+     * @param type              The type of the monsters (e.g., "gremlin", "worm", "beetle").
+     * @return An array of created Monster objects.
+     */
     public Monster[] CreateMonsters(int monsterAmount,
                                              float speed, int hp, float armour, int mana_gained_on_kill,
                                              int spawnTick, float preWavePause, String type) {

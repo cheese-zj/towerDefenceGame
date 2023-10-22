@@ -8,9 +8,48 @@ import WizardTD.Monsters.Monster;
 
 import java.util.ArrayList;
 
+/**
+ * The {@code SpellCaster} class is responsible for casting spells in the WizardTD game.
+ *
+ * <p>
+ * This class detects when the player attempts to cast a spell by clicking on the map.
+ * Once a spell is cast, it may affect the monsters in its vicinity. Depending on the type
+ * of spell chosen from the inventory, different effects will be applied to the monsters.
+ * </p>
+ *
+ * <p>
+ * Additionally, the class manages particles that are shown when a spell is cast.
+ * These particles give a visual feedback to the player and are managed in an array list.
+ * </p>
+ *
+ * @see SpellType
+ * @see Monster
+ * @see Inventory
+ * @see Particle
+ */
 public class SpellCaster implements CheckHover {
+    /**
+     * The cooldown period between spell casts. Once a spell is cast, the player
+     * has to wait for this duration before casting again.
+     */
    public static int coolDown = 0;
+
+    /**
+     * A list of particles to be displayed when a spell is cast.
+     */
     ArrayList<Particle> particles = new ArrayList<>();
+
+    /**
+     * Renders the particles on the screen and handles spell casting logic.
+     *
+     * <p>
+     * If the player clicks on the map and has selected a spell from the inventory,
+     * the spell will be cast and its effects will be applied to any nearby monsters.
+     * Particles will be shown at the location of the spell cast.
+     * </p>
+     *
+     * @param app The main application context.
+     */
     public void DrawParticles(App app) {
         if (hoverInMap(app.mouseX, app.mouseY) && App.isMousePressed && Inventory.InvChecked) {
             if (coolDown == 0) {

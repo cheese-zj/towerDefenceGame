@@ -2,7 +2,7 @@
   "layout": "src/test/leveltest.txt",
   "waves": [
     {
-      "duration": 8,
+      "duration": 1,
       "pre_wave_pause": 0.5,
 	  "monsters": [
         {
@@ -20,7 +20,7 @@
       "pre_wave_pause": 10,
       "monsters": [
         {
-          "type": "beetle",
+          "type": "worm",
           "hp": 1,
           "speed": 2.5,
           "armour": 0.7,

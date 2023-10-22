@@ -2,6 +2,7 @@ package WizardTD;
 
 import WizardTD.GameSys.*;
 import WizardTD.GameSys.ButtonClasses.*;
+import WizardTD.Helpers.CheckHover;
 import WizardTD.Helpers.MapCreator;
 import WizardTD.Helpers.WaveManager;
 import WizardTD.Monsters.*;
@@ -16,7 +17,7 @@ import processing.event.MouseEvent;
 
 import java.util.*;
 
-public class App extends PApplet{
+public class App extends PApplet implements CheckHover{
 
     public static final int CELLSIZE = 32;
     public static final int SIDEBAR = 120;
@@ -93,6 +94,9 @@ public class App extends PApplet{
         spellCaster = new SpellCaster();
     }
 
+    /**
+     * Map is drawn by
+     */
     protected void DrawMap() {
         for (int i=0; i<20; i++) {
             for (int j=0; j<20; j++) {
@@ -133,8 +137,7 @@ public class App extends PApplet{
 
     protected void DrawTowerUpgradeInfo() {
         for (Tower tower : towers) {
-            if (mouseX - (1 + tower.getX()) * 32 <= 0 && mouseX - (1 + tower.getX()) * 32 >= -32
-                    && mouseY - ((1 + tower.getY()) * 32 + 40) <= 0 && mouseY - ((1 + tower.getY()) * 32 + 40) >= -32) {
+            if (checkHoverTower(mouseX,mouseY, (float) tower.getX(), (float) tower.getY())) {
                 tower.drawUpgrade(this,tower.rangeCost,tower.fireCost,tower.dmgCost);
             }
         }
@@ -152,9 +155,9 @@ public class App extends PApplet{
         }
     }
     protected void DrawFireballs() {
-        for (int i = 0; i < fireBalls.size(); i++){
-            fireBalls.get(i).tick();
-            fireBalls.get(i).draw(this);
+        for (FireBall fireBall : fireBalls) {
+            fireBall.tick();
+            fireBall.draw(this);
         }
     }
     protected void DrawGUI() {
@@ -251,6 +254,7 @@ public class App extends PApplet{
         GAME_TICKING = true;
         LOSE = false;
         WIN = false;
+        LASTWAVE = false;
     }
 
     /**
@@ -296,7 +300,8 @@ public class App extends PApplet{
         beetlepng = loadImage("src/main/resources/WizardTD/beetle.png");
         fireballpng = loadImage("src/main/resources/WizardTD/fireball.png");
 
-        {//GUI related
+        //GUI related
+        {
             topBar = createShape(RECT, 0,0,760,40);
             sideBar = createShape(RECT, 640,40,120,640);
             topBar.setFill(color(150,140,115));
@@ -307,7 +312,8 @@ public class App extends PApplet{
             gameFont = createFont("Cambridge",16,true);
         }
 
-        {//Map related
+        //Map related
+        {
             mapCreator.CreateMap();
             paths = mapCreator.paths;
             grasses = mapCreator.grasses;
@@ -326,6 +332,7 @@ public class App extends PApplet{
     /**
      * Receive key pressed signal from the keyboard.
      * Comparing signal to char variables assigned to each button class in a button collection to trigger them
+     * When game is lost "R/r" will be monitored and restart the game if pressed
      */
 	@Override
     public void keyPressed(){
@@ -351,7 +358,6 @@ public class App extends PApplet{
     @Override
     public void mousePressed(MouseEvent e) {
         isMousePressed = true;
-
     }
 
 
@@ -386,12 +392,5 @@ public class App extends PApplet{
     public static void main(String[] args) {
         PApplet.main("WizardTD.App");
     }
-
-    /**
-     * Source: https://stackoverflow.com/questions/37758061/rotate-a-buffered-image-in-java
-     * @param pimg The image to be rotated
-     * @param angle between 0 and 360 degrees
-     * @return the new rotated image
-     */
 
 }

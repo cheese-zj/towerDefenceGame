@@ -9,6 +9,10 @@ import java.util.*;
 public class GridCreator {
 
     private static final String Level = App.json.getString("layout");
+
+    /**
+     * @return A 2D Array containing String data type for MapCreator class to .
+     */
     public static String[][] LevelReader() {
 
         File LevelFile = new File(Level);
@@ -17,7 +21,8 @@ public class GridCreator {
         Scanner sc;
         try {
             sc = new Scanner(LevelFile);
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 

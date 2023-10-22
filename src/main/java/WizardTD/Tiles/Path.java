@@ -1,5 +1,10 @@
 package WizardTD.Tiles;
 
+
+/**
+ * Path tiles forms routes, allows monster to be walked on.
+ * Contains connection information for image choosing and route formation / monsters' path finding
+ */
 public class Path extends Tiles{
 
     //direction variables for path-finding
@@ -12,7 +17,6 @@ public class Path extends Tiles{
     public Path(int x, int y) {
         super(x, y);
     }
-
     public boolean isNorth() {
         return North;
     }

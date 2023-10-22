@@ -172,6 +172,42 @@ public class DrawTestV2B {
         TestApp.isMousePressed = true;
         SpellCaster.coolDown = 0;
         spellCaster.DrawParticles(testApp);
+    }
+
+    @RepeatedTest(1)
+    public void SPT2A() {
+        SpellCaster.coolDown = 0;
+        spellCaster.DrawParticles(testApp);
+        SpellCaster.coolDown = 60;
+        spellCaster.DrawParticles(testApp);
+        Monster monsterA = new Monster(100,100,0,"gremlin",200,1,10,0);
+        String a;
+        for (int i = 0; i < 4; i++){
+            Inventory.SpellChoice = Inventory.SpellChoice.next();
+            a = Inventory.SpellChoice.toString();
+            inventory.drawChoices(testApp);
+            spellCaster.DrawParticles(testApp);
+            particle.display(testApp);
+            testApp.delay(200);
+            Inventory.InvChecked = true;
+            testApp.mouseX = 0;
+            testApp.mouseY = 140;
+            app.mouseX = 0;
+            app.mouseY = 140;
+            TestApp.isMousePressed = true;
+            App.isMousePressed = true;
+            testApp.delay(200);
+            //
+        }
+        Inventory.SpellChoice = SpellType.BLAST.next().next().next().next();
+
+        TestApp.isMousePressed = false;
+        testApp.delay(50);
+        testApp.mouseX = 0;
+        testApp.mouseY = 136;
+        TestApp.isMousePressed = true;
+        SpellCaster.coolDown = 0;
+        spellCaster.DrawParticles(testApp);
 
     }
 

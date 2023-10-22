@@ -6,6 +6,14 @@ import processing.core.PImage;
 
 import java.util.HashMap;
 
+/**
+ * Represents a FireBall projectile in the WizardTD game.
+ * <p>
+ * This class encapsulates the properties and behavior of the FireBall,
+ * including its position, speed, damage, target, and movement logic.
+ * A FireBall is launched towards a target Monster and deals damage upon impact.
+ * </p>
+ */
 public class FireBall {
 
     protected double x;
@@ -15,6 +23,16 @@ public class FireBall {
     public boolean ticking;
     public final Monster target;
     private PImage sprite;
+
+    /**
+     * Constructs a new FireBall with the given attributes.
+     *
+     * @param x The initial X-coordinate of the FireBall.
+     * @param y The initial Y-coordinate of the FireBall.
+     * @param speed The speed of the FireBall.
+     * @param damage The damage dealt by the FireBall upon impact.
+     * @param target The Monster target of the FireBall.
+     */
     public FireBall (double x, double y, double speed, float damage, Monster target) {
         this.x = x;
         this.y = y;
@@ -25,6 +43,14 @@ public class FireBall {
         ticking = true;
     }
 
+    /**
+     * Moves the FireBall towards its target Monster.
+     * <p>
+     * This method updates the FireBall's position based on its speed
+     * and the direction of the target. If the FireBall reaches its target,
+     * it deals damage and stops moving and ticking.
+     * </p>
+     */
     protected void move() {
         if (App.GAME_TICKING && ticking) {
             double xDis = target.getX() + 12 - this.x;
@@ -49,6 +75,7 @@ public class FireBall {
     }
     public void tick() {
         move();
+        // seperated public method, allowing extendability
     }
 
 }

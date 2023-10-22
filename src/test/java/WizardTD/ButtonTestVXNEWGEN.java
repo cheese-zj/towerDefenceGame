@@ -5,6 +5,7 @@ import WizardTD.GameSys.Buttons;
 import WizardTD.GameSys.*;
 import WizardTD.GameSys.ButtonsCollection;
 import WizardTD.Monsters.Monster;
+import WizardTD.Monsters.MonsterDirection;
 import WizardTD.Towers.FireBall;
 import WizardTD.Towers.Tower;
 import org.junit.jupiter.api.*;
@@ -87,7 +88,6 @@ public class ButtonTestVXNEWGEN {
 
         for (Buttons buttons : buttonsCollection.buttonsArray) {
             for (char keySelect : aaa) {
-                //TestApp.isMousePressed = true;
                 testApp.keyPressed();
                 testApp.key = keySelect;
                 buttons.monitorKey();
@@ -100,7 +100,6 @@ public class ButtonTestVXNEWGEN {
 
     @RepeatedTest(1)
     public void TestButtonCheck4() {
-        // Set the state
         testApp.DrawGUI();
         testApp.draw();
         char[] aaa = {'1','2','3','t','p','f','m','i'};
@@ -112,10 +111,10 @@ public class ButtonTestVXNEWGEN {
             for (char k : aaa) {
                 testApp.key = k;
                 testApp.keyPressed();
-                testApp.delay(10);
+                testApp.delay(50);
                 buttons.draw(testApp);
                 buttons.functionality(testApp);
-                testApp.delay(10);
+                testApp.delay(50);
             }
         }
         for (Buttons buttons : buttonsCollection.buttonsArray) {
@@ -128,7 +127,8 @@ public class ButtonTestVXNEWGEN {
                 testApp.delay(10);
                 buttons.draw(testApp);
                 buttons.functionality(testApp);
-                testApp.delay(10);
+                app.delay(50);
+                testApp.delay(50);
             }
         }
         app.delay(500);
@@ -144,10 +144,11 @@ public class ButtonTestVXNEWGEN {
                 app.delay(10);
                 buttons.draw(testApp);
                 app.mouseX = 10;
-                app.mouseY = 32* 1 + 40;
+                app.mouseY = 32* 2 + 40;
                 TestApp.isMousePressed = true;
                 buttons.functionality(app);
-                testApp.delay(10);
+                app.delay(50);
+                testApp.delay(50);
             }
         }
         app.delay(500);
@@ -166,7 +167,8 @@ public class ButtonTestVXNEWGEN {
                 app.mouseY = 32* 1 + 40;
                 TestApp.isMousePressed = true;
                 buttons.functionality(app);
-                testApp.delay(10);
+                app.delay(50);
+                testApp.delay(50);
             }
         }
         app.delay(1000);
@@ -208,9 +210,34 @@ public class ButtonTestVXNEWGEN {
             buttons.draw(testApp);
             buttons.functionality(testApp);
         }
+        MonsterDirection direction = monsterInstance.getCurrentDirection();
+        testApp.delay(10);
     }
 
 
+    @Test
+    public void TestT() {
+        app.delay(500);
+        testApp.delay(500);
+        char[] aab = {'t'};
+        for (Buttons buttons : buttonsCollection.buttonsArray) {
+            testApp.mouseX = (int) buttons.getX();
+            testApp.mouseY = (int) buttons.getY();
+            buttons.draw(testApp);
+            for (char k : aab) {
+                app.key = k;
+                app.keyPressed();
+                app.delay(10);
+                buttons.draw(testApp);
+                app.mouseX = 10;
+                app.mouseY = 32* 2 + 40;
+                TestApp.isMousePressed = true;
+                buttons.functionality(app);
+                app.delay(100);
+                testApp.delay(100);
+            }
+        }
+    }
 
     private class TestApp extends App {
         boolean wasTextFontCalled = false;

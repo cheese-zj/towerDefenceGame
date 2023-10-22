@@ -3,6 +3,14 @@ package WizardTD.GameSys.ButtonClasses;
 import WizardTD.App;
 import WizardTD.GameSys.Buttons;
 
+/**
+ * Update option 2: TowerFireSpeed Level upgrade
+ * <p>
+ * </p>
+ * @see Buttons
+ * @see T
+ * @see WizardTD.Towers.Tower
+ */
 public class U2 extends Buttons {
 
     public static boolean U2checked;

@@ -6,6 +6,14 @@ import WizardTD.Tiles.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * Represents a map creator for the WizardTD game.
+ * <p>
+ * This class is responsible for generating the game map based on a predefined level layout.
+ * It populates the map with various tiles like grass, shrubs, paths, and the wizard's house.
+ * Additionally, this class determines and sets spawn points on the game map.
+ * </p>
+ */
 public class MapCreator {
 
     public Grass[][] grasses;
@@ -13,7 +21,16 @@ public class MapCreator {
     public Path[][] paths;
     public WizardHouse wizardHouse;
     public Grass grassUnderHouse;
+    /** A list of spawn points for monsters on the game map. */
     public static ArrayList<String> spawnPoints = new ArrayList<>();
+
+    /**
+     * Creates the game map using the predefined level layout.
+     * <p>
+     * This method reads the level layout, identifies different tiles and their types,
+     * sets the appropriate images for each tile, and initializes the game map.
+     * </p>
+     */
     public void CreateMap() {
 
         String[][] levelArray = GridCreator.LevelReader();
@@ -22,7 +39,8 @@ public class MapCreator {
         this.paths = new Path[20][20];
         ImageHelper imageHelper = new ImageHelper();
         //From Grid class method, reading the level txt file
-        //And detect all the spaces for grass tiles, appending them into a Grass 2D Array
+        //And detect all the spaces for grass tiles, appending them into separate 2D Arrays
+        //*The implementation here is really weird, I may choose polymorphism based Array in future*
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 20; j++) {
                 if (levelArray[i][j] != null) {

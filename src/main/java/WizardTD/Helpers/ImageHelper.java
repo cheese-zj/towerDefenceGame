@@ -8,8 +8,16 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+
 public class ImageHelper extends PApplet {
 
+    /**
+     * Source: https://stackoverflow.com/questions/37758061/rotate-a-buffered-image-in-java
+     * @param pimg The image to be rotated
+     * @param angle between 0 and 360 degrees
+     * @return the new rotated image
+     * GIVEN METHOD
+     */
     public PImage rotateImageByDegrees(PImage pimg, double angle) {
         BufferedImage img = (BufferedImage) pimg.getNative();
         double rads = Math.toRadians(angle);

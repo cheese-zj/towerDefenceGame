@@ -8,7 +8,7 @@
         {
           "type": "gremlin",
           "hp": 1,
-          "speed": 1,
+          "speed": 8,
           "armour": 0.5,
           "mana_gained_on_kill": 10,
           "quantity": 20

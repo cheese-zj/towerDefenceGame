@@ -5,6 +5,13 @@ import WizardTD.GameSys.ManaBar;
 import processing.core.PImage;
 import processing.core.PShape;
 
+/**
+ * This class provides a blueprint for creating monsters with different properties and behaviors.
+ * <p>
+ * It manages monster's attributes such as position, speed, type, health, and armor. It also handles
+ * visual aspects such as rendering monsters, their health bars, and death animations.
+ * </p>
+ */
 public abstract class MonsterPresets {
     protected double x;
     protected double y;
@@ -22,6 +29,18 @@ public abstract class MonsterPresets {
     private final float initialHp;
     public boolean selfDelete = false;
 
+    /**
+     * Constructs a new monster with the given properties.
+     *
+     * @param x                The x-coordinate of the monster.
+     * @param y                The y-coordinate of the monster.
+     * @param speed            The speed of the monster.
+     * @param type             The type of monster.
+     * @param hp               The health points of the monster.
+     * @param armour           The armor value of the monster.
+     * @param mana_gained_on_kill The amount of mana gained upon killing this monster.
+     * @param spawnTick        The tick value when the monster is spawned.
+     */
     public MonsterPresets(double x, double y, double speed, String type, float hp, float armour, int mana_gained_on_kill, float spawnTick){
         this.x = x;
         this.y = y;
@@ -33,11 +52,25 @@ public abstract class MonsterPresets {
         this.spawnTick = spawnTick;
         this.initialHp = hp;
     }
+    /**
+     * Abstract method to be implemented by subclasses for monster behavior.
+     */
     public abstract void tick();
+
+    /**
+     * Sets the sprite image for the monster.
+     *
+     * @param sprite The sprite image.
+     */
     public void setSprite(PImage sprite) {
         this.sprite = sprite;
     }
 
+    /**
+     * Draws the death animation for the monster, specifically for gremlins.
+     *
+     * @param app The application window where the animation is drawn.
+     */
     private void drawDeathAnimation(App app) {
 
         if (deathAnimationCounter<4) {
@@ -55,9 +88,11 @@ public abstract class MonsterPresets {
         }
         if (App.GAME_TICKING) deathAnimationCounter++;
     }
-
-
-
+    /**
+     * Draws the health bar for the monster.
+     *
+     * @param app The application window where the health bar is drawn.
+     */
     protected void drawHpBar(App app) {
         PShape hpBar = app.createShape(app.RECT,
                 (float) this.x+6-5, (float) this.y+40+6-5, 30*(hp /initialHp),(float) 2);
@@ -71,6 +106,11 @@ public abstract class MonsterPresets {
         app.shape(hpBar);
         hpBar.setFill(app.color(0,233,2));
     }
+    /**
+     * Updates the monster's visual representation and checks for its status.
+     *
+     * @param app The application window where the monster is updated.
+     */
     public void update(App app) {
         if (hp <= 0) hp = 0;
         if (ticking) {
@@ -78,7 +118,7 @@ public abstract class MonsterPresets {
             else app.image(this.sprite, (float) this.x+6, (float) this.y+40+6);
             drawHpBar(app);
 
-            if (poisoned && poisonedLasting>0) {
+            if (poisoned && poisonedLasting>0 && App.GAME_TICKING) {
                 if (poisonedLasting%60==0) hp -= hp/15+1;
                 poisonedLasting-=App.TICK_Multiplier;
             }
@@ -97,6 +137,8 @@ public abstract class MonsterPresets {
             drawDeathAnimation(app);
         }
     }
+
+    //getter methods: X and Y
     public double getX() {
         return this.x;
     }
@@ -104,25 +146,42 @@ public abstract class MonsterPresets {
         return this.y;
     }
 
+    /**
+     * Decreases the monster's health by a given damage amount, considering its armor.
+     *
+     * @param dmgTaken The damage to be taken by the monster.
+     */
     public void getHit(float dmgTaken){
         hp -= dmgTaken * armour;
         if (hp <= 0) hp = 0;
     }
+    /**
+     * Reduces the monster's health by a factor.
+     */
     public void getBlasted(){
         hp /= 1.8F;
     }
 
     private boolean poisoned = false;
     private int poisonedLasting = 0;
+    /**
+     * Applies a poisoned status effect on the monster for a specified duration.
+     *
+     * @param lasting The duration of the poison effect in seconds.
+     */
     public void getPoisoned(int lasting){
         poisoned = true;
         poisonedLasting = lasting*60;
     }
-
+    /**
+     * Reduces the monster's speed by a factor.
+     */
     public void getStonised() {
         speed /= 1.5;
     }
-
+    /**
+     * Attacks the wizard by reducing the mana by the monster's health points.
+     */
     protected void hitWizard(){
         ManaBar.getAttacked((int) hp);
     }

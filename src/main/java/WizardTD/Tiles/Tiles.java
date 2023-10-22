@@ -3,6 +3,11 @@ package WizardTD.Tiles;
 import WizardTD.App;
 import processing.core.PImage;
 
+/**
+ * Tiles itself is an abstract class including basic function of tiles, recording coordinate and Image to display.
+ * Multiple types of tiles are extended and have separated features.
+ * Tiles are not directly interacting with monsters in my game thus not having much complexity.
+ */
 abstract class Tiles{
 
     protected int x;

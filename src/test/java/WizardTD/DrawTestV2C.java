@@ -85,6 +85,21 @@ public class DrawTestV2C {
         particle.update();
     }
 
+    @Test
+    public void justLetItRun() {
+        App.LASTWAVE = true;
+        testApp.delay(2000);
+        app.delay(2000);
+    }
+    @Test
+    public void justLetItRun22() {
+        App.LASTWAVE = true;
+        App.WIN = false;
+        App.setWIN(false);
+        testApp.delay(50);
+        app.delay(50);
+    }
+
 
     private class TestApp extends App {
         boolean wasTextFontCalled = false;

@@ -207,7 +207,7 @@ public class TowerTest {
         U2.U2checked = true;
         U3.U3checked = false;
         ManaBar.mana = 102;
-        towerBuilder.BuildTower(0,13);
+        towerBuilder.BuildTower(0,7);
         app.delay(100);
         testApp.delay(100);
         App.isMousePressed = true;

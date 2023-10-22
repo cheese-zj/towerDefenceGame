@@ -6,6 +6,13 @@ import WizardTD.Tiles.*;
 import java.util.*;
 
 /**
+ * Interface responsible for determining the path a monster should take.
+ * <p>
+ * This interface provides default methods to read and interpret the surrounding paths,
+ * expanding the search and directing the monster movement based on certain conditions.
+ * The method is recursive.
+ * </p>
+ *
  * "The Chaos is here, says the PathReader."
  *  I spent like the whole assignment period fixing this path finding logic.
  *  It works perfectly fine currently (who knows).
@@ -17,6 +24,14 @@ import java.util.*;
 public interface MonsterPathReader {
 
     HashMap<MonsterDirection, Integer> determine = new HashMap<>();
+
+    /**
+     * Reads the surrounding paths and updates the possible directions a monster can move.
+     *
+     * @param path   The current path of the monster.
+     * @param paths  A 2D array representing all available paths.
+     * @param monster The monster whose movement is being determined.
+     */
     default void ReadSurround(Path path, Path[][] paths, Monster monster) {
         int X = path.getX()/App.CELLSIZE;
         int Y = path.getY()/App.CELLSIZE;
@@ -46,10 +61,26 @@ public interface MonsterPathReader {
 
     }
 
-
+    /**
+     * Generates a key based on the X and Y coordinates.
+     *
+     * @param X The X coordinate.
+     * @param Y The Y coordinate.
+     * @return A string representation of the key, e.g. "5,7".
+     */
     default String getKey(int X, int Y) {
         return X + "," + Y; // Returns a string like "5,7"
     }
+
+    /**
+     * Expands the path search to determine the shortest distance to a target.
+     *
+     * @param path         The current path being examined.
+     * @param paths        A 2D array representing all available paths.
+     * @param visitedPaths A set containing paths that have been visited.
+     * @param count        A counter for the recursive call depth.
+     * @return An integer representing the shortest path distance.
+     */
     default int ReadExpand(Path path, Path[][] paths, Set<String> visitedPaths, int count) {
         if (path == null) return Integer.MAX_VALUE - count;
 
@@ -65,6 +96,10 @@ public interface MonsterPathReader {
         visitedPaths.add(getKey(X, Y));
 
         int min = Integer.MAX_VALUE;
+
+        // The very final bit of fixing the path finding, back-track and remove the visited route in this round of
+        // searching since they aren't really explored. It's more preventing searching some paths for
+        // multiple times.
 
         if (path.isNorth() && Y-1 >= 0 && !visitedPaths.contains(getKey(X, Y-1))) {
             int northResult = ReadExpand(paths[X][Y - 1], paths, visitedPaths, count + 2);
@@ -91,8 +126,12 @@ public interface MonsterPathReader {
     }
 
 
+    /**
+     * Reads the path information and determines the next direction for a given monster.
+     *
+     * @param monster The monster whose next move is being determined.
+     */
     default void Read(Monster monster) {
-
 
         int monsterX = ((int) monster.getX())/App.CELLSIZE;
         int monsterY = ((int) monster.getY())/App.CELLSIZE;
@@ -117,7 +156,6 @@ public interface MonsterPathReader {
                 directionsMatchingMin.add(direction);
             }
         }
-
         Random random = new Random();
         MonsterDirection moveChoose = null;
         if (!directionsMatchingMin.isEmpty()) {
@@ -135,8 +173,5 @@ public interface MonsterPathReader {
         if (moveChoose == MonsterDirection.WEST) {
             monster.goWest();
         }
-
-        //System.out.println(monster.currentDirection());
     }
-
 }

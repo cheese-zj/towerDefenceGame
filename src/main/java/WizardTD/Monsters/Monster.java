@@ -10,17 +10,25 @@ import java.util.Objects;
 import static WizardTD.Helpers.MapCreator.spawnPoints;
 import static WizardTD.Monsters.MonsterCreator.getRandomCoordinates;
 
+/**
+ * Represents a monster entity in the WizardTD game.
+ * <p>
+ * This class provides functionalities to control the monster's movement, its direction, and its response
+ * to various game events such as being hit by the Wizard's attacks.
+ * </p>
+ */
 public class Monster extends MonsterPresets implements MonsterPathReader {
-
 
     private boolean goVertical = true;
     private int verticalInv = 1;
     private int horizontalInv = 1;
-
-
     protected Path[][] pathsMem = App.paths;
 
-
+    /**
+     * Returns the current direction in which the monster is moving.
+     *
+     * @return MonsterDirection indicating the current direction; null if the speed is 0.
+     */
     public MonsterDirection getCurrentDirection() {
         if (speed != 0) {
             if (goVertical && verticalInv == 1) {return MonsterDirection.EAST;}
@@ -33,6 +41,19 @@ public class Monster extends MonsterPresets implements MonsterPathReader {
 
     private final int desX = App.wizardX;
     private final int desY = App.wizardY;
+
+    /**
+     * Constructor for creating a Monster entity with the given parameters.
+     *
+     * @param x The x-coordinate of the monster.
+     * @param y The y-coordinate of the monster.
+     * @param speed The movement speed of the monster.
+     * @param type The type of the monster.
+     * @param hp Health points of the monster.
+     * @param armour Armour value of the monster.
+     * @param mana_gained_on_kill Mana gained on killing the monster.
+     * @param spawnTick The tick interval for spawning the monster.
+     */
     public Monster(double x, double y, double speed, String type, float hp,
                    float armour, int mana_gained_on_kill, float spawnTick) {
         super(x, y, speed, type, hp, armour, mana_gained_on_kill, spawnTick);
@@ -87,8 +108,13 @@ public class Monster extends MonsterPresets implements MonsterPathReader {
         }
     }
 
+
     private float hold = 0;
 
+    /**
+     * Respawns the monster at a random spawn point after it gets hit.
+     * Also resets any active fireballs targeting the monster.
+     */
     public void respawnAfterHit() {
         ticking = false;
         int posFixSpawnX = 0, posFixSpawnY = 0;
@@ -120,6 +146,11 @@ public class Monster extends MonsterPresets implements MonsterPathReader {
         ticking = true;
     }
 
+    /**
+     * Handles the game tick for the monster.
+     * This method updates the monster's position, checks for collisions, and manages other game events
+     * related to the monster.
+     */
     public void tick() {
         if (App.GAME_TICKING && ticking) {
             this.hold+= (float) App.TICK_Multiplier;

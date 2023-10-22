@@ -1,5 +1,5 @@
 {
-  "layout": "level3.txt",
+  "layout": "level1.txt",
   "waves": [
     {
       "duration": 8,
@@ -104,13 +104,13 @@
   "initial_tower_firing_speed": 1.5,
   "initial_tower_damage": 40,
   "initial_mana": 250,
-  "initial_mana_cap": 1000,
+  "initial_mana_cap": 500,
   "initial_mana_gained_per_second": 2,
   "tower_cost": 100,
   "mana_pool_spell_initial_cost": 100,
   "mana_pool_spell_cost_increase_per_use": 150,
   "mana_pool_spell_cap_multiplier": 1.5,
-  "mana_pool_spell_mana_gained_multiplier": 1.5,
-  "initial_spell_amount": 2
+  "mana_pool_spell_mana_gained_multiplier": 1.2,
+  "initial_spell_amount": 0
 }
 
