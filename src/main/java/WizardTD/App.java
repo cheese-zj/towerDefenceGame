@@ -94,8 +94,11 @@ public class App extends PApplet implements CheckHover{
         spellCaster = new SpellCaster();
     }
 
+
     /**
-     * Map is drawn by
+     * Drawing map in layers by iterating through multi tiles array provided.
+     * @see Grass
+     * @see Path
      */
     protected void DrawMap() {
         for (int i=0; i<20; i++) {

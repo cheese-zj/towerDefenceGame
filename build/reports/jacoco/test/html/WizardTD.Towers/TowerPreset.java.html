@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TowerPreset.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.Towers</a> &gt; <span class="el_source">TowerPreset.java</span></div><h1>TowerPreset.java</h1><pre class="source lang-java linenums">package WizardTD.Towers;
+import WizardTD.GameSys.ButtonClasses.*;
+import WizardTD.App;
+import WizardTD.Helpers.CheckHover;
+import processing.core.PConstants;
+import processing.core.PImage;
+import processing.core.PShape;
+
+public abstract class TowerPreset implements CheckHover {
+    protected double x;
+    protected double y;
+<span class="fc" id="L12">    protected int towerRange=App.json.getInt(&quot;initial_tower_range&quot;);</span>
+<span class="fc" id="L13">    protected double firingSpeed=App.json.getDouble(&quot;initial_tower_firing_speed&quot;);</span>
+<span class="fc" id="L14">    protected double towerDamage=App.json.getDouble(&quot;initial_tower_damage&quot;);</span>
+    protected int towerRangeLv;
+    protected int towerFireLv;
+    protected int towerDmgLv;
+    protected PImage sprite;
+<span class="fc" id="L19">    protected int displayFix = 0;</span>
+
+    /**
+     * @param x
+     * @param y
+     * @param towerRangeLv
+     * @param towerFireLv
+     * @param towerDmgLv
+     */
+<span class="fc" id="L28">    public TowerPreset(double x, double y, int towerRangeLv, int towerFireLv, int towerDmgLv) {</span>
+<span class="fc" id="L29">        this.x = x;</span>
+<span class="fc" id="L30">        this.y = y;</span>
+<span class="fc" id="L31">        this.towerRangeLv = towerRangeLv;</span>
+<span class="fc" id="L32">        this.towerFireLv = towerFireLv;</span>
+<span class="fc" id="L33">        this.towerDmgLv = towerDmgLv;</span>
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * @param app
+     * @return
+     * Creating the towerRange PShape and display it only when hovering through the tower
+     */
+    public PShape createRangeDisplay(App app){
+<span class="fc" id="L42">        PShape range = app.createShape(app.ELLIPSE,</span>
+                (float) ((0.5+x)*32), (float) ((0.5+y)*32+40),
+                (float) (towerRange+(towerRangeLv)*32)*2, (float) (towerRange+(towerRangeLv)*32)*2);
+<span class="fc" id="L45">        range.setStroke(app.color(255,247,0));</span>
+<span class="fc" id="L46">        range.setStrokeWeight(3);</span>
+<span class="fc" id="L47">        range.setFill(false);</span>
+<span class="fc" id="L48">        return range;</span>
+    }
+    public void rangeDisplay(App app, int mouseX, int mouseY) {
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (checkHoverTower(mouseX,mouseY,(int)this.x,(int)this.y)){</span>
+<span class="fc" id="L52">            app.shape(createRangeDisplay(app));</span>
+        }
+<span class="fc" id="L54">    }</span>
+
+    //Drawing the upgrade info board
+    public void drawUpgrade(App app, int rCost, int fCost, int dCost) {
+<span class="fc" id="L58">        PShape topBlock = app.createShape(PConstants.RECT, 650,550,90,24);</span>
+<span class="fc" id="L59">        topBlock.setStrokeWeight(1);</span>
+<span class="fc" id="L60">        topBlock.setFill(app.color(255,255,255));</span>
+
+<span class="fc" id="L62">        int midBlockHeight = 0;</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (U1.U1checked) midBlockHeight += 22;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (U2.U2checked) midBlockHeight += 22;</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (U3.U3checked) midBlockHeight += 22;</span>
+<span class="fc" id="L66">        PShape midBlock = app.createShape(PConstants.RECT, 650,574,90,midBlockHeight);</span>
+<span class="fc" id="L67">        midBlock.setFill(app.color(255,255,255));</span>
+
+<span class="fc" id="L69">        PShape finalBlock = app.createShape(PConstants.RECT, 650,574+midBlockHeight,90,24);</span>
+<span class="fc" id="L70">        finalBlock.setFill(app.color(255,255,255));</span>
+
+<span class="fc" id="L72">        app.textFont(App.gameFont, 13);</span>
+
+<span class="fc" id="L74">        app.shape(topBlock);</span>
+<span class="fc" id="L75">        app.text(&quot;Upgrade Cost&quot;,653,569);</span>
+<span class="fc" id="L76">        app.shape(midBlock);</span>
+<span class="fc" id="L77">        app.shape(finalBlock);</span>
+<span class="fc" id="L78">        int totalCost = 0;</span>
+<span class="fc" id="L79">        int U2posFix = 0;</span>
+<span class="fc" id="L80">        int U3posFix = 0;</span>
+<span class="fc" id="L81">        app.textFont(App.gameFont, 12);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (U1.U1checked) {</span>
+<span class="fc" id="L83">            app.text(&quot;Range:       &quot; + (rCost), 653, 590);</span>
+<span class="fc" id="L84">            totalCost += rCost; U2posFix+=22; U3posFix+=22;</span>
+        }
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (U2.U2checked) {</span>
+<span class="fc" id="L87">            app.text(&quot;FireSpeed:  &quot; + (fCost), 653, 590+U2posFix);</span>
+<span class="fc" id="L88">            totalCost += fCost; U3posFix+=22;</span>
+        }
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (U3.U3checked) {</span>
+<span class="fc" id="L91">            app.text(&quot;Damage:    &quot; + (dCost), 653, 590+U3posFix);</span>
+<span class="fc" id="L92">            totalCost += dCost;</span>
+        }
+
+<span class="fc" id="L95">        app.textFont(App.gameFont, 13);</span>
+<span class="fc" id="L96">        app.text(&quot;Total:      &quot;+totalCost,653,592+midBlockHeight);</span>
+<span class="fc" id="L97">    }</span>
+    public abstract void tick();
+    protected void setSprite(PImage sprite) {
+<span class="fc" id="L100">        this.sprite = sprite;</span>
+<span class="fc" id="L101">    }</span>
+
+    protected PImage TowerImageIdentifier(int rangeLv, int fireSpeedLv, int dmgLv) {
+        PImage output;
+<span class="fc" id="L105">        output = App.tower0png;</span>
+<span class="pc bpc" id="L106" title="2 of 6 branches missed.">        if (rangeLv &gt;= 1 &amp;&amp; fireSpeedLv &gt;= 1 &amp;&amp; dmgLv &gt;= 1){</span>
+<span class="fc" id="L107">            output = App.tower1png;</span>
+<span class="fc" id="L108">            displayFix = 1;</span>
+        }
+<span class="pc bpc" id="L110" title="2 of 6 branches missed.">        if (rangeLv &gt;= 2 &amp;&amp; fireSpeedLv &gt;= 2 &amp;&amp; dmgLv &gt;= 2){</span>
+<span class="fc" id="L111">            output = App.tower2png;</span>
+<span class="fc" id="L112">            displayFix = 2;</span>
+        }
+<span class="fc" id="L114">        return output;</span>
+    }
+
+    protected String repeatString(String text, int n) {
+<span class="fc" id="L118">        StringBuilder result = new StringBuilder();</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        for (int i = 0; i &lt; n; i++) {</span>
+<span class="fc" id="L120">            result.append(text);</span>
+        }
+<span class="fc" id="L122">        return result.toString();</span>
+    }
+    public void draw(App app, int mouseX, int mouseY) {
+<span class="fc" id="L125">        setSprite(TowerImageIdentifier(towerRangeLv,towerFireLv,towerDmgLv));</span>
+<span class="fc" id="L126">        app.image(this.sprite, (int) this.x * 32, (int) this.y * 32 + 40);</span>
+        {
+<span class="fc" id="L128">            app.textFont(App.gameFont, 10);</span>
+<span class="fc" id="L129">            app.fill(app.color(255, 0, 255));</span>
+            {
+<span class="fc" id="L131">                String rangeText = repeatString(&quot;O&quot;, towerRangeLv - displayFix);</span>
+<span class="fc" id="L132">                app.text(rangeText, (float) (this.x * 32), (float) this.y * 32 + 40 + 8);</span>
+<span class="fc" id="L133">                String dmgText = repeatString(&quot;X&quot;, towerDmgLv - displayFix);</span>
+<span class="fc" id="L134">                app.text(dmgText, (float) (this.x * 32), (float) (this.y * 32 + 40 + 32));</span>
+            }
+<span class="fc" id="L136">            app.fill(0);</span>
+            {
+<span class="fc" id="L138">                PShape speedRing = app.createShape(</span>
+                        PConstants.RECT, (float) (this.x * 32) + 6, (float) (this.y * 32 + 40 + 6), 20, 20);
+<span class="fc" id="L140">                speedRing.setStrokeWeight(towerFireLv-displayFix);</span>
+<span class="fc" id="L141">                speedRing.setFill(false);</span>
+<span class="fc" id="L142">                speedRing.setStroke(app.color(130,100,255));</span>
+<span class="fc" id="L143">                app.shape(speedRing);</span>
+            }
+        }
+<span class="fc" id="L146">    }</span>
+    public double getX() {
+<span class="fc" id="L148">        return this.x;</span>
+    }
+    public double getY() {
+<span class="fc" id="L151">        return this.y;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

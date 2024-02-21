@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Tower.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.Towers</a> &gt; <span class="el_source">Tower.java</span></div><h1>Tower.java</h1><pre class="source lang-java linenums">package WizardTD.Towers;
+
+import WizardTD.App;
+import WizardTD.GameSys.ButtonClasses.*;
+import WizardTD.Monsters.Monster;
+
+public class Tower extends TowerPreset implements costCheck {
+
+<span class="fc" id="L9">    Monster trackedMonster = null;</span>
+
+    public Tower(double x, double y, int towerRangeLv, int towerFireLv, int towerDamageLv) {
+<span class="fc" id="L12">        super(x, y, towerRangeLv, towerFireLv, towerDamageLv);</span>
+<span class="fc" id="L13">    }</span>
+
+<span class="fc" id="L15">    public int rangeCost = 0;</span>
+<span class="fc" id="L16">    public int fireCost = 0;</span>
+<span class="fc" id="L17">    public int dmgCost = 0;</span>
+
+    protected boolean inRange(Monster monster) {
+<span class="fc" id="L20">        double xDis = monster.getX()+6 - this.x*App.CELLSIZE;</span>
+<span class="fc" id="L21">        double yDis = monster.getY()+6 - this.y*App.CELLSIZE;</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        return (int)(Math.pow(xDis,2) + Math.pow(yDis,2)) &lt;= Math.pow(towerRange+towerRangeLv*32, 2)+52;</span>
+    }
+    protected void detectMonster() {
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (trackedMonster == null) {</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            for (Monster monster : App.runningMonsterList) {</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">                if (inRange(monster)) {</span>
+<span class="pc bpc" id="L28" title="1 of 6 branches missed.">                    if (monster.ticking &amp;&amp; monster.canTrack &amp;&amp; App.GAME_TICKING) {</span>
+<span class="fc" id="L29">                        trackedMonster = monster;</span>
+<span class="fc" id="L30">                        break;</span>
+                    }
+                }
+<span class="fc" id="L33">            }</span>
+        } else {
+<span class="pc bpc" id="L35" title="1 of 4 branches missed.">            if (!inRange(trackedMonster) || !trackedMonster.ticking) {</span>
+<span class="fc" id="L36">                trackedMonster = null;</span>
+            }
+        }
+<span class="fc" id="L39">    }</span>
+<span class="fc" id="L40">    int fireCounter = 0;</span>
+    protected void generateFireBall() {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (trackedMonster!=null) {</span>
+<span class="fc" id="L43">            App.fireBalls.add(</span>
+                    new FireBall((this.x)*32+16, (this.y)*32+16+40, 5,
+                            (float) (towerDamage+0.5*towerDamage*towerDmgLv), trackedMonster));
+        }
+<span class="fc" id="L47">    }</span>
+
+
+    public void monitoring(int mouseX, int mouseY) {
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (checkHoverTower(mouseX,mouseY,(float) this.x,(float) this.y)) {</span>
+            // Increment counter based on towers' levels
+<span class="fc" id="L53">            towerCostManage(this);</span>
+            // Check the mana condition and upgrade accordingly
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            if (App.isMousePressed) {</span>
+<span class="fc" id="L56">                towerConsume(this);</span>
+            }
+        }
+<span class="fc" id="L59">    }</span>
+
+    @Override
+    public void tick() {
+        {
+<span class="fc" id="L64">            detectMonster();</span>
+<span class="fc bfc" id="L65" title="All 4 branches covered.">            if (fireCounter == 0 &amp;&amp; App.GAME_TICKING) {</span>
+<span class="fc" id="L66">                generateFireBall();</span>
+            }
+<span class="fc" id="L68">            fireCounter++;</span>
+<span class="fc" id="L69">            fireCounter = (int) (fireCounter % ((60/(firingSpeed+towerFireLv*0.5)) / App.TICK_Multiplier));</span>
+        }
+<span class="fc" id="L71">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

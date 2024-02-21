@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>T.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.GameSys.ButtonClasses</a> &gt; <span class="el_source">T.java</span></div><h1>T.java</h1><pre class="source lang-java linenums">package WizardTD.GameSys.ButtonClasses;
+
+import WizardTD.App;
+import WizardTD.GameSys.Buttons;
+import WizardTD.Towers.TowerBuilder;
+
+public class T extends Buttons {
+
+    TowerBuilder towerBuilder;
+    public T(float x, float y, App app) {
+<span class="fc" id="L11">        super(x, y, app,&quot;T&quot;, &quot;Build\ntower&quot;,'t');</span>
+<span class="fc" id="L12">        this.towerBuilder = new TowerBuilder();</span>
+<span class="fc" id="L13">    }</span>
+    protected void MouseBuildTower(int mouseX, int mouseY) {
+
+<span class="pc bpc" id="L16" title="1 of 2 branches missed.">        if (hoverInMap(mouseX,mouseY)) {</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">            if (App.grasses[mouseX/32][(mouseY-40) / 32] != null &amp;&amp;</span>
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">                    !App.grasses[mouseX/32][(mouseY-40) / 32].isOccupied()) {</span>
+<span class="fc" id="L19">                towerBuilder.BuildTower(mouseX/32, (mouseY-40)/32);</span>
+            }
+        }
+<span class="fc" id="L22">    }</span>
+    @Override
+    public void functionality(App app) {
+<span class="pc bpc" id="L25" title="1 of 6 branches missed.">        if (App.isMousePressed &amp;&amp; checked &amp;&amp; !Inventory.InvChecked){</span>
+<span class="fc" id="L26">            MouseBuildTower(app.mouseX, app.mouseY);</span>
+        }
+<span class="fc" id="L28">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

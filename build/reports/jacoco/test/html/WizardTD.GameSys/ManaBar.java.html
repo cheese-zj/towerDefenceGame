@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManaBar.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.GameSys</a> &gt; <span class="el_source">ManaBar.java</span></div><h1>ManaBar.java</h1><pre class="source lang-java linenums">package WizardTD.GameSys;
+
+import WizardTD.App;
+import processing.core.PConstants;
+import processing.core.PFont;
+import processing.core.PShape;
+
+public class ManaBar {
+    public static float mana;
+    public static int manaCap;
+    public static float manaGain;
+    public static int manaPoolCost;
+<span class="fc" id="L13">    protected static boolean shielded = false;</span>
+    //boolean ticking = true;
+<span class="fc" id="L15">    int manaTick = 60;</span>
+<span class="fc" id="L16">    public ManaBar(){</span>
+<span class="fc" id="L17">        mana = App.json.getInt(&quot;initial_mana&quot;);</span>
+<span class="fc" id="L18">        manaCap = App.json.getInt(&quot;initial_mana_cap&quot;);</span>
+<span class="fc" id="L19">        manaGain = App.json.getInt(&quot;initial_mana_gained_per_second&quot;);</span>
+<span class="fc" id="L20">        manaPoolCost = App.json.getInt(&quot;mana_pool_spell_initial_cost&quot;);</span>
+<span class="fc" id="L21">    }</span>
+
+    protected void manaUpdate(){
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (mana &gt; manaCap) mana = manaCap;</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (App.GAME_TICKING) {</span>
+<span class="pc bpc" id="L26" title="2 of 6 branches missed.">            if (manaTick &gt;= 60 &amp;&amp; manaTick &lt;= 61 &amp;&amp; mana &lt;= manaCap) {</span>
+<span class="fc" id="L27">                mana += manaGain;</span>
+<span class="fc" id="L28">                manaTick %= 60;</span>
+            }
+<span class="fc" id="L30">            manaTick += App.TICK_Multiplier;</span>
+        }
+
+<span class="fc" id="L33">    }</span>
+
+    public static void getAttacked(int dmgTaken) {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (!shielded) {</span>
+<span class="fc" id="L37">            mana -= dmgTaken;</span>
+        } else {
+<span class="fc" id="L39">            shielded = false;</span>
+        }
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (mana&lt;0){</span>
+<span class="fc" id="L42">            mana = 0;</span>
+        }
+<span class="fc" id="L44">    }</span>
+    public void drawManaBar(App app) {
+<span class="fc" id="L46">        manaUpdate();</span>
+<span class="fc" id="L47">        PShape manaBar =</span>
+<span class="fc" id="L48">                app.createShape(PConstants.RECT, 340,10,(float)(280*(((double)mana/(double) manaCap))),20);</span>
+<span class="fc" id="L49">        PShape manaBarBase =</span>
+<span class="fc" id="L50">                app.createShape(PConstants.RECT, 340,10,280,20);</span>
+<span class="fc" id="L51">        PFont tFont = app.createFont(&quot;Arial&quot;,16,true);</span>
+<span class="fc" id="L52">        manaBar.setFill(app.color(40,80,235));</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (shielded) manaBar.setFill(app.color(255,255,100));</span>
+<span class="fc" id="L54">        manaBarBase.setFill(app.color(255,255,255));</span>
+<span class="fc" id="L55">        manaBarBase.setStrokeWeight(2);</span>
+<span class="fc" id="L56">        app.fill(0);</span>
+<span class="fc" id="L57">        app.shape(manaBarBase);</span>
+<span class="fc" id="L58">        app.shape(manaBar);</span>
+<span class="fc" id="L59">        String manaBarText = (int)mana + &quot;/&quot; + manaCap;</span>
+<span class="fc" id="L60">        app.textFont(tFont,16);</span>
+<span class="fc" id="L61">        app.text(manaBarText,445,27);</span>
+<span class="fc" id="L62">    }</span>
+    public void manaBarReset() {
+<span class="fc" id="L64">        mana = App.json.getInt(&quot;initial_mana&quot;);</span>
+<span class="fc" id="L65">        manaCap = App.json.getInt(&quot;initial_mana_cap&quot;);</span>
+<span class="fc" id="L66">        manaGain = App.json.getInt(&quot;initial_mana_gained_per_second&quot;);</span>
+<span class="fc" id="L67">        manaPoolCost = App.json.getInt(&quot;mana_pool_spell_initial_cost&quot;);</span>
+<span class="fc" id="L68">        shielded = false;</span>
+<span class="fc" id="L69">    }</span>
+
+    public static void manaBarGetShielded() {
+<span class="fc" id="L72">        shielded = true;</span>
+<span class="fc" id="L73">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

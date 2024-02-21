@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MapCreator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.Helpers</a> &gt; <span class="el_source">MapCreator.java</span></div><h1>MapCreator.java</h1><pre class="source lang-java linenums">package WizardTD.Helpers;
+
+import WizardTD.App;
+import WizardTD.Tiles.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
+<span class="fc" id="L9">public class MapCreator {</span>
+
+    public Grass[][] grasses;
+    public Shrub[][] shrubs;
+    public Path[][] paths;
+    public WizardHouse wizardHouse;
+    public Grass grassUnderHouse;
+<span class="fc" id="L16">    public static ArrayList&lt;String&gt; spawnPoints = new ArrayList&lt;&gt;();</span>
+    public void CreateMap() {
+
+<span class="fc" id="L19">        String[][] levelArray = GridCreator.LevelReader();</span>
+<span class="fc" id="L20">        this.grasses = new Grass[20][20];</span>
+<span class="fc" id="L21">        this.shrubs = new Shrub[20][20];</span>
+<span class="fc" id="L22">        this.paths = new Path[20][20];</span>
+<span class="fc" id="L23">        ImageHelper imageHelper = new ImageHelper();</span>
+        //From Grid class method, reading the level txt file
+        //And detect all the spaces for grass tiles, appending them into a Grass 2D Array
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        for (int i = 0; i &lt; 20; i++) {</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            for (int j = 0; j &lt; 20; j++) {</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">                if (levelArray[i][j] != null) {</span>
+<span class="fc bfc" id="L29" title="All 4 branches covered.">                    switch (levelArray[i][j]) {</span>
+                        case &quot; &quot;:
+<span class="fc" id="L31">                            grasses[i][j] = new Grass(i * App.CELLSIZE, j * App.CELLSIZE );</span>
+<span class="fc" id="L32">                            grasses[i][j].setSprite(App.grasspng);</span>
+<span class="fc" id="L33">                            break;</span>
+                        case &quot;S&quot;:
+<span class="fc" id="L35">                            shrubs[i][j] = new Shrub(i * App.CELLSIZE, j * App.CELLSIZE );</span>
+<span class="fc" id="L36">                            shrubs[i][j].setSprite(App.shrubpng);</span>
+<span class="fc" id="L37">                            break;</span>
+                        case &quot;W&quot;:
+<span class="fc" id="L39">                            this.wizardHouse =</span>
+                                    new WizardHouse(i * App.CELLSIZE - 5, j * App.CELLSIZE  - 10);
+<span class="fc" id="L41">                            App.wizardX = i * App.CELLSIZE;</span>
+<span class="fc" id="L42">                            App.wizardY = j * App.CELLSIZE;</span>
+<span class="fc" id="L43">                            wizardHouse.setSprite(App.wizard_housepng);</span>
+
+<span class="fc" id="L45">                            this.grassUnderHouse = new Grass(i * App.CELLSIZE, j * App.CELLSIZE );</span>
+<span class="fc" id="L46">                            grassUnderHouse.setSprite(App.grasspng);</span>
+                            break;
+                    }
+                }
+<span class="pc bpc" id="L50" title="1 of 6 branches missed.">                if (levelArray[i][j] != null &amp;&amp; (levelArray[i][j].equals(&quot;X&quot;) || levelArray[i][j].equals(&quot;W&quot;))) {</span>
+<span class="fc" id="L51">                    Path path = new Path(i * App.CELLSIZE, j * App.CELLSIZE );</span>
+
+                    // Check surrounding tiles
+<span class="fc bfc" id="L54" title="All 6 branches covered.">                    boolean east  = i &lt; 19 &amp;&amp; (levelArray[i + 1][j].equals(&quot;X&quot;) || levelArray[i + 1][j].equals(&quot;W&quot;));</span>
+<span class="fc bfc" id="L55" title="All 6 branches covered.">                    boolean west  = i &gt; 0  &amp;&amp; (levelArray[i - 1][j].equals(&quot;X&quot;) || levelArray[i - 1][j].equals(&quot;W&quot;));</span>
+<span class="fc bfc" id="L56" title="All 6 branches covered.">                    boolean south = j &lt; 19 &amp;&amp; (levelArray[i][j + 1].equals(&quot;X&quot;) || levelArray[i][j + 1].equals(&quot;W&quot;));</span>
+<span class="fc bfc" id="L57" title="All 6 branches covered.">                    boolean north = j &gt; 0  &amp;&amp; (levelArray[i][j - 1].equals(&quot;X&quot;) || levelArray[i][j - 1].equals(&quot;W&quot;));</span>
+
+                    // Check if path is on the boundary and make it a spawn point
+<span class="fc bfc" id="L60" title="All 8 branches covered.">                    if (i == 0 || j == 0 || i == 19 || j == 19) {</span>
+<span class="fc" id="L61">                        spawnPoints.add(i + &quot; &quot; + j);</span>
+                    }
+
+<span class="fc" id="L64">                    path.setEast(east);</span>
+<span class="fc" id="L65">                    path.setWest(west);</span>
+<span class="fc" id="L66">                    path.setSouth(south);</span>
+<span class="fc" id="L67">                    path.setNorth(north);</span>
+
+<span class="fc" id="L69">                    path.setSprite(App.path0png);</span>
+
+                    {
+                        // Determine image based on surrounding tiles
+<span class="fc bfc" id="L73" title="All 8 branches covered.">                        if ((east || i==19) || (west || i==0))</span>
+<span class="fc" id="L74">                            path.setSprite(App.path0png);</span>
+<span class="pc bpc" id="L75" title="1 of 8 branches missed.">                        if ((north || j==0) || (south || j==19))</span>
+<span class="fc" id="L76">                            path.setSprite(imageHelper.rotateImageByDegrees(App.path0png, 90));</span>
+                    }
+                    {
+                        // L-shaped paths
+<span class="fc bfc" id="L80" title="All 8 branches covered.">                        if ((south || j==19) &amp;&amp; (west || i==0))</span>
+<span class="fc" id="L81">                            path.setSprite(App.path1png);</span>
+<span class="fc bfc" id="L82" title="All 8 branches covered.">                        else if ((north || j==0) &amp;&amp; (west || i==0))</span>
+<span class="fc" id="L83">                            path.setSprite(imageHelper.rotateImageByDegrees(App.path1png, 90));</span>
+<span class="pc bpc" id="L84" title="1 of 8 branches missed.">                        else if ((north || j==0) &amp;&amp; (east || i==19))</span>
+<span class="fc" id="L85">                            path.setSprite(imageHelper.rotateImageByDegrees(App.path1png, 180));</span>
+<span class="pc bpc" id="L86" title="1 of 8 branches missed.">                        else if ((south || j==19) &amp;&amp; (east || i==19))</span>
+<span class="fc" id="L87">                            path.setSprite(imageHelper.rotateImageByDegrees(App.path1png, 270));</span>
+                    }
+
+                    {
+                        // T-shaped paths
+<span class="pc bpc" id="L92" title="1 of 12 branches missed.">                        if ((east || i==19) &amp;&amp; (west || i==0) &amp;&amp; (south || j==19))</span>
+<span class="fc" id="L93">                            path.setSprite(App.path2png);</span>
+<span class="pc bpc" id="L94" title="1 of 12 branches missed.">                        else if ((north || j==0) &amp;&amp; (south || j==19) &amp;&amp; (west || i==0))</span>
+<span class="fc" id="L95">                            path.setSprite(imageHelper.rotateImageByDegrees(App.path2png, 90));</span>
+<span class="pc bpc" id="L96" title="1 of 12 branches missed.">                        else if ((east || i==19) &amp;&amp; (west || i==0) &amp;&amp; (north || j==0))</span>
+<span class="fc" id="L97">                            path.setSprite(imageHelper.rotateImageByDegrees(App.path2png, 180));</span>
+<span class="pc bpc" id="L98" title="1 of 12 branches missed.">                        else if ((north || j==0) &amp;&amp; (south || j==19) &amp;&amp; (east || i==19))</span>
+<span class="fc" id="L99">                            path.setSprite(imageHelper.rotateImageByDegrees(App.path2png, 270));</span>
+                    }
+                    // Cross-shaped paths
+<span class="pc bpc" id="L102" title="2 of 16 branches missed.">                    if ((north || j==0) &amp;&amp; (south || j==19) &amp;&amp; (west || i==0) &amp;&amp; (east || i==19)) {</span>
+<span class="fc" id="L103">                        path.setSprite(App.path3png);</span>
+                    }
+
+<span class="fc" id="L106">                    paths[i][j] = path;</span>
+                }
+            }
+        }
+<span class="fc" id="L110">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

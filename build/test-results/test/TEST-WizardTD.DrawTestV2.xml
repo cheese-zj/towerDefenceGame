@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="WizardTD.DrawTestV2" tests="15" skipped="0" failures="0" errors="0" timestamp="2023-10-22T12:09:32" hostname="Jamess-MBP.modem" time="16.68">
+  <properties/>
+  <testcase name="repetition 1 of 1" classname="WizardTD.DrawTestV2" time="0.684"/>
+  <testcase name="repetition 1 of 2" classname="WizardTD.DrawTestV2" time="0.586"/>
+  <testcase name="repetition 2 of 2" classname="WizardTD.DrawTestV2" time="0.57"/>
+  <testcase name="repetition 1 of 1" classname="WizardTD.DrawTestV2" time="1.626"/>
+  <testcase name="repetition 1 of 1" classname="WizardTD.DrawTestV2" time="0.599"/>
+  <testcase name="repetition 1 of 1" classname="WizardTD.DrawTestV2" time="0.578"/>
+  <testcase name="repetition 1 of 1" classname="WizardTD.DrawTestV2" time="0.59"/>
+  <testcase name="repetition 1 of 2" classname="WizardTD.DrawTestV2" time="0.602"/>
+  <testcase name="repetition 2 of 2" classname="WizardTD.DrawTestV2" time="0.63"/>
+  <testcase name="repetition 1 of 2" classname="WizardTD.DrawTestV2" time="0.696"/>
+  <testcase name="repetition 2 of 2" classname="WizardTD.DrawTestV2" time="0.727"/>
+  <testcase name="repetition 1 of 1" classname="WizardTD.DrawTestV2" time="6.626"/>
+  <testcase name="repetition 1 of 1" classname="WizardTD.DrawTestV2" time="0.768"/>
+  <testcase name="repetition 1 of 1" classname="WizardTD.DrawTestV2" time="0.673"/>
+  <testcase name="repetition 1 of 1" classname="WizardTD.DrawTestV2" time="0.709"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+]]></system-err>
+</testsuite>

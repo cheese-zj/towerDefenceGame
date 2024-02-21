@@ -7,11 +7,11 @@ S S SS S X   S
  S    S      S  X   
          SS    XX   
 XXXXXXXXXXXXXXXXX  S
-  S    S  X S     S 
-          X         
-    S     X   S   S 
-   S  S   X         
-          X  SS  S  
+  S   XS  X S     S
+      X   X
+    S XXX XXX S   S
+   S  S X   X
+        XXXXXSS  S
    SS     X     S   
   SSSS    W  S S    
  SSSSSS        S    

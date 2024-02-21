@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="WizardTD.AppDrawTesting" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-10-22T12:08:52" hostname="Jamess-MBP.modem" time="6.382">
+  <properties/>
+  <testcase name="repetition 1 of 2" classname="WizardTD.AppDrawTesting" time="3.337"/>
+  <testcase name="repetition 2 of 2" classname="WizardTD.AppDrawTesting" time="3.043"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[Warning: the fonts "Times" and "Lucida Bright" are not available for the Java logical font "Serif", which may have unexpected appearance or behavior. Re-enable the "Times" font to remove this warning.
+Warning: the fonts "Times" and "Lucida Bright" are not available for the Java logical font "Serif", which may have unexpected appearance or behavior. Re-enable the "Times" font to remove this warning.
+]]></system-err>
+</testsuite>

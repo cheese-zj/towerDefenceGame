@@ -20,7 +20,7 @@ public enum SpellType {
     /**
      * Constructs a new SpellType with the specified name.
      *
-     * @param s  The friendly name for the spell type.
+     * @param s The name for the spell type.
      */
     private SpellType(String s){
         name = s;

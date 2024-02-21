@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="WizardTD.GameSysTesting" tests="9" skipped="0" failures="0" errors="0" timestamp="2023-10-22T12:10:11" hostname="Jamess-MBP.modem" time="29.777">
+  <properties/>
+  <testcase name="ButtonTest()" classname="WizardTD.GameSysTesting" time="3.191"/>
+  <testcase name="ManaBarTest()" classname="WizardTD.GameSysTesting" time="3.182"/>
+  <testcase name="repetition 1 of 3" classname="WizardTD.GameSysTesting" time="3.742"/>
+  <testcase name="repetition 2 of 3" classname="WizardTD.GameSysTesting" time="3.375"/>
+  <testcase name="repetition 3 of 3" classname="WizardTD.GameSysTesting" time="3.371"/>
+  <testcase name="ButtonTests()" classname="WizardTD.GameSysTesting" time="3.191"/>
+  <testcase name="ButtonTestsWithT()" classname="WizardTD.GameSysTesting" time="3.222"/>
+  <testcase name="WinAndLostTest()" classname="WizardTD.GameSysTesting" time="3.211"/>
+  <testcase name="WaveSysTest()" classname="WizardTD.GameSysTesting" time="3.287"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[java.lang.IndexOutOfBoundsException: Index: 26, Size: 20
+	at java.util.ArrayList.rangeCheck(ArrayList.java:659)
+	at java.util.ArrayList.get(ArrayList.java:435)
+	at WizardTD.App.DrawMonsters(App.java:124)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.ArrayIndexOutOfBoundsException: 20
+	at WizardTD.Monsters.MonsterPathReader.Read(MonsterPathReader.java:101)
+	at WizardTD.Monsters.Monster.tick(Monster.java:141)
+	at WizardTD.App.DrawMonsters(App.java:122)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.ArrayIndexOutOfBoundsException: 20
+	at WizardTD.Monsters.MonsterPathReader.Read(MonsterPathReader.java:101)
+	at WizardTD.Monsters.Monster.tick(Monster.java:141)
+	at WizardTD.App.DrawMonsters(App.java:122)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.ArrayIndexOutOfBoundsException: 20
+	at WizardTD.Monsters.MonsterPathReader.Read(MonsterPathReader.java:101)
+	at WizardTD.Monsters.Monster.tick(Monster.java:141)
+	at WizardTD.App.DrawMonsters(App.java:122)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.ArrayIndexOutOfBoundsException: 20
+	at WizardTD.Monsters.MonsterPathReader.Read(MonsterPathReader.java:101)
+	at WizardTD.Monsters.Monster.tick(Monster.java:141)
+	at WizardTD.App.DrawMonsters(App.java:122)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.ArrayIndexOutOfBoundsException: 20
+	at WizardTD.Monsters.MonsterPathReader.Read(MonsterPathReader.java:101)
+	at WizardTD.Monsters.Monster.tick(Monster.java:141)
+	at WizardTD.App.DrawMonsters(App.java:122)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.ArrayIndexOutOfBoundsException: 20
+	at WizardTD.Monsters.MonsterPathReader.Read(MonsterPathReader.java:101)
+	at WizardTD.Monsters.Monster.tick(Monster.java:141)
+	at WizardTD.App.DrawMonsters(App.java:122)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.ArrayIndexOutOfBoundsException: 20
+	at WizardTD.Monsters.MonsterPathReader.Read(MonsterPathReader.java:101)
+	at WizardTD.Monsters.Monster.tick(Monster.java:141)
+	at WizardTD.App.DrawMonsters(App.java:122)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+]]></system-err>
+</testsuite>

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package WizardTD;
+
+import WizardTD.GameSys.*;
+import WizardTD.GameSys.ButtonClasses.*;
+import WizardTD.Helpers.CheckHover;
+import WizardTD.Helpers.MapCreator;
+import WizardTD.Helpers.WaveManager;
+import WizardTD.Monsters.*;
+import WizardTD.Spell.SpellCaster;
+import WizardTD.Tiles.*;
+import WizardTD.Towers.*;
+
+import processing.core.*;
+import processing.data.JSONArray;
+import processing.data.JSONObject;
+import processing.event.MouseEvent;
+
+import java.util.*;
+
+public class App extends PApplet implements CheckHover{
+
+    public static final int CELLSIZE = 32;
+    public static final int SIDEBAR = 120;
+    public static final int TOPBAR = 40;
+    public static final int BOARD_WIDTH = 20;
+
+<span class="fc" id="L27">    public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;</span>
+<span class="fc" id="L28">    public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;</span>
+
+    public static final int FPS = 60;
+
+<span class="fc" id="L32">    public static int TICK_Multiplier = 1;</span>
+<span class="fc" id="L33">    public static boolean GAME_TICKING = true;</span>
+
+    public String configPath;
+    public static JSONObject json;
+    public static JSONArray wavesInfo;
+
+<span class="fc" id="L39">    public Random random = new Random();</span>
+
+    private final MapCreator mapCreator;
+    public WaveManager waveManager;
+    private final SpellCaster spellCaster;
+
+    private final ButtonsCollection buttonsCollection;
+
+    public static Path[][] paths;
+    public static Grass[][] grasses;
+
+    public static int wizardX;
+    public static int wizardY;
+
+    public static boolean isMousePressed;
+<span class="fc" id="L54">    protected int timeCounter = 0;</span>
+
+    public static ArrayList&lt;Monster&gt; runningMonsterList;
+    public static ArrayList&lt;FireBall&gt; fireBalls;
+    public static HashSet&lt;Tower&gt; towers;
+    public ManaBar manaBar;
+
+    public static PImage
+            grasspng,
+            shrubpng,
+            path0png, path1png, path2png, path3png,
+            wizard_housepng,
+            gremlinpng,
+            gremlin1png, gremlin2png, gremlin3png, gremlin4png, gremlin5png,
+            wormpng, beetlepng,
+            tower0png, tower1png, tower2png,
+            fireballpng
+            ;
+
+    public static PShape topBar, sideBar;
+    public static PFont gameFont;
+
+    public static void setWIN(boolean WIN) {
+<span class="fc" id="L77">        App.WIN = WIN;</span>
+<span class="fc" id="L78">    }</span>
+    public static void setLOSE(boolean LOSE) {
+<span class="fc" id="L80">        App.LOSE = LOSE;</span>
+<span class="fc" id="L81">    }</span>
+
+<span class="fc" id="L83">    protected static boolean WIN = false;</span>
+<span class="fc" id="L84">    protected static boolean LOSE = false;</span>
+<span class="fc" id="L85">    public static boolean LASTWAVE = false;</span>
+
+<span class="fc" id="L87">    public App() {</span>
+<span class="fc" id="L88">        configPath = &quot;config.json&quot;;</span>
+<span class="fc" id="L89">        mapCreator = new MapCreator();</span>
+<span class="fc" id="L90">        waveManager = new WaveManager();</span>
+<span class="fc" id="L91">        buttonsCollection = new ButtonsCollection();</span>
+<span class="fc" id="L92">        towers = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L93">        fireBalls = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L94">        spellCaster = new SpellCaster();</span>
+<span class="fc" id="L95">    }</span>
+
+    /**
+     * Map is drawn by
+     */
+    protected void DrawMap() {
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        for (int i=0; i&lt;20; i++) {</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            for (int j=0; j&lt;20; j++) {</span>
+                //System.out.println(grasses[i][j]);
+<span class="fc bfc" id="L104" title="All 2 branches covered.">                if (grasses[i][j] != null){</span>
+<span class="fc" id="L105">                    grasses[i][j].draw(this);</span>
+                }
+<span class="fc bfc" id="L107" title="All 2 branches covered.">                if (mapCreator.shrubs[i][j] != null){</span>
+<span class="fc" id="L108">                    mapCreator.shrubs[i][j].draw(this);</span>
+                }
+<span class="fc bfc" id="L110" title="All 2 branches covered.">                if (paths[i][j] != null){</span>
+<span class="fc" id="L111">                    paths[i][j].draw(this);</span>
+                }
+            }
+        }
+<span class="fc" id="L115">        mapCreator.grassUnderHouse.draw(this);</span>
+<span class="fc" id="L116">    }</span>
+
+    protected void DrawMonsters() {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        if (!WIN) {</span>
+<span class="fc" id="L120">            boolean waveDone = true;</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">            for (int i = 0; i &lt; runningMonsterList.size(); i++) {</span>
+<span class="fc" id="L122">                runningMonsterList.get(i).tick();</span>
+<span class="fc" id="L123">                runningMonsterList.get(i).update(this);</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">                if (runningMonsterList.get(i).selfDelete) {</span>
+<span class="fc" id="L125">                    runningMonsterList.remove(i);</span>
+                }
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">                if (!runningMonsterList.isEmpty()) {</span>
+<span class="fc bfc" id="L128" title="All 4 branches covered.">                    waveDone = waveDone &amp;&amp; runningMonsterList.get(i).dead;</span>
+                }
+
+            }
+<span class="pc bpc" id="L132" title="1 of 4 branches missed.">            if (waveDone &amp;&amp; LASTWAVE){</span>
+<span class="nc" id="L133">                setWIN(true);</span>
+            }
+        }
+<span class="fc" id="L136">    }</span>
+
+    protected void DrawTowerUpgradeInfo() {
+<span class="fc bfc" id="L139" title="All 2 branches covered.">        for (Tower tower : towers) {</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">            if (checkHoverTower(mouseX,mouseY, (float) tower.getX(), (float) tower.getY())) {</span>
+<span class="fc" id="L141">                tower.drawUpgrade(this,tower.rangeCost,tower.fireCost,tower.dmgCost);</span>
+            }
+<span class="fc" id="L143">        }</span>
+<span class="fc" id="L144">    }</span>
+    protected void DrawTowerRange() {
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        for (Tower tower : towers) {</span>
+<span class="fc" id="L147">            tower.rangeDisplay(this,mouseX,mouseY);</span>
+<span class="fc" id="L148">        }</span>
+<span class="fc" id="L149">    }</span>
+    protected void DrawTowers() {
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        for (Tower tower : towers) {</span>
+<span class="fc" id="L152">            tower.monitoring(mouseX,mouseY);</span>
+<span class="fc" id="L153">            tower.tick();</span>
+<span class="fc" id="L154">            tower.draw(this, mouseX, mouseY);</span>
+<span class="fc" id="L155">        }</span>
+<span class="fc" id="L156">    }</span>
+    protected void DrawFireballs() {
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        for (FireBall fireBall : fireBalls) {</span>
+<span class="fc" id="L159">            fireBall.tick();</span>
+<span class="fc" id="L160">            fireBall.draw(this);</span>
+<span class="fc" id="L161">        }</span>
+<span class="fc" id="L162">    }</span>
+    protected void DrawGUI() {
+
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        if (GAME_TICKING) timeCounter+=TICK_Multiplier;</span>
+<span class="fc" id="L166">        float startsIn = -1;</span>
+
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">        if (waveManager.waveCount &lt; waveManager.wavePauseInfoMap.size()) {</span>
+<span class="fc" id="L169">            startsIn = waveManager.wavePauseInfoMap.get(waveManager.waveCount) - (timeCounter / 60);</span>
+        }
+
+<span class="fc" id="L172">        shape(topBar);</span>
+<span class="fc" id="L173">        shape(sideBar);</span>
+<span class="fc" id="L174">        manaBar.drawManaBar(this);</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        for (int i = 0; i&lt;buttonsCollection.buttonsArray.size(); i++) {</span>
+<span class="fc" id="L176">            buttonsCollection.buttonsArray.get(i).draw(this);</span>
+<span class="fc" id="L177">            buttonsCollection.buttonsArray.get(i).functionality(this);</span>
+        }
+
+<span class="fc" id="L180">        textFont(gameFont,25);</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">        if (!LASTWAVE) {</span>
+<span class="fc" id="L182">            text(&quot;Wave &quot; + (1 + waveManager.waveCount), 10, 30);</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">        } else if (!WIN) {</span>
+<span class="fc" id="L184">            text(&quot;Last Wave!&quot;, 10, 30);</span>
+        }
+<span class="fc bfc" id="L186" title="All 2 branches covered.">        if (startsIn &gt;= 0) {</span>
+<span class="fc" id="L187">            text(&quot;starts: &quot; + (int) (startsIn), 110, 30);</span>
+        } else {
+<span class="fc bfc" id="L189" title="All 2 branches covered.">            if (!WIN) {</span>
+<span class="fc" id="L190">                waveManager.waveCount++;</span>
+<span class="fc" id="L191">                waveManager.WaveRunControl();</span>
+<span class="fc" id="L192">                timeCounter = 0;</span>
+            }
+        }
+<span class="fc bfc" id="L195" title="All 2 branches covered.">        if (WIN) {</span>
+<span class="fc" id="L196">            fill(50,100,50);</span>
+<span class="fc" id="L197">            strokeWeight(4);</span>
+<span class="fc" id="L198">            rect(125,285,400,80);</span>
+<span class="fc" id="L199">            strokeWeight(1);</span>
+<span class="fc" id="L200">            fill(color(100, 255, 100));</span>
+<span class="fc" id="L201">            textFont(gameFont,40);</span>
+<span class="fc" id="L202">            text(&quot;YOU WIN!!!&quot;, 220,340);</span>
+<span class="fc" id="L203">            fill(0);</span>
+        }
+<span class="fc bfc" id="L205" title="All 2 branches covered.">        if (LOSE) {</span>
+<span class="fc" id="L206">            fill(100,50,50);</span>
+<span class="fc" id="L207">            strokeWeight(4);</span>
+<span class="fc" id="L208">            rect(125,285,400,80);</span>
+<span class="fc" id="L209">            strokeWeight(1);</span>
+<span class="fc" id="L210">            fill(color(255, 100, 100));</span>
+<span class="fc" id="L211">            textFont(gameFont,40);</span>
+<span class="fc" id="L212">            text(&quot;YOU LOSE!&quot;, 227,337);</span>
+<span class="fc" id="L213">            textFont(gameFont,12);</span>
+<span class="fc" id="L214">            text(&quot;Press R to restart&quot;, 280,355);</span>
+<span class="fc" id="L215">            fill(0);</span>
+        }
+<span class="fc" id="L217">    }</span>
+
+    protected void DrawSpell() {
+<span class="fc bfc" id="L220" title="All 2 branches covered.">        if (SpellCaster.coolDown &gt; 0 ) SpellCaster.coolDown--;</span>
+<span class="fc" id="L221">        spellCaster.DrawParticles(this);</span>
+<span class="fc" id="L222">    }</span>
+
+    /**
+     * Reset the game
+     * Resetting all the variables that were set from the beginning of the game
+     * Clearing all the running lists of Objects in order to get rid of all the created Objects:
+     * Eg: Towers, Monsters, Fireballs
+     */
+    public void gameReset() {
+
+<span class="fc" id="L232">        manaBar.manaBarReset();</span>
+<span class="fc" id="L233">        towers.clear();</span>
+<span class="fc" id="L234">        fireBalls.clear();</span>
+<span class="fc bfc" id="L235" title="All 2 branches covered.">        for (Monster monster : runningMonsterList){</span>
+<span class="fc" id="L236">            monster.ticking = false;</span>
+<span class="fc" id="L237">            monster.dead = true;</span>
+<span class="fc" id="L238">        }</span>
+
+<span class="fc bfc" id="L240" title="All 2 branches covered.">        for (int i=0; i&lt;20; i++) {</span>
+<span class="fc bfc" id="L241" title="All 2 branches covered.">            for (int j=0; j&lt;20; j++) {</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">                if (grasses[i][j] != null){</span>
+<span class="fc" id="L243">                    grasses[i][j].setOccupied(false);</span>
+                }
+            }
+        }
+<span class="fc" id="L247">        waveManager = new WaveManager();</span>
+<span class="fc" id="L248">        waveManager.WaveSetup();</span>
+<span class="fc" id="L249">        waveManager.waveCount=0;</span>
+<span class="fc" id="L250">        waveManager.WaveRunControl();</span>
+<span class="fc" id="L251">        timeCounter = 0;</span>
+<span class="fc" id="L252">        Inventory.spellCount = json.getInt(&quot;initial_spell_amount&quot;);</span>
+
+<span class="fc" id="L254">        GAME_TICKING = true;</span>
+<span class="fc" id="L255">        LOSE = false;</span>
+<span class="fc" id="L256">        WIN = false;</span>
+<span class="fc" id="L257">        LASTWAVE = false;</span>
+<span class="fc" id="L258">    }</span>
+
+    /**
+     * Initialise the setting of the window size.
+     */
+	@Override
+    public void settings() {
+<span class="fc" id="L265">        size(WIDTH, HEIGHT);</span>
+<span class="fc" id="L266">    }</span>
+
+    /**
+     * Load all resources such as images. Initialise the elements such as the player, enemies and map elements.
+     * Also initialise helpers to deal with various Objects.
+     */
+	@Override
+    public void setup() {
+<span class="fc" id="L274">        json = loadJSONObject(configPath);</span>
+<span class="fc" id="L275">        wavesInfo = json.getJSONArray(&quot;waves&quot;);</span>
+<span class="fc" id="L276">        frameRate(FPS);</span>
+
+        //images loading
+<span class="fc" id="L279">        grasspng = loadImage(&quot;src/main/resources/WizardTD/grass.png&quot;);</span>
+<span class="fc" id="L280">        shrubpng = loadImage(&quot;src/main/resources/WizardTD/shrub.png&quot;);</span>
+<span class="fc" id="L281">        wizard_housepng = loadImage(&quot;src/main/resources/WizardTD/wizard_house.png&quot;);</span>
+<span class="fc" id="L282">        tower0png = loadImage(&quot;src/main/resources/WizardTD/tower0.png&quot;);</span>
+<span class="fc" id="L283">        tower1png = loadImage(&quot;src/main/resources/WizardTD/tower1.png&quot;);</span>
+<span class="fc" id="L284">        tower2png = loadImage(&quot;src/main/resources/WizardTD/tower2.png&quot;);</span>
+        { // paths
+<span class="fc" id="L286">            path0png = loadImage(&quot;src/main/resources/WizardTD/path0.png&quot;);</span>
+<span class="fc" id="L287">            path1png = loadImage(&quot;src/main/resources/WizardTD/path1.png&quot;);</span>
+<span class="fc" id="L288">            path2png = loadImage(&quot;src/main/resources/WizardTD/path2.png&quot;);</span>
+<span class="fc" id="L289">            path3png = loadImage(&quot;src/main/resources/WizardTD/path3.png&quot;);</span>
+        }
+<span class="fc" id="L291">        gremlinpng = loadImage(&quot;src/main/resources/WizardTD/gremlin.png&quot;);</span>
+        { // gremlin killed
+<span class="fc" id="L293">            gremlin1png = loadImage(&quot;src/main/resources/WizardTD/gremlin1.png&quot;);</span>
+<span class="fc" id="L294">            gremlin2png = loadImage(&quot;src/main/resources/WizardTD/gremlin2.png&quot;);</span>
+<span class="fc" id="L295">            gremlin3png = loadImage(&quot;src/main/resources/WizardTD/gremlin3.png&quot;);</span>
+<span class="fc" id="L296">            gremlin4png = loadImage(&quot;src/main/resources/WizardTD/gremlin4.png&quot;);</span>
+<span class="fc" id="L297">            gremlin5png = loadImage(&quot;src/main/resources/WizardTD/gremlin5.png&quot;);</span>
+        }
+<span class="fc" id="L299">        wormpng = loadImage(&quot;src/main/resources/WizardTD/worm.png&quot;);</span>
+<span class="fc" id="L300">        beetlepng = loadImage(&quot;src/main/resources/WizardTD/beetle.png&quot;);</span>
+<span class="fc" id="L301">        fireballpng = loadImage(&quot;src/main/resources/WizardTD/fireball.png&quot;);</span>
+
+        //GUI related
+        {
+<span class="fc" id="L305">            topBar = createShape(RECT, 0,0,760,40);</span>
+<span class="fc" id="L306">            sideBar = createShape(RECT, 640,40,120,640);</span>
+<span class="fc" id="L307">            topBar.setFill(color(150,140,115));</span>
+<span class="fc" id="L308">            topBar.setStroke(false);</span>
+<span class="fc" id="L309">            sideBar.setFill(color(150,140,115));</span>
+<span class="fc" id="L310">            sideBar.setStroke(false);</span>
+<span class="fc" id="L311">            buttonsCollection.generate(this);</span>
+<span class="fc" id="L312">            gameFont = createFont(&quot;Cambridge&quot;,16,true);</span>
+        }
+
+        //Map related
+        {
+<span class="fc" id="L317">            mapCreator.CreateMap();</span>
+<span class="fc" id="L318">            paths = mapCreator.paths;</span>
+<span class="fc" id="L319">            grasses = mapCreator.grasses;</span>
+        }
+
+<span class="fc" id="L322">        manaBar = new ManaBar();</span>
+<span class="fc" id="L323">        waveManager = new WaveManager();</span>
+
+<span class="fc" id="L325">        waveManager.WaveSetup();</span>
+
+<span class="fc" id="L327">        runningMonsterList = new ArrayList&lt;Monster&gt;();</span>
+<span class="fc" id="L328">        waveManager.WaveRunControl();</span>
+
+<span class="fc" id="L330">    }</span>
+
+    /**
+     * Receive key pressed signal from the keyboard.
+     * Comparing signal to char variables assigned to each button class in a button collection to trigger them
+     * When game is lost &quot;R/r&quot; will be monitored and restart the game if pressed
+     */
+	@Override
+    public void keyPressed(){
+<span class="fc bfc" id="L339" title="All 2 branches covered.">        for (Buttons button : buttonsCollection.buttonsArray) {</span>
+<span class="pc bpc" id="L340" title="1 of 4 branches missed.">            if (this.key == button.triggerCode || this.key == Character.toUpperCase(button.triggerCode)){</span>
+<span class="fc" id="L341">                button.monitorKey();</span>
+            }
+<span class="fc" id="L343">        }</span>
+<span class="fc bfc" id="L344" title="All 2 branches covered.">        if (LOSE) {</span>
+<span class="pc bpc" id="L345" title="1 of 4 branches missed.">            if (this.key == 'r' || this.key == 'R'){</span>
+<span class="fc" id="L346">                gameReset();</span>
+            }
+        }
+<span class="fc" id="L349">    }</span>
+
+
+    /**
+     * @param e
+     * The whole mousePressed logic is now based on the variable
+     * This is distributing works, so they are to be done by each clickable classes instead here
+     * PREVENTING OVER CLICKING!! WORKS WELL!!
+     */
+    @Override
+    public void mousePressed(MouseEvent e) {
+<span class="nc" id="L360">        isMousePressed = true;</span>
+<span class="nc" id="L361">    }</span>
+
+
+    /**
+     * Draw all elements in the game by current frame.
+     */
+	@Override
+    public void draw() {
+
+        //background(152,140,100);
+<span class="fc" id="L371">        DrawMap();</span>
+<span class="fc" id="L372">        DrawMonsters();</span>
+
+<span class="fc" id="L374">        DrawTowers();</span>
+<span class="fc" id="L375">        DrawFireballs();</span>
+        //noLoop();
+
+<span class="fc" id="L378">        mapCreator.wizardHouse.draw(this);</span>
+<span class="fc" id="L379">        DrawTowerRange();</span>
+<span class="fc" id="L380">        DrawSpell();</span>
+<span class="fc" id="L381">        DrawGUI();</span>
+<span class="fc" id="L382">        DrawTowerUpgradeInfo();</span>
+
+<span class="fc bfc" id="L384" title="All 2 branches covered.">        if (ManaBar.mana &lt;= 0) {</span>
+<span class="fc" id="L385">            ManaBar.mana = 0;</span>
+<span class="fc" id="L386">            GAME_TICKING = false;</span>
+<span class="fc" id="L387">            setLOSE(true);</span>
+        }
+<span class="fc" id="L389">        isMousePressed = false;</span>
+<span class="fc" id="L390">    }</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L393">        PApplet.main(&quot;WizardTD.App&quot;);</span>
+<span class="nc" id="L394">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

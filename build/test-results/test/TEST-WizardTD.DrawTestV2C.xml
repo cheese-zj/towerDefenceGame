@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="WizardTD.DrawTestV2C" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-10-22T12:10:04" hostname="Jamess-MBP.modem" time="6.913">
+  <properties/>
+  <testcase name="SitInv()" classname="WizardTD.DrawTestV2C" time="1.044"/>
+  <testcase name="justLetItRun()" classname="WizardTD.DrawTestV2C" time="4.891"/>
+  <testcase name="justLetItRun22()" classname="WizardTD.DrawTestV2C" time="0.978"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at WizardTD.Monsters.MonsterPresets.update(MonsterPresets.java:78)
+	at WizardTD.App.DrawMonsters(App.java:123)
+	at WizardTD.App.draw(App.java:372)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+]]></system-err>
+</testsuite>

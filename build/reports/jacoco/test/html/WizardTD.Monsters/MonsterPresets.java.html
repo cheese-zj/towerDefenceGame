@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MonsterPresets.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.Monsters</a> &gt; <span class="el_source">MonsterPresets.java</span></div><h1>MonsterPresets.java</h1><pre class="source lang-java linenums">package WizardTD.Monsters;
+
+import WizardTD.App;
+import WizardTD.GameSys.ManaBar;
+import processing.core.PImage;
+import processing.core.PShape;
+
+public abstract class MonsterPresets {
+    protected double x;
+    protected double y;
+    protected double speed;
+    protected String type;
+    protected float hp;
+    protected float armour;
+    protected int mana_gained_on_kill;
+    protected float spawnTick;
+    private PImage sprite;
+<span class="fc" id="L18">    public boolean ticking = true;</span>
+<span class="fc" id="L19">    public boolean canTrack = false;</span>
+<span class="fc" id="L20">    public boolean dead = false;</span>
+<span class="fc" id="L21">    private int deathAnimationCounter = 0;</span>
+    private final float initialHp;
+<span class="fc" id="L23">    public boolean selfDelete = false;</span>
+
+<span class="fc" id="L25">    public MonsterPresets(double x, double y, double speed, String type, float hp, float armour, int mana_gained_on_kill, float spawnTick){</span>
+<span class="fc" id="L26">        this.x = x;</span>
+<span class="fc" id="L27">        this.y = y;</span>
+<span class="fc" id="L28">        this.speed = speed;</span>
+<span class="fc" id="L29">        this.type = type;</span>
+<span class="fc" id="L30">        this.hp = hp;</span>
+<span class="fc" id="L31">        this.armour = armour;</span>
+<span class="fc" id="L32">        this.mana_gained_on_kill = mana_gained_on_kill;</span>
+<span class="fc" id="L33">        this.spawnTick = spawnTick;</span>
+<span class="fc" id="L34">        this.initialHp = hp;</span>
+<span class="fc" id="L35">    }</span>
+    public abstract void tick();
+    public void setSprite(PImage sprite) {
+<span class="fc" id="L38">        this.sprite = sprite;</span>
+<span class="fc" id="L39">    }</span>
+
+    private void drawDeathAnimation(App app) {
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (deathAnimationCounter&lt;4) {</span>
+<span class="fc" id="L44">            app.image(App.gremlin1png, (float) this.x + 6, (float) this.y + 40 + 6);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        } else if (deathAnimationCounter&lt;8) {</span>
+<span class="fc" id="L46">            app.image(App.gremlin2png, (float) this.x + 6, (float) this.y + 40 + 6);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        } else if (deathAnimationCounter&lt;16) {</span>
+<span class="fc" id="L48">            app.image(App.gremlin3png, (float) this.x + 6, (float) this.y + 40 + 6);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        } else if (deathAnimationCounter&lt;20) {</span>
+<span class="fc" id="L50">            app.image(App.gremlin4png, (float) this.x + 6, (float) this.y + 40 + 6);</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        } else if (deathAnimationCounter&lt;24) {</span>
+<span class="fc" id="L52">            app.image(App.gremlin5png, (float) this.x + 6, (float) this.y + 40 + 6);</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        } else if (deathAnimationCounter&lt;28) {</span>
+<span class="fc" id="L54">            selfDelete = true;</span>
+        }
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (App.GAME_TICKING) deathAnimationCounter++;</span>
+<span class="fc" id="L57">    }</span>
+
+
+
+    protected void drawHpBar(App app) {
+<span class="fc" id="L62">        PShape hpBar = app.createShape(app.RECT,</span>
+                (float) this.x+6-5, (float) this.y+40+6-5, 30*(hp /initialHp),(float) 2);
+<span class="fc" id="L64">        hpBar.setFill(app.color(0,233,2));</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (poisoned) hpBar.setFill(app.color(200,0,255));</span>
+<span class="fc" id="L66">        PShape hpBarBase = app.createShape(app.RECT,</span>
+                (float) this.x+6-5, (float) this.y+40+6-5, 30,(float) 2);
+<span class="fc" id="L68">        hpBarBase.setFill(app.color(255,0,0));</span>
+<span class="fc" id="L69">        app.strokeWeight(1);</span>
+<span class="fc" id="L70">        app.shape(hpBarBase);</span>
+<span class="fc" id="L71">        app.shape(hpBar);</span>
+<span class="fc" id="L72">        hpBar.setFill(app.color(0,233,2));</span>
+<span class="fc" id="L73">    }</span>
+    public void update(App app) {
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (hp &lt;= 0) hp = 0;</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (ticking) {</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            if (type.equals(&quot;beetle&quot;)) app.image(this.sprite, (float) this.x, (float) this.y+40+2);</span>
+<span class="fc" id="L78">            else app.image(this.sprite, (float) this.x+6, (float) this.y+40+6);</span>
+<span class="fc" id="L79">            drawHpBar(app);</span>
+
+<span class="fc bfc" id="L81" title="All 4 branches covered.">            if (poisoned &amp;&amp; poisonedLasting&gt;0) {</span>
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">                if (poisonedLasting%60==0) hp -= hp/15+1;</span>
+<span class="fc" id="L83">                poisonedLasting-=App.TICK_Multiplier;</span>
+            }
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            if (poisonedLasting == 0) poisoned = false;</span>
+
+<span class="fc bfc" id="L87" title="All 2 branches covered.">            if (hp&lt;=0) {</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">                if (ManaBar.mana &lt; ManaBar.manaCap) {</span>
+<span class="fc" id="L89">                    ManaBar.mana += mana_gained_on_kill;</span>
+                }
+<span class="fc" id="L91">                dead = true;</span>
+<span class="fc" id="L92">                ticking = false;</span>
+            }
+        }
+<span class="pc bpc" id="L95" title="1 of 6 branches missed.">        if (!ticking &amp;&amp; dead &amp;&amp; type.equals(&quot;gremlin&quot;)) {</span>
+            //death animation
+<span class="fc" id="L97">            drawDeathAnimation(app);</span>
+        }
+<span class="fc" id="L99">    }</span>
+    public double getX() {
+<span class="fc" id="L101">        return this.x;</span>
+    }
+    public double getY() {
+<span class="fc" id="L104">        return this.y;</span>
+    }
+
+    public void getHit(float dmgTaken){
+<span class="fc" id="L108">        hp -= dmgTaken * armour;</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (hp &lt;= 0) hp = 0;</span>
+<span class="fc" id="L110">    }</span>
+    public void getBlasted(){
+<span class="fc" id="L112">        hp /= 1.8F;</span>
+<span class="fc" id="L113">    }</span>
+
+<span class="fc" id="L115">    private boolean poisoned = false;</span>
+<span class="fc" id="L116">    private int poisonedLasting = 0;</span>
+    public void getPoisoned(int lasting){
+<span class="fc" id="L118">        poisoned = true;</span>
+<span class="fc" id="L119">        poisonedLasting = lasting*60;</span>
+<span class="fc" id="L120">    }</span>
+
+    public void getStonised() {
+<span class="fc" id="L123">        speed /= 1.5;</span>
+<span class="fc" id="L124">    }</span>
+
+    protected void hitWizard(){
+<span class="fc" id="L127">        ManaBar.getAttacked((int) hp);</span>
+<span class="fc" id="L128">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

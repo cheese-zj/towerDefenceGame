@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MonsterCreator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.Monsters</a> &gt; <span class="el_source">MonsterCreator.java</span></div><h1>MonsterCreator.java</h1><pre class="source lang-java linenums">package WizardTD.Monsters;
+
+import WizardTD.App;
+import WizardTD.Monsters.*;
+
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Random;
+
+import static WizardTD.Helpers.MapCreator.spawnPoints;
+
+<span class="fc" id="L12">public class MonsterCreator {</span>
+
+    public static int[] getRandomCoordinates(ArrayList&lt;String&gt; spawnPoints) {
+        // Get a random element from the list
+<span class="fc" id="L16">        Random rand = new Random();</span>
+<span class="fc" id="L17">        String randomCoord = spawnPoints.get(rand.nextInt(spawnPoints.size()));</span>
+
+        // Split the string into X and Y components
+<span class="fc" id="L20">        String[] splitCoords = randomCoord.split(&quot; &quot;);</span>
+<span class="fc" id="L21">        int x = Integer.parseInt(splitCoords[0]);</span>
+<span class="fc" id="L22">        int y = Integer.parseInt(splitCoords[1]);</span>
+        //System.out.println(x + &quot; &quot; + y);
+<span class="fc" id="L24">        return new int[]{x, y};</span>
+    }
+
+    public Monster[] CreateMonsters(int monsterAmount,
+                                             float speed, int hp, float armour, int mana_gained_on_kill,
+                                             int spawnTick, float preWavePause, String type) {
+
+<span class="fc" id="L31">        Monster[] monsters = new Monster[monsterAmount];</span>
+
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        for (int i=0; i&lt;monsters.length; i++) {</span>
+
+<span class="fc" id="L35">            int posFixSpawnX = 0, posFixSpawnY = 0;</span>
+<span class="fc" id="L36">            int[] coordinates = getRandomCoordinates(spawnPoints);</span>
+<span class="fc" id="L37">            int gridX = coordinates[0];</span>
+<span class="fc" id="L38">            int gridY = coordinates[1];</span>
+            {
+<span class="fc bfc" id="L40" title="All 2 branches covered.">                if (gridX == 0) posFixSpawnX = -31;</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">                else if (gridX == 19) posFixSpawnX = 31;</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">                else if (gridY == 0) posFixSpawnY = -31;</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">                else if (gridY == 19) posFixSpawnY = 31;</span>
+            }
+
+<span class="fc" id="L46">            Monster newMonster = new Monster(</span>
+                    (gridX)*(App.CELLSIZE) + posFixSpawnX,
+                    (gridY)*(App.CELLSIZE) + posFixSpawnY,
+                    speed, type, hp, armour, mana_gained_on_kill, (i*spawnTick)+preWavePause*60);
+<span class="fc" id="L50">            newMonster.setSprite(App.gremlinpng);</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            if (Objects.equals(type, &quot;gremlin&quot;)) newMonster.setSprite(App.gremlinpng);</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">            else if (Objects.equals(type, &quot;worm&quot;)) newMonster.setSprite(App.wormpng);</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">            else if (Objects.equals(type, &quot;beetle&quot;)) newMonster.setSprite(App.beetlepng);</span>
+            {
+<span class="fc bfc" id="L55" title="All 2 branches covered.">                if (gridY == 0) newMonster.goSouth();</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">                if (gridY == 19) newMonster.goNorth();</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">                if (gridX == 0) newMonster.goEast();</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">                if (gridX == 19) newMonster.goWest();</span>
+            }
+<span class="fc" id="L60">            monsters[i] = (newMonster);</span>
+        }
+<span class="fc" id="L62">        return monsters;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

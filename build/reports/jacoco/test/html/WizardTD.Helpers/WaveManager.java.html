@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WaveManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.Helpers</a> &gt; <span class="el_source">WaveManager.java</span></div><h1>WaveManager.java</h1><pre class="source lang-java linenums">package WizardTD.Helpers;
+
+import WizardTD.App;
+import WizardTD.GameSys.ButtonClasses.Inventory;
+import WizardTD.Monsters.Monster;
+import WizardTD.Monsters.MonsterCreator;
+import processing.data.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
+public class WaveManager {
+    MonsterCreator monsterCreator;
+    public ArrayList&lt;Monster[]&gt; waves;
+    public HashMap&lt;Integer,Float&gt; wavePauseInfoMap;
+    private HashMap&lt;Integer,Integer&gt; waveDuration;
+<span class="fc" id="L18">    public int waveCount = 0;</span>
+//    public static JSONArray wavesInfo;
+
+
+<span class="fc" id="L22">    public WaveManager() {</span>
+<span class="fc" id="L23">        this.monsterCreator = new MonsterCreator();</span>
+<span class="fc" id="L24">        waves = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L25">        wavePauseInfoMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L26">        waveDuration = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L27">        waveDuration.put(-1,0);</span>
+<span class="fc" id="L28">    }</span>
+
+    public void WaveSetup(){
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        for (int i=0; i &lt; App.wavesInfo.size(); i++) {</span>
+<span class="fc" id="L32">            JSONObject waveObj = App.wavesInfo.getJSONObject(i);</span>
+<span class="fc" id="L33">            JSONObject monsterInfo = waveObj.getJSONArray(&quot;monsters&quot;).getJSONObject(0);</span>
+
+<span class="fc" id="L35">            int duration = waveObj.getInt(&quot;duration&quot;);</span>
+<span class="fc" id="L36">            waveDuration.put(i,duration);</span>
+
+<span class="fc" id="L38">            float preWavePause = waveObj.getFloat(&quot;pre_wave_pause&quot;) + waveDuration.get(i-1);</span>
+<span class="fc" id="L39">            wavePauseInfoMap.put(i,preWavePause);</span>
+
+<span class="fc" id="L41">            String type = monsterInfo.getString(&quot;type&quot;);</span>
+<span class="fc" id="L42">            int hp = monsterInfo.getInt(&quot;hp&quot;);</span>
+<span class="fc" id="L43">            float speed = monsterInfo.getFloat(&quot;speed&quot;);</span>
+<span class="fc" id="L44">            float armour = monsterInfo.getFloat(&quot;armour&quot;);</span>
+<span class="fc" id="L45">            int manaGOK = monsterInfo.getInt(&quot;mana_gained_on_kill&quot;);</span>
+<span class="fc" id="L46">            int quantity = monsterInfo.getInt(&quot;quantity&quot;);</span>
+<span class="fc" id="L47">            int spawnTick = (int)(((double)duration/(double)quantity)*60);</span>
+
+<span class="fc" id="L49">            Monster[] wave = monsterCreator.CreateMonsters(</span>
+                    quantity,speed,hp,armour,manaGOK,spawnTick,preWavePause,type);
+
+<span class="fc" id="L52">            waves.add(wave);</span>
+        }
+<span class="fc" id="L54">    }</span>
+    public void WaveRunControl(){
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (waveCount&lt;waves.size()) {</span>
+<span class="fc" id="L57">            App.runningMonsterList.addAll(Arrays.asList(waves.get(waveCount)));</span>
+<span class="fc" id="L58">            Inventory.spellCount+=waveCount+1;</span>
+        } else {
+<span class="nc" id="L60">            App.LASTWAVE = true;</span>
+        }
+<span class="fc" id="L62">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

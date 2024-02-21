@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SpellCaster.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.Spell</a> &gt; <span class="el_source">SpellCaster.java</span></div><h1>SpellCaster.java</h1><pre class="source lang-java linenums">package WizardTD.Spell;
+
+import WizardTD.App;
+import WizardTD.GameSys.*;
+import WizardTD.GameSys.ButtonClasses.*;
+import WizardTD.Helpers.CheckHover;
+import WizardTD.Monsters.Monster;
+
+import java.util.ArrayList;
+
+<span class="fc" id="L11">public class SpellCaster implements CheckHover {</span>
+<span class="fc" id="L12">   public static int coolDown = 0;</span>
+<span class="fc" id="L13">    ArrayList&lt;Particle&gt; particles = new ArrayList&lt;&gt;();</span>
+    public void DrawParticles(App app) {
+<span class="fc bfc" id="L15" title="All 6 branches covered.">        if (hoverInMap(app.mouseX, app.mouseY) &amp;&amp; App.isMousePressed &amp;&amp; Inventory.InvChecked) {</span>
+<span class="fc bfc" id="L16" title="All 2 branches covered.">            if (coolDown == 0) {</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">                for (int i = 0; i &lt; 15; i++) {</span>
+<span class="fc" id="L18">                    particles.add(new Particle(app.mouseX, app.mouseY, app.random));</span>
+                }
+<span class="fc" id="L20">                coolDown = 25;</span>
+<span class="fc" id="L21">                Inventory.spellCount --;</span>
+            }
+<span class="fc bfc" id="L23" title="All 2 branches covered.">            for (Monster monster : App.runningMonsterList) {</span>
+<span class="pc bpc" id="L24" title="1 of 4 branches missed.">                if (monster.getX()&lt;=app.mouseX+32*3 &amp;&amp; monster.getX()&gt;=app.mouseX-32*3</span>
+<span class="pc bpc" id="L25" title="1 of 6 branches missed.">                &amp;&amp; monster.getY()+40&lt;=app.mouseY+32*3 &amp;&amp; monster.getY()+40&gt;=app.mouseY-32*3 &amp;&amp; monster.canTrack){</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">                    if (Inventory.SpellChoice.equals(SpellType.POISON)) monster.getPoisoned(10);</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">                    if (Inventory.SpellChoice.equals(SpellType.SLOW)) monster.getStonised();</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">                    if (Inventory.SpellChoice.equals(SpellType.BLAST)) monster.getBlasted();</span>
+                }
+<span class="fc bfc" id="L30" title="All 2 branches covered.">                if (Inventory.SpellChoice.equals(SpellType.PROTECTION)) ManaBar.manaBarGetShielded();</span>
+<span class="fc" id="L31">            }</span>
+        }
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        for (int i = 0; i &lt; particles.size(); i++) {</span>
+<span class="fc" id="L34">            particles.get(i).update();</span>
+<span class="fc" id="L35">            particles.get(i).display(app);</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">            if (particles.get(i).lifespan &lt;= 0){</span>
+<span class="nc" id="L37">                particles.remove(i);</span>
+            }
+        }
+<span class="fc" id="L40">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

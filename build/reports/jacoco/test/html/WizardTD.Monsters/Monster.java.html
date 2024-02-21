@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Monster.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.Monsters</a> &gt; <span class="el_source">Monster.java</span></div><h1>Monster.java</h1><pre class="source lang-java linenums">package WizardTD.Monsters;
+
+import WizardTD.Tiles.*;
+
+import WizardTD.App;
+import WizardTD.Towers.FireBall;
+
+import java.util.Objects;
+
+import static WizardTD.Helpers.MapCreator.spawnPoints;
+import static WizardTD.Monsters.MonsterCreator.getRandomCoordinates;
+
+public class Monster extends MonsterPresets implements MonsterPathReader {
+
+
+<span class="fc" id="L16">    private boolean goVertical = true;</span>
+<span class="fc" id="L17">    private int verticalInv = 1;</span>
+<span class="fc" id="L18">    private int horizontalInv = 1;</span>
+
+
+<span class="fc" id="L21">    protected Path[][] pathsMem = App.paths;</span>
+
+
+    public MonsterDirection getCurrentDirection() {
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (speed != 0) {</span>
+<span class="fc bfc" id="L26" title="All 4 branches covered.">            if (goVertical &amp;&amp; verticalInv == 1) {return MonsterDirection.EAST;}</span>
+<span class="pc bpc" id="L27" title="1 of 4 branches missed.">            else if (goVertical &amp;&amp; verticalInv == -1) {return MonsterDirection.WEST;}</span>
+<span class="pc bpc" id="L28" title="1 of 4 branches missed.">            else if (!goVertical &amp;&amp; horizontalInv == 1) {return MonsterDirection.SOUTH;}</span>
+<span class="pc bpc" id="L29" title="2 of 4 branches missed.">            else if (!goVertical &amp;&amp; horizontalInv == -1) {return MonsterDirection.NORTH;}</span>
+        }
+<span class="fc" id="L31">        return null;</span>
+    }
+
+<span class="fc" id="L34">    private final int desX = App.wizardX;</span>
+<span class="fc" id="L35">    private final int desY = App.wizardY;</span>
+    public Monster(double x, double y, double speed, String type, float hp,
+                   float armour, int mana_gained_on_kill, float spawnTick) {
+<span class="fc" id="L38">        super(x, y, speed, type, hp, armour, mana_gained_on_kill, spawnTick);</span>
+<span class="fc" id="L39">    }</span>
+
+    public void goNorth() {
+<span class="fc" id="L42">        this.goVertical = false;</span>
+<span class="fc" id="L43">        this.horizontalInv = -1;</span>
+<span class="fc" id="L44">    }</span>
+    public void goSouth() {
+<span class="fc" id="L46">        this.goVertical = false;</span>
+<span class="fc" id="L47">        this.horizontalInv = 1;</span>
+<span class="fc" id="L48">    }</span>
+    public void goWest() {
+<span class="fc" id="L50">        this.goVertical = true;</span>
+<span class="fc" id="L51">        this.verticalInv = -1;</span>
+<span class="fc" id="L52">    }</span>
+    public void goEast() {
+<span class="fc" id="L54">        this.goVertical = true;</span>
+<span class="fc" id="L55">        this.verticalInv = 1;</span>
+<span class="fc" id="L56">    }</span>
+
+    private double adjustPosition(double currentPosition, double speed, int inv) {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if ((currentPosition)%32!=0) {</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            if (inv == 1) {</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                if ((int) (speed + currentPosition) / 32 &gt; (int) currentPosition / 32) {</span>
+<span class="fc" id="L62">                    return (float) ((speed + currentPosition) % 32);</span>
+                }
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">            } else if (inv == -1) {</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">                if ((int) (-speed + currentPosition) / 32 &lt; (int) currentPosition / 32) {</span>
+<span class="fc" id="L66">                    return (float) (-speed + ((currentPosition) % 32));</span>
+                }
+            }
+        }
+<span class="fc" id="L70">        return 0;</span>
+    }
+    public void updatePosition() {
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (goVertical) {</span>
+<span class="fc" id="L74">            this.x += (this.speed*App.TICK_Multiplier) * this.verticalInv -</span>
+<span class="fc" id="L75">                    adjustPosition(this.x, (this.speed*App.TICK_Multiplier), this.verticalInv);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">            if (this.x %32 == 0){</span>
+<span class="fc" id="L77">                this.x = (int) this.x;</span>
+
+            }
+
+        } else {
+<span class="fc" id="L82">            this.y += (this.speed*App.TICK_Multiplier) * this.horizontalInv -</span>
+<span class="fc" id="L83">                    adjustPosition(this.y, (this.speed*App.TICK_Multiplier), this.horizontalInv);</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">            if (this.y %32 == 0){</span>
+<span class="fc" id="L85">                this.y = (int) this.y;</span>
+            }
+        }
+<span class="fc" id="L88">    }</span>
+
+<span class="fc" id="L90">    private float hold = 0;</span>
+
+    public void respawnAfterHit() {
+<span class="fc" id="L93">        ticking = false;</span>
+<span class="fc" id="L94">        int posFixSpawnX = 0, posFixSpawnY = 0;</span>
+<span class="fc" id="L95">        int[] coordinates = getRandomCoordinates(spawnPoints);</span>
+<span class="fc" id="L96">        int gridX = coordinates[0];</span>
+<span class="fc" id="L97">        int gridY = coordinates[1];</span>
+        {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">            if (gridX == 0) posFixSpawnX = -31;</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">            else if (gridX == 19) posFixSpawnX = 31;</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">            else if (gridY == 0) posFixSpawnY = -31;</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">            else if (gridY == 19) posFixSpawnY = 31;</span>
+        }
+        {
+<span class="fc bfc" id="L105" title="All 2 branches covered.">            if (gridX == 0) this.goEast();</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">            else if (gridX == 19) this.goWest();</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">            else if (gridY == 0) this.goSouth();</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">            else if (gridY == 19) this.goNorth();</span>
+        }
+
+<span class="fc" id="L111">        x = (gridX)*(App.CELLSIZE) + posFixSpawnX;</span>
+<span class="fc" id="L112">        y = (gridY)*(App.CELLSIZE) + posFixSpawnY;</span>
+
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        for (FireBall fireBall : App.fireBalls) {</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">            if (fireBall.target.equals(this)){</span>
+<span class="fc" id="L116">                fireBall.ticking = false;</span>
+            }
+<span class="fc" id="L118">        }</span>
+
+<span class="fc" id="L120">        ticking = true;</span>
+<span class="fc" id="L121">    }</span>
+
+    public void tick() {
+<span class="fc bfc" id="L124" title="All 4 branches covered.">        if (App.GAME_TICKING &amp;&amp; ticking) {</span>
+<span class="fc" id="L125">            this.hold+= (float) App.TICK_Multiplier;</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">            if (this.hold &gt;= this.spawnTick) {</span>
+<span class="fc" id="L127">                canTrack = true;</span>
+<span class="fc bfc" id="L128" title="All 8 branches covered.">                if (this.x - this.desX &lt;= 6 &amp;&amp; this.x - this.desX &gt;= 0.0 &amp;&amp;</span>
+                        this.y - this.desY &lt;= 6 &amp;&amp; this.y - this.desY &gt;= 0.0) {
+<span class="fc" id="L130">                    this.ticking = false;</span>
+<span class="fc" id="L131">                    canTrack = false;</span>
+<span class="fc" id="L132">                    hitWizard();</span>
+<span class="fc" id="L133">                    respawnAfterHit();</span>
+                }
+<span class="fc bfc" id="L135" title="All 2 branches covered.">                if (goVertical) {</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">                    if ((int)this.x % 32 ==0) {</span>
+<span class="fc" id="L137">                        Read(this);</span>
+                    }
+                } else {
+<span class="fc bfc" id="L140" title="All 2 branches covered.">                    if ((int)(this.y) % 32 ==0) {</span>
+<span class="fc" id="L141">                        Read(this);</span>
+                    }
+                }
+<span class="fc" id="L144">                updatePosition();</span>
+            }
+        }
+<span class="fc" id="L147">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

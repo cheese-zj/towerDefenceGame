@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Inventory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.GameSys.ButtonClasses</a> &gt; <span class="el_source">Inventory.java</span></div><h1>Inventory.java</h1><pre class="source lang-java linenums">package WizardTD.GameSys.ButtonClasses;
+
+import WizardTD.App;
+import WizardTD.GameSys.Buttons;
+import WizardTD.Spell.SpellType;
+
+public class Inventory extends Buttons {
+
+    public static boolean InvChecked;
+<span class="fc" id="L10">    public static int spellCount = App.json.getInt(&quot;initial_spell_amount&quot;);</span>
+<span class="fc" id="L11">    public static SpellType SpellChoice = SpellType.POISON;</span>
+    public Inventory(float x, float y, App app) {
+        //spellCount = 0;
+<span class="fc" id="L14">        super(x, y, app,&quot;I&quot;, &quot;Inventory\n&quot; + &quot;     Charges&quot;,'i');</span>
+<span class="fc" id="L15">    }</span>
+    @Override
+    public void functionality(App app) {
+<span class="fc" id="L18">        title = &quot;Inventory\n&quot; + spellCount +  &quot; Spells&quot;;</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (checked) {</span>
+<span class="fc" id="L20">            InvChecked = true;</span>
+<span class="fc" id="L21">            drawChoices(app);</span>
+        } else {
+<span class="fc" id="L23">            InvChecked = false;</span>
+        }
+
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (spellCount == 0){</span>
+<span class="fc" id="L27">            checked = false;</span>
+        }
+<span class="fc" id="L29">    }</span>
+
+    public void drawChoices(App app) {
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (SpellChoice.equals(SpellType.BLAST)) app.fill(255,0,0);</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (SpellChoice.equals(SpellType.POISON)) app.fill(200,80,255);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (SpellChoice.equals(SpellType.SLOW)) app.fill(0,30,255);</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (SpellChoice.equals(SpellType.PROTECTION)) app.fill(230,230,80);</span>
+<span class="fc" id="L36">        app.strokeWeight(2);</span>
+<span class="fc" id="L37">        app.ellipse(this.x+15, this.y+70,20,20);</span>
+<span class="fc" id="L38">        app.strokeWeight(1);</span>
+<span class="fc" id="L39">        app.fill(0);</span>
+<span class="fc" id="L40">        app.textFont(App.gameFont, 15);</span>
+<span class="fc" id="L41">        app.text(SpellChoice.toString(),this.x+30, this.y+75);</span>
+<span class="pc bpc" id="L42" title="1 of 4 branches missed.">        if (App.isMousePressed &amp;&amp; checkHoverInventorySpec(app.mouseX, app.mouseY,this.x,this.y)){</span>
+<span class="nc" id="L43">            SpellChoice = SpellChoice.next();</span>
+        }
+<span class="fc" id="L45">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

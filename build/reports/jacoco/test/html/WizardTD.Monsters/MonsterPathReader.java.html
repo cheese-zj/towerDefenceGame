@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MonsterPathReader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.Monsters</a> &gt; <span class="el_source">MonsterPathReader.java</span></div><h1>MonsterPathReader.java</h1><pre class="source lang-java linenums">package WizardTD.Monsters;
+
+import WizardTD.App;
+import WizardTD.Tiles.*;
+
+import java.util.*;
+
+/**
+ * &quot;The Chaos is here, says the PathReader.&quot;
+ *  I spent like the whole assignment period fixing this path finding logic.
+ *  It works perfectly fine currently (who knows).
+ *  Please ignore all the above lines if they're confusing, tho I bet it's not.
+ *  It's just really fun to roast myself.
+ *  The interface PathReader, it's simple, as a monster implements and calls this, it reads the path and find the best route.
+ *
+ */
+public interface MonsterPathReader {
+
+<span class="fc" id="L19">    HashMap&lt;MonsterDirection, Integer&gt; determine = new HashMap&lt;&gt;();</span>
+    default void ReadSurround(Path path, Path[][] paths, Monster monster) {
+<span class="fc" id="L21">        int X = path.getX()/App.CELLSIZE;</span>
+<span class="fc" id="L22">        int Y = path.getY()/App.CELLSIZE;</span>
+<span class="fc" id="L23">        determine.put(MonsterDirection.SOUTH,Integer.MAX_VALUE);</span>
+<span class="fc" id="L24">        determine.put(MonsterDirection.NORTH,Integer.MAX_VALUE);</span>
+<span class="fc" id="L25">        determine.put(MonsterDirection.EAST,Integer.MAX_VALUE);</span>
+<span class="fc" id="L26">        determine.put(MonsterDirection.WEST,Integer.MAX_VALUE);</span>
+<span class="fc" id="L27">        MonsterDirection direction = monster.getCurrentDirection();</span>
+<span class="fc" id="L28">        HashSet&lt;String&gt; visitedPaths = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L29">        visitedPaths.add(X+&quot;,&quot;+Y);</span>
+
+<span class="fc" id="L31">        MonsterDirection[] directions =</span>
+                {MonsterDirection.NORTH, MonsterDirection.SOUTH, MonsterDirection.EAST, MonsterDirection.WEST};
+<span class="fc" id="L33">        boolean[] canMoveConditions =</span>
+<span class="fc" id="L34">                {path.isNorth(), path.isSouth(), path.isEast(), path.isWest()};</span>
+<span class="fc" id="L35">        MonsterDirection[] oppositeDirections =</span>
+                {MonsterDirection.SOUTH, MonsterDirection.NORTH, MonsterDirection.WEST, MonsterDirection.EAST};
+<span class="fc" id="L37">        int[][] offsets = {{0, -1}, {0, 1}, {1, 0}, {-1, 0}};</span>
+
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        for (int i = 0; i &lt; 4; i++) {</span>
+<span class="fc bfc" id="L40" title="All 4 branches covered.">            if (canMoveConditions[i] &amp;&amp; (direction != oppositeDirections[i])) {</span>
+<span class="fc" id="L41">                int distancePow =</span>
+<span class="fc" id="L42">                        ReadExpand(paths[X + offsets[i][0]][Y + offsets[i][1]], paths, new HashSet&lt;&gt;(visitedPaths), 0);</span>
+<span class="fc" id="L43">                determine.put(directions[i], distancePow);</span>
+            }
+        }
+
+<span class="fc" id="L47">    }</span>
+
+
+    default String getKey(int X, int Y) {
+<span class="fc" id="L51">        return X + &quot;,&quot; + Y; // Returns a string like &quot;5,7&quot;</span>
+    }
+    default int ReadExpand(Path path, Path[][] paths, Set&lt;String&gt; visitedPaths, int count) {
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if (path == null) return Integer.MAX_VALUE - count;</span>
+
+<span class="fc" id="L56">        int X = path.getX() / App.CELLSIZE;</span>
+<span class="fc" id="L57">        int Y = path.getY() / App.CELLSIZE;</span>
+
+        // If this path leads to the WizardHouse, return immediately
+<span class="fc bfc" id="L60" title="All 4 branches covered.">        if (X == App.wizardX / App.CELLSIZE &amp;&amp; Y == App.wizardY / App.CELLSIZE) {</span>
+            //System.out.println(&quot;Connected to WizardHouse&quot;);
+<span class="fc" id="L62">            return count;</span>
+        }
+
+<span class="fc" id="L65">        visitedPaths.add(getKey(X, Y));</span>
+
+<span class="fc" id="L67">        int min = Integer.MAX_VALUE;</span>
+
+<span class="pc bpc" id="L69" title="1 of 6 branches missed.">        if (path.isNorth() &amp;&amp; Y-1 &gt;= 0 &amp;&amp; !visitedPaths.contains(getKey(X, Y-1))) {</span>
+<span class="fc" id="L70">            int northResult = ReadExpand(paths[X][Y - 1], paths, visitedPaths, count + 2);</span>
+<span class="fc" id="L71">            min = Math.min(min, northResult);</span>
+<span class="fc" id="L72">            visitedPaths.remove(getKey(X, Y - 1));</span>
+        }
+<span class="pc bpc" id="L74" title="1 of 6 branches missed.">        if (path.isSouth() &amp;&amp; Y+1 &lt; 20 &amp;&amp; !visitedPaths.contains(getKey(X, Y+1))) {</span>
+<span class="fc" id="L75">            int southResult = ReadExpand(paths[X][Y + 1], paths, visitedPaths, count + 2);</span>
+<span class="fc" id="L76">            min = Math.min(min, southResult);</span>
+<span class="fc" id="L77">            visitedPaths.remove(getKey(X, Y + 1));</span>
+        }
+<span class="pc bpc" id="L79" title="1 of 6 branches missed.">        if (path.isEast() &amp;&amp; X+1 &lt; 20 &amp;&amp; !visitedPaths.contains(getKey(X+1, Y))) {</span>
+<span class="fc" id="L80">            int eastResult = ReadExpand(paths[X + 1][Y], paths, visitedPaths, count + 2);</span>
+<span class="fc" id="L81">            min = Math.min(min, eastResult);</span>
+<span class="fc" id="L82">            visitedPaths.remove(getKey(X + 1, Y));</span>
+        }
+<span class="pc bpc" id="L84" title="1 of 6 branches missed.">        if (path.isWest() &amp;&amp; X-1 &gt;= 0 &amp;&amp; !visitedPaths.contains(getKey(X-1, Y))) {</span>
+<span class="fc" id="L85">            int westResult = ReadExpand(paths[X - 1][Y], paths, visitedPaths, count + 2);</span>
+<span class="fc" id="L86">            min = Math.min(min, westResult);</span>
+<span class="fc" id="L87">            visitedPaths.remove(getKey(X - 1, Y));</span>
+        }
+
+<span class="fc" id="L90">        return min;</span>
+    }
+
+
+    default void Read(Monster monster) {
+
+
+<span class="fc" id="L97">        int monsterX = ((int) monster.getX())/App.CELLSIZE;</span>
+<span class="fc" id="L98">        int monsterY = ((int) monster.getY())/App.CELLSIZE;</span>
+        // Monsters' X and Y co in index num system instead of the actual ones
+
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (monster.pathsMem[monsterX][monsterY] != null) {</span>
+<span class="fc" id="L102">            ReadSurround(monster.pathsMem[monsterX][monsterY], monster.pathsMem, monster);</span>
+        }
+
+<span class="fc" id="L105">        int min = Integer.MAX_VALUE;</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        for (MonsterDirection direction : MonsterDirection.values()) {</span>
+<span class="fc" id="L107">            int i = determine.get(direction);</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">            if (i &lt; min) {</span>
+<span class="fc" id="L109">                min = i;</span>
+            }
+        }
+
+<span class="fc" id="L113">        List&lt;MonsterDirection&gt; directionsMatchingMin = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        for (MonsterDirection direction : MonsterDirection.values()) {</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">            if (determine.get(direction) == min) {</span>
+<span class="fc" id="L117">                directionsMatchingMin.add(direction);</span>
+            }
+        }
+
+<span class="fc" id="L121">        Random random = new Random();</span>
+<span class="fc" id="L122">        MonsterDirection moveChoose = null;</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        if (!directionsMatchingMin.isEmpty()) {</span>
+<span class="fc" id="L124">            moveChoose=directionsMatchingMin.get(random.nextInt(directionsMatchingMin.size()));</span>
+        }
+<span class="fc bfc" id="L126" title="All 2 branches covered.">        if (moveChoose == MonsterDirection.SOUTH) {</span>
+<span class="fc" id="L127">            monster.goSouth();</span>
+        }
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if (moveChoose == MonsterDirection.NORTH) {</span>
+<span class="fc" id="L130">            monster.goNorth();</span>
+        }
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (moveChoose == MonsterDirection.EAST) {</span>
+<span class="fc" id="L133">            monster.goEast();</span>
+        }
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        if (moveChoose == MonsterDirection.WEST) {</span>
+<span class="fc" id="L136">            monster.goWest();</span>
+        }
+
+        //System.out.println(monster.currentDirection());
+<span class="fc" id="L140">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

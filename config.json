@@ -1,5 +1,5 @@
 {
-  "layout": "level1.txt",
+  "layout": "level3.txt",
   "waves": [
     {
       "duration": 8,
@@ -21,8 +21,8 @@
       "monsters": [
         {
           "type": "beetle",
-          "hp": 50,
-          "speed": 2.5,
+          "hp": 45,
+          "speed": 3,
           "armour": 0.7,
           "mana_gained_on_kill": 20,
           "quantity": 15

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CheckHover.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-submission</a> &gt; <a href="index.source.html" class="el_package">WizardTD.Helpers</a> &gt; <span class="el_source">CheckHover.java</span></div><h1>CheckHover.java</h1><pre class="source lang-java linenums">package WizardTD.Helpers;
+
+import WizardTD.App;
+import WizardTD.GameSys.ButtonClasses.*;
+
+public interface CheckHover {
+    // Base method to check if mouseX and mouseY are within the specified boundaries
+    default boolean isWithinBounds(int mouseX, int mouseY, float minX, float minY, float maxX, float maxY) {
+<span class="fc bfc" id="L9" title="All 8 branches covered.">        return mouseX &gt;= minX &amp;&amp; mouseX &lt;= maxX &amp;&amp; mouseY &gt;= minY &amp;&amp; mouseY &lt;= maxY;</span>
+    }
+
+    default boolean checkHover(int mouseX, int mouseY, float x, float y) {
+<span class="fc" id="L13">        return isWithinBounds(mouseX, mouseY, x, y, x + 48, y + 48);</span>
+    }
+
+    default boolean checkHoverTower(int mouseX, int mouseY, float x, float y) {
+<span class="fc" id="L17">        float minX = x * App.CELLSIZE;</span>
+<span class="fc" id="L18">        float maxX = (x + 1) * App.CELLSIZE;</span>
+<span class="fc" id="L19">        float minY = y * App.CELLSIZE + App.TOPBAR;</span>
+<span class="fc" id="L20">        float maxY = (y + 1) * App.CELLSIZE + App.TOPBAR;</span>
+<span class="fc" id="L21">        return isWithinBounds(mouseX, mouseY, minX, minY, maxX, maxY);</span>
+    }
+
+    default boolean checkHoverInventorySpec(int mouseX, int mouseY, float x, float y) {
+<span class="fc" id="L25">        return isWithinBounds(mouseX, mouseY, x, y + 60, x + 70, y + 90);</span>
+    }
+
+    default boolean hoverInMap(int mouseX, int mouseY) {
+<span class="fc" id="L29">        float maxX = 20 * App.CELLSIZE;</span>
+<span class="fc" id="L30">        float maxY = 20 * App.CELLSIZE + App.TOPBAR;</span>
+<span class="fc" id="L31">        return isWithinBounds(mouseX, mouseY, 0, App.TOPBAR, maxX, maxY);</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

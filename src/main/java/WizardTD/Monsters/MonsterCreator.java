@@ -2,6 +2,7 @@ package WizardTD.Monsters;
 
 import WizardTD.App;
 import WizardTD.Monsters.*;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -72,6 +73,7 @@ public class MonsterCreator {
                 else if (gridY == 19) posFixSpawnY = 31;
             }
 
+            
             Monster newMonster = new Monster(
                     (gridX)*(App.CELLSIZE) + posFixSpawnX,
                     (gridY)*(App.CELLSIZE) + posFixSpawnY,
